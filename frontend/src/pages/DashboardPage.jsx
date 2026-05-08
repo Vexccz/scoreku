@@ -9,7 +9,8 @@ import {
   ArrowUpRight, ArrowDownRight, CreditCard, Banknote, GraduationCap,
   PiggyBank, Wallet, Receipt, Smartphone, BarChart3, Zap, Target,
   LayoutDashboard, FileText, Sparkles, Brain, Settings, Share2,
-  Clock, ChevronRight, Award, Users, Calendar, Building2
+  Clock, ChevronRight, Award, Users, Calendar, Building2, GitCompare,
+  Trophy, Star, Flame, Gem, Lock, Bell, AlertCircle, X as XIcon
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import ThemeToggle from '../components/ThemeToggle'
@@ -71,9 +72,43 @@ const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard', active: true },
   { label: 'Score Form', icon: FileText, path: '/score', active: false },
   { label: 'Connect Bank', icon: Building2, path: '/connect-bank', active: false },
+  { label: 'Compare', icon: GitCompare, path: '/comparison', active: false },
+  { label: 'Marketplace', icon: BarChart3, path: '/marketplace', active: false },
   { label: 'Simulator', icon: Sparkles, path: '/simulation', active: false },
   { label: 'How AI Works', icon: Brain, path: '/ai', active: false },
   { label: 'Settings', icon: Settings, path: null, disabled: true },
+]
+
+// ─── Demo Alerts ─────────────────────────────────────────────────────────────
+
+const demoAlerts = [
+  { type: 'green', message: '+5 points: Consistent bill payments detected', time: '2 days ago', points: '+5', emoji: '🟢' },
+  { type: 'green', message: '+3 points: DuitNow usage increased', time: '5 days ago', points: '+3', emoji: '🟢' },
+  { type: 'red', message: '-2 points: Missed utility bill payment', time: '1 week ago', points: '-2', emoji: '🔴' },
+  { type: 'yellow', message: 'Reminder: TNB bill due in 3 days', time: 'today', points: null, emoji: '🟡' },
+  { type: 'green', message: '+4 points: Salary deposit detected', time: '1 week ago', points: '+4', emoji: '🟢' },
+]
+
+// ─── Achievement Badges ──────────────────────────────────────────────────────
+
+const achievementBadges = [
+  { id: 'first-score', label: 'First Score', emoji: '🏆', earned: true, requirement: null },
+  { id: 'score-70', label: 'Score 70+', emoji: '📈', earned: true, requirement: null },
+  { id: 'bank-connected', label: 'Bank Connected', emoji: '🏦', earned: () => !!localStorage.getItem('scoreku_bank_connected'), requirement: 'Connect a bank' },
+  { id: '3-months', label: '3 Months Consistent', emoji: '📅', earned: true, requirement: null },
+  { id: 'goal-setter', label: 'Goal Setter', emoji: '🎯', earned: () => !!localStorage.getItem('scoreku_goal'), requirement: 'Set a goal' },
+  { id: 'score-80', label: 'Score 80+', emoji: '🌟', earned: false, requirement: 'Reach 80 to unlock' },
+  { id: '7-day-streak', label: '7-Day Streak', emoji: '🔥', earned: true, requirement: null },
+  { id: 'premium', label: 'Premium Member', emoji: '💎', earned: false, requirement: 'Upgrade to Premium' },
+]
+
+// ─── Goal Presets ────────────────────────────────────────────────────────────
+
+const goalPresets = [
+  { score: 60, label: 'Basic Financing' },
+  { score: 70, label: 'TEKUN Eligible' },
+  { score: 75, label: 'BSN Micro Loan' },
+  { score: 80, label: 'Premium Products' },
 ]
 
 // ─── Relative Time ───────────────────────────────────────────────────────────
@@ -429,6 +464,17 @@ export default function DashboardPage() {
   const percentile = Math.max(5, Math.min(95, 100 - score + 10))
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [goalModalOpen, setGoalModalOpen] = useState(false)
+  const [currentGoal, setCurrentGoal] = useState(() => {
+    const saved = localStorage.getItem('scoreku_goal')
+    return saved ? JSON.parse(saved) : { score: 75, label: 'BSN Micro Loan' }
+  })
+
+  const handleSetGoal = (goal) => {
+    setCurrentGoal(goal)
+    localStorage.setItem('scoreku_goal', JSON.stringify(goal))
+    setGoalModalOpen(false)
+  }
 
   const handleRecalculate = () => {
     window.location.href = '/score'
@@ -811,6 +857,166 @@ export default function DashboardPage() {
                     <span className="text-xs text-blue-400 flex items-center gap-1 group-hover:gap-2 transition-all">
                       Learn More <ChevronRight size={12} />
                     </span>
+                  </motion.div>
+                )
+              })}
+            </div>
+          </motion.div>
+
+          {/* Financial Goals */}
+          <motion.div variants={item} className="mb-6">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
+                <Target size={16} className="text-blue-400" />
+              </div>
+              <h3 className="font-semibold text-sm">Financial Goals</h3>
+            </div>
+            <div className={`border rounded-2xl p-6 ${cardBg}`}>
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <p className={`text-sm font-medium ${textPrimary}`}>Target: {currentGoal.score} ({currentGoal.label} eligible)</p>
+                  <p className={`text-xs mt-1 ${textSecondary}`}>Estimated time: {currentGoal.score <= score ? 'Already achieved!' : `${Math.ceil((currentGoal.score - score) / 2)} months based on current trend`}</p>
+                </div>
+                <button
+                  onClick={() => setGoalModalOpen(true)}
+                  className="px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-all"
+                >
+                  Set New Goal
+                </button>
+              </div>
+              <div className="mb-2">
+                <div className="flex justify-between mb-1">
+                  <span className={`text-xs ${textSecondary}`}>Current: {score}</span>
+                  <span className={`text-xs ${textSecondary}`}>Target: {currentGoal.score}</span>
+                </div>
+                <div className={`h-3 rounded-full overflow-hidden ${barBg}`}>
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${Math.min(100, (score / currentGoal.score) * 100)}%` }}
+                    transition={{ duration: 1, delay: 0.3 }}
+                    className="h-full rounded-full bg-gradient-to-r from-blue-500 to-teal-500"
+                  />
+                </div>
+                <p className={`text-xs mt-1 text-right ${textMuted}`}>{Math.round((score / currentGoal.score) * 100)}% there</p>
+              </div>
+            </div>
+
+            {/* Goal Modal */}
+            {goalModalOpen && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[80] flex items-center justify-center p-4"
+                onClick={() => setGoalModalOpen(false)}
+              >
+                <motion.div
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className={`w-full max-w-sm rounded-2xl p-6 border ${cardBg}`}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="flex items-center justify-between mb-5">
+                    <h3 className={`font-semibold ${textPrimary}`}>Set Score Goal</h3>
+                    <button onClick={() => setGoalModalOpen(false)} className={textSecondary}>
+                      <XIcon size={18} />
+                    </button>
+                  </div>
+                  <div className="space-y-3">
+                    {goalPresets.map((goal) => (
+                      <button
+                        key={goal.score}
+                        onClick={() => handleSetGoal(goal)}
+                        className={`w-full flex items-center justify-between p-4 rounded-xl border transition-all ${
+                          currentGoal.score === goal.score
+                            ? 'border-blue-500/50 bg-blue-500/10'
+                            : `${theme === 'dark' ? 'border-[#1f1f1f] hover:border-blue-500/30' : 'border-gray-200 hover:border-blue-300'}`
+                        }`}
+                      >
+                        <div className="text-left">
+                          <p className={`text-sm font-medium ${textPrimary}`}>{goal.label}</p>
+                          <p className={`text-xs ${textSecondary}`}>Score: {goal.score}</p>
+                        </div>
+                        {score >= goal.score && (
+                          <span className="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-full">Achieved</span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </motion.div>
+
+          {/* Recent Alerts */}
+          <motion.div variants={item} className="mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center">
+                  <Bell size={16} className="text-amber-400" />
+                </div>
+                <h3 className="font-semibold text-sm">Recent Alerts</h3>
+              </div>
+              <button className={`text-xs ${textSecondary} hover:text-blue-400 transition-colors`}>View All</button>
+            </div>
+            <div className="space-y-3">
+              {demoAlerts.map((alert, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 + i * 0.08 }}
+                  className={`border rounded-xl p-4 flex items-center gap-3 ${cardBg}`}
+                >
+                  <span className="text-lg">{alert.emoji}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>{alert.message}</p>
+                    <p className={`text-xs mt-0.5 ${textMuted}`}>{alert.time}</p>
+                  </div>
+                  {alert.points && (
+                    <span className={`text-xs font-bold px-2 py-1 rounded-full flex-shrink-0 ${
+                      alert.points.startsWith('+') ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'
+                    }`}>
+                      {alert.points}
+                    </span>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Achievement Badges */}
+          <motion.div variants={item} className="mb-6">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center">
+                <Award size={16} className="text-purple-400" />
+              </div>
+              <h3 className="font-semibold text-sm">Achievements</h3>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              {achievementBadges.map((badge, i) => {
+                const isEarned = typeof badge.earned === 'function' ? badge.earned() : badge.earned
+                return (
+                  <motion.div
+                    key={badge.id}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.2 + i * 0.06 }}
+                    className={`border rounded-xl p-4 text-center transition-all ${
+                      isEarned
+                        ? `${cardBg} ${theme === 'dark' ? 'shadow-[0_0_15px_rgba(37,99,235,0.1)]' : 'shadow-md'}`
+                        : `${theme === 'dark' ? 'bg-[#0d0d0d] border-[#1a1a1a]' : 'bg-gray-50 border-gray-200'} opacity-60`
+                    }`}
+                  >
+                    <div className={`text-2xl mb-2 ${isEarned ? '' : 'grayscale'}`}>
+                      {isEarned ? badge.emoji : '🔒'}
+                    </div>
+                    <p className={`text-xs font-medium ${isEarned ? textPrimary : textMuted}`}>{badge.label}</p>
+                    {!isEarned && badge.requirement && (
+                      <p className={`text-[10px] mt-1 ${textMuted}`}>{badge.requirement}</p>
+                    )}
+                    {isEarned && (
+                      <p className="text-[10px] mt-1 text-emerald-400">Earned ✓</p>
+                    )}
                   </motion.div>
                 )
               })}
