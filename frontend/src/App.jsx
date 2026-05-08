@@ -23,6 +23,7 @@ import ReferralPage from './pages/ReferralPage'
 import LearningPage from './pages/LearningPage'
 import FeaturesPage from './pages/FeaturesPage'
 import HowItWorksPage from './pages/HowItWorksPage'
+import AIChatWidget from './components/AIChatWidget'
 
 function OnboardingGuard({ children }) {
   const onboarded = localStorage.getItem('scoreku_onboarded')
@@ -80,6 +81,7 @@ function ThemedApp() {
   return (
     <div className={`min-h-screen transition-colors duration-300 ${theme === 'dark' ? 'bg-[#0f0f0f] text-white' : 'bg-white text-gray-900'}`}>
       <AnimatedRoutes />
+      <AIChatWidget />
       <Toaster
         position="top-right"
         toastOptions={{
