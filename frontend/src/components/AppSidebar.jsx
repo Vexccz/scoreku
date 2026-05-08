@@ -16,7 +16,6 @@ const navItems = [
   { label: 'Compare', icon: GitCompare, path: '/comparison' },
   { label: 'Marketplace', icon: BarChart3, path: '/marketplace' },
   { label: 'Simulator', icon: Sparkles, path: '/simulation' },
-  { label: 'How AI Works', icon: Brain, path: '/ai' },
   { label: 'Transactions', icon: Receipt, path: '/transactions' },
   { label: 'Report', icon: FileBarChart, path: '/report' },
   { label: 'Learn', icon: BookOpen, path: '/learn' },
