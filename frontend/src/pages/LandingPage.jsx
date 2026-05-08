@@ -357,7 +357,7 @@ function PipelineDemo() {
   const resultHandled = useRef(false)
 
   useEffect(() => {
-    const durations = [2500, 2000, 3000, 4000, 3000, 3500]
+    const durations = [4500, 4000, 5000, 5500, 4500, 5000]
     let timeout
 
     if (stepIndex < 5) {
