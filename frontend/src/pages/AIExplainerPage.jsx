@@ -4,8 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   Zap, ArrowLeft, Brain, Database, Cpu, BarChart3, Eye,
   ChevronDown, ChevronRight, Sparkles, Shield, Target,
-  CheckCircle2, LayoutDashboard, FileText, Settings
+  CheckCircle2, LayoutDashboard, FileText, Settings,
+  SlidersHorizontal
 } from 'lucide-react'
+import { useTheme } from '../context/ThemeContext'
+import ThemeToggle from '../components/ThemeToggle'
 
 const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard', active: false },
@@ -16,6 +19,11 @@ const navItems = [
 ]
 
 function Sidebar({ mobileOpen, onClose }) {
+  const { theme } = useTheme()
+  const sidebarBg = theme === 'dark' ? 'bg-[#0f0f0f] border-[#1f1f1f]' : 'bg-white border-gray-200'
+  const navActive = theme === 'dark' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : 'bg-blue-50 text-blue-600 border border-blue-200'
+  const navInactive = theme === 'dark' ? 'text-gray-400 hover:text-white hover:bg-[#1a1a1a]' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
+
   return (
     <>
       {mobileOpen && (
@@ -25,14 +33,17 @@ function Sidebar({ mobileOpen, onClose }) {
           onClick={onClose}
         />
       )}
-      <aside className={`flex flex-col fixed left-0 top-0 bottom-0 w-[260px] bg-[#0f0f0f] border-r border-[#1f1f1f] z-[70] transform transition-transform duration-300 ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
-        <div className="flex items-center gap-3 px-6 py-6">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center">
-            <Shield size={18} className="text-white" />
+      <aside className={`flex flex-col fixed left-0 top-0 bottom-0 w-[260px] border-r z-[70] transform transition-transform duration-300 ${sidebarBg} ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
+        <div className="flex items-center justify-between px-6 py-6">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center">
+              <Shield size={18} className="text-white" />
+            </div>
+            <span className="text-lg font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
+              ScoreKu
+            </span>
           </div>
-          <span className="text-lg font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
-            ScoreKu
-          </span>
+          <ThemeToggle />
         </div>
         <nav className="flex-1 px-3 mt-2">
           <div className="space-y-1">
@@ -40,10 +51,10 @@ function Sidebar({ mobileOpen, onClose }) {
               const Icon = item.icon
               if (item.disabled) {
                 return (
-                  <div key={item.label} className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 cursor-not-allowed">
+                  <div key={item.label} className={`flex items-center gap-3 px-4 py-2.5 rounded-xl cursor-not-allowed ${theme === 'dark' ? 'text-gray-600' : 'text-gray-400'}`}>
                     <Icon size={18} />
                     <span className="text-sm">{item.label}</span>
-                    <span className="ml-auto text-[10px] bg-[#1f1f1f] text-gray-500 px-2 py-0.5 rounded-full">Soon</span>
+                    <span className={`ml-auto text-[10px] px-2 py-0.5 rounded-full ${theme === 'dark' ? 'bg-[#1f1f1f] text-gray-500' : 'bg-gray-100 text-gray-400'}`}>Soon</span>
                   </div>
                 )
               }
@@ -52,9 +63,7 @@ function Sidebar({ mobileOpen, onClose }) {
                   key={item.label}
                   to={item.path}
                   className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all ${
-                    item.active
-                      ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
-                      : 'text-gray-400 hover:text-white hover:bg-[#1a1a1a]'
+                    item.active ? navActive : navInactive
                   }`}
                 >
                   <Icon size={18} />
@@ -184,7 +193,210 @@ const techBadges = [
   { name: 'NumPy', color: '#6366f1' },
 ]
 
+// ─── Interactive SHAP Demo Config ────────────────────────────────────────────
+
+const interactiveFeatures = [
+  { key: 'income', label: 'Monthly Income (RM)', min: 1000, max: 15000, step: 500, default: 4000, weight: 0.0025 },
+  { key: 'bills', label: 'Bill Payments On-Time (%)', min: 0, max: 100, step: 5, default: 70, weight: 0.15 },
+  { key: 'ewallet', label: 'E-wallet Transactions/mo', min: 0, max: 100, step: 5, default: 30, weight: 0.08 },
+  { key: 'accountAge', label: 'Account Age (months)', min: 1, max: 60, step: 1, default: 12, weight: 0.2 },
+  { key: 'ecommerce', label: 'E-commerce Orders/mo', min: 0, max: 50, step: 1, default: 10, weight: 0.12 },
+]
+
+function computeShapValues(values) {
+  const baseScore = 50
+  const contributions = []
+
+  // Income: normalized 0-1 from range, contribution -8 to +12
+  const incomeNorm = (values.income - 1000) / (15000 - 1000)
+  contributions.push({ label: 'Income', value: (incomeNorm - 0.3) * 16, raw: values.income })
+
+  // Bills: direct percentage, contribution -12 to +10
+  const billsNorm = values.bills / 100
+  contributions.push({ label: 'Bill Payments', value: (billsNorm - 0.5) * 20, raw: values.bills })
+
+  // E-wallet: normalized, contribution -5 to +8
+  const ewalletNorm = values.ewallet / 100
+  contributions.push({ label: 'E-wallet Usage', value: (ewalletNorm - 0.3) * 12, raw: values.ewallet })
+
+  // Account age: normalized, contribution -6 to +8
+  const ageNorm = values.accountAge / 60
+  contributions.push({ label: 'Account Age', value: (ageNorm - 0.3) * 11, raw: values.accountAge })
+
+  // E-commerce: sweet spot around 15-25, too much or too little hurts
+  const ecomNorm = values.ecommerce / 50
+  const ecomOptimal = 1 - Math.abs(ecomNorm - 0.4) * 2
+  contributions.push({ label: 'E-commerce', value: (ecomOptimal - 0.2) * 10, raw: values.ecommerce })
+
+  const totalContribution = contributions.reduce((sum, c) => sum + c.value, 0)
+  const finalScore = Math.max(0, Math.min(100, Math.round(baseScore + totalContribution)))
+
+  return { baseScore, contributions, finalScore }
+}
+
+function InteractiveSHAPDemo() {
+  const { theme } = useTheme()
+  const [values, setValues] = useState(() => {
+    const initial = {}
+    interactiveFeatures.forEach(f => { initial[f.key] = f.default })
+    return initial
+  })
+
+  const { baseScore, contributions, finalScore } = computeShapValues(values)
+  const maxBar = Math.max(...contributions.map(c => Math.abs(c.value)), 1)
+
+  const cardBg = theme === 'dark' ? 'bg-[#111] border-[#1f1f1f]' : 'bg-white border-gray-200'
+  const sliderTrack = theme === 'dark' ? 'bg-[#1f1f1f]' : 'bg-gray-200'
+  const textPrimary = theme === 'dark' ? 'text-white' : 'text-gray-900'
+  const textSecondary = theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+
+  return (
+    <section className="mb-20">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="mb-8"
+      >
+        <div className="flex items-center gap-2 mb-2">
+          <SlidersHorizontal size={20} className="text-teal-400" />
+          <h2 className={`text-2xl font-bold ${textPrimary}`}>Try It Yourself</h2>
+        </div>
+        <p className={`text-sm ${textSecondary}`}>Adjust the sliders to see how each feature affects the predicted score in real-time</p>
+      </motion.div>
+
+      <div className={`border rounded-2xl p-6 md:p-8 ${cardBg}`}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Sliders */}
+          <div className="space-y-6">
+            <h3 className={`text-sm font-semibold mb-4 ${textPrimary}`}>Input Features</h3>
+            {interactiveFeatures.map((feat) => (
+              <div key={feat.key}>
+                <div className="flex items-center justify-between mb-2">
+                  <label className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>{feat.label}</label>
+                  <span className="text-sm font-mono font-medium text-blue-400">
+                    {feat.key === 'income' ? `RM${values[feat.key].toLocaleString()}` : values[feat.key]}
+                    {feat.key === 'bills' ? '%' : ''}
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min={feat.min}
+                  max={feat.max}
+                  step={feat.step}
+                  value={values[feat.key]}
+                  onChange={(e) => setValues(prev => ({ ...prev, [feat.key]: Number(e.target.value) }))}
+                  className="w-full h-2 rounded-full appearance-none cursor-pointer accent-blue-500"
+                  style={{
+                    background: `linear-gradient(to right, #2563eb 0%, #14b8a6 ${((values[feat.key] - feat.min) / (feat.max - feat.min)) * 100}%, ${theme === 'dark' ? '#1f1f1f' : '#e5e7eb'} ${((values[feat.key] - feat.min) / (feat.max - feat.min)) * 100}%, ${theme === 'dark' ? '#1f1f1f' : '#e5e7eb'} 100%)`,
+                  }}
+                />
+                <div className="flex justify-between mt-1">
+                  <span className={`text-[10px] ${textSecondary}`}>{feat.key === 'income' ? `RM${feat.min.toLocaleString()}` : feat.min}</span>
+                  <span className={`text-[10px] ${textSecondary}`}>{feat.key === 'income' ? `RM${feat.max.toLocaleString()}` : feat.max}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* SHAP Waterfall */}
+          <div>
+            <h3 className={`text-sm font-semibold mb-4 ${textPrimary}`}>SHAP Waterfall</h3>
+
+            {/* Base score */}
+            <div className={`flex items-center gap-3 mb-3 px-3 py-2 rounded-lg ${theme === 'dark' ? 'bg-[#1a1a1a]' : 'bg-gray-50'}`}>
+              <span className={`text-xs ${textSecondary}`}>Base Score</span>
+              <span className={`ml-auto text-sm font-mono font-medium ${textPrimary}`}>{baseScore}</span>
+            </div>
+
+            {/* Contribution bars */}
+            <div className="space-y-2.5 mb-4">
+              {contributions.map((c, i) => {
+                const isPositive = c.value >= 0
+                const barWidth = Math.min(Math.abs(c.value) / maxBar * 100, 100)
+                return (
+                  <motion.div
+                    key={c.label}
+                    className="flex items-center gap-3"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.05 }}
+                  >
+                    <span className={`text-xs w-28 shrink-0 truncate ${textSecondary}`}>{c.label}</span>
+                    <div className="flex-1 flex items-center h-7 relative">
+                      <div className={`absolute inset-y-0 left-1/2 w-px ${theme === 'dark' ? 'bg-[#2a2a2a]' : 'bg-gray-300'}`} />
+                      {isPositive ? (
+                        <motion.div
+                          className="absolute left-1/2 h-5 rounded-r-full"
+                          style={{ backgroundColor: 'rgba(16, 185, 129, 0.3)', border: '1px solid rgba(16, 185, 129, 0.5)' }}
+                          animate={{ width: `${barWidth / 2}%` }}
+                          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                        />
+                      ) : (
+                        <motion.div
+                          className="absolute h-5 rounded-l-full"
+                          style={{
+                            backgroundColor: 'rgba(239, 68, 68, 0.3)',
+                            border: '1px solid rgba(239, 68, 68, 0.5)',
+                            right: '50%',
+                          }}
+                          animate={{ width: `${barWidth / 2}%` }}
+                          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                        />
+                      )}
+                    </div>
+                    <motion.span
+                      className="text-xs font-mono w-12 text-right shrink-0 font-medium"
+                      style={{ color: isPositive ? '#10b981' : '#ef4444' }}
+                      key={c.value.toFixed(1)}
+                    >
+                      {isPositive ? '+' : ''}{c.value.toFixed(1)}
+                    </motion.span>
+                  </motion.div>
+                )
+              })}
+            </div>
+
+            {/* Final score */}
+            <div className={`flex items-center gap-3 px-3 py-3 rounded-xl border ${
+              theme === 'dark' ? 'bg-[#0d0d0d] border-[#1f1f1f]' : 'bg-gray-50 border-gray-200'
+            }`}>
+              <span className={`text-sm font-semibold ${textPrimary}`}>Predicted Score</span>
+              <motion.span
+                className="ml-auto text-2xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent"
+                key={finalScore}
+                initial={{ scale: 1.2 }}
+                animate={{ scale: 1 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+              >
+                {finalScore}
+              </motion.span>
+            </div>
+
+            {/* Legend */}
+            <div className="flex items-center gap-4 mt-4 text-xs">
+              <span className={`flex items-center gap-1.5 ${textSecondary}`}>
+                <span className="w-3 h-3 rounded-sm bg-green-500/30 border border-green-500/40" />
+                Positive
+              </span>
+              <span className={`flex items-center gap-1.5 ${textSecondary}`}>
+                <span className="w-3 h-3 rounded-sm bg-red-500/30 border border-red-500/40" />
+                Negative
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function PipelineStep({ step, isOpen, onToggle, index }) {
+  const { theme } = useTheme()
+  const cardBg = theme === 'dark' ? 'bg-[#111]' : 'bg-white'
+  const borderDefault = theme === 'dark' ? 'border-[#1f1f1f] hover:border-[#2a2a2a]' : 'border-gray-200 hover:border-gray-300'
+  const detailBg = theme === 'dark' ? 'bg-[#0d0d0d] border-[#1a1a1a]' : 'bg-gray-50 border-gray-200'
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -193,8 +405,8 @@ function PipelineStep({ step, isOpen, onToggle, index }) {
     >
       <button
         onClick={onToggle}
-        className={`w-full text-left bg-[#111] border rounded-2xl p-6 transition-all duration-300 ${
-          isOpen ? 'border-opacity-50 shadow-lg' : 'border-[#1f1f1f] hover:border-[#2a2a2a]'
+        className={`w-full text-left ${cardBg} border rounded-2xl p-6 transition-all duration-300 ${
+          isOpen ? 'border-opacity-50 shadow-lg' : borderDefault
         }`}
         style={{
           borderColor: isOpen ? `${step.color}40` : undefined,
@@ -210,7 +422,7 @@ function PipelineStep({ step, isOpen, onToggle, index }) {
               <step.icon size={20} style={{ color: step.color }} />
             </div>
             <div>
-              <h3 className="text-base font-semibold">{step.title}</h3>
+              <h3 className={`text-base font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{step.title}</h3>
               <p className="text-sm text-gray-500">{step.summary}</p>
             </div>
           </div>
@@ -233,7 +445,7 @@ function PipelineStep({ step, isOpen, onToggle, index }) {
             className="overflow-hidden"
           >
             <div className="px-6 pb-2 pt-3">
-              <div className="bg-[#0d0d0d] border border-[#1a1a1a] rounded-xl p-5 ml-13">
+              <div className={`border rounded-xl p-5 ml-13 ${detailBg}`}>
                 <ul className="space-y-2.5">
                   {step.details.map((detail, i) => (
                     <motion.li
@@ -241,7 +453,7 @@ function PipelineStep({ step, isOpen, onToggle, index }) {
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.05 }}
-                      className="flex items-start gap-2 text-sm text-gray-400"
+                      className={`flex items-start gap-2 text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}
                     >
                       <CheckCircle2 size={14} className="mt-0.5 shrink-0" style={{ color: step.color }} />
                       {detail}
@@ -260,21 +472,27 @@ function PipelineStep({ step, isOpen, onToggle, index }) {
 export default function AIExplainerPage() {
   const [openStep, setOpenStep] = useState(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { theme } = useTheme()
+
+  const pageBg = theme === 'dark' ? 'bg-[#0a0a0a]' : 'bg-gray-50'
+  const textPrimary = theme === 'dark' ? 'text-white' : 'text-gray-900'
+  const textSecondary = theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+  const cardBg = theme === 'dark' ? 'bg-[#111] border-[#1f1f1f]' : 'bg-white border-gray-200'
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
+    <div className={`min-h-screen ${pageBg} ${textPrimary}`}>
       {/* Mobile hamburger */}
       <button
-        className="lg:hidden fixed top-4 left-4 z-[55] p-2.5 bg-[#111] border border-[#1f1f1f] rounded-xl"
+        className={`lg:hidden fixed top-4 left-4 z-[55] p-2.5 border rounded-xl ${
+          theme === 'dark' ? 'bg-[#111] border-[#1f1f1f]' : 'bg-white border-gray-200'
+        }`}
         onClick={() => setSidebarOpen(true)}
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
 
-      {/* Sidebar */}
       <Sidebar mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      {/* Main Content */}
       <main className="lg:ml-[260px] min-h-screen">
       <div className="max-w-5xl mx-auto px-6 py-12">
         {/* Hero */}
@@ -294,7 +512,7 @@ export default function AIExplainerPage() {
           <h1 className="text-3xl md:text-5xl font-bold mb-4">
             How Our <span className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">AI</span> Works
           </h1>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+          <p className={`text-lg max-w-2xl mx-auto ${textSecondary}`}>
             No black boxes. Every prediction is explainable, fair, and transparent.
             Here's exactly how we turn your digital footprint into a credit score.
           </p>
@@ -312,7 +530,6 @@ export default function AIExplainerPage() {
             <h2 className="text-xl font-bold">ML Pipeline</h2>
           </motion.div>
 
-          {/* Visual pipeline flow */}
           <div className="flex items-center justify-center gap-2 mb-8 overflow-x-auto pb-2">
             {pipelineSteps.map((step, i) => (
               <div key={step.id} className="flex items-center gap-2">
@@ -333,7 +550,6 @@ export default function AIExplainerPage() {
             ))}
           </div>
 
-          {/* Expandable steps */}
           <div className="space-y-3">
             {pipelineSteps.map((step, i) => (
               <PipelineStep
@@ -356,7 +572,7 @@ export default function AIExplainerPage() {
             className="text-center mb-8"
           >
             <h2 className="text-2xl font-bold mb-2">Model Performance</h2>
-            <p className="text-sm text-gray-500">Trained on real alternative credit data from 10,000+ profiles</p>
+            <p className={`text-sm ${textSecondary}`}>Trained on real alternative credit data from 10,000+ profiles</p>
           </motion.div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -367,13 +583,13 @@ export default function AIExplainerPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-[#111] border border-[#1f1f1f] rounded-2xl p-6 text-center hover:border-teal-500/20 transition-all duration-300"
+                className={`border rounded-2xl p-6 text-center hover:border-teal-500/20 transition-all duration-300 ${cardBg}`}
               >
                 <p className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent mb-1">
                   {metric.value}
                 </p>
-                <p className="text-sm font-medium text-gray-300">{metric.label}</p>
-                <p className="text-xs text-gray-600 mt-1">{metric.description}</p>
+                <p className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>{metric.label}</p>
+                <p className={`text-xs mt-1 ${theme === 'dark' ? 'text-gray-600' : 'text-gray-400'}`}>{metric.description}</p>
               </motion.div>
             ))}
           </div>
@@ -388,10 +604,10 @@ export default function AIExplainerPage() {
             className="mb-8"
           >
             <h2 className="text-2xl font-bold mb-2">Feature Importance</h2>
-            <p className="text-sm text-gray-500">Top 10 features ranked by their impact on predictions</p>
+            <p className={`text-sm ${textSecondary}`}>Top 10 features ranked by their impact on predictions</p>
           </motion.div>
 
-          <div className="bg-[#111] border border-[#1f1f1f] rounded-2xl p-6 md:p-8">
+          <div className={`border rounded-2xl p-6 md:p-8 ${cardBg}`}>
             <div className="space-y-4">
               {featureImportance.map((feature, i) => (
                 <motion.div
@@ -402,8 +618,8 @@ export default function AIExplainerPage() {
                   transition={{ delay: i * 0.05 }}
                   className="flex items-center gap-4"
                 >
-                  <span className="text-sm text-gray-400 w-44 shrink-0 truncate">{feature.name}</span>
-                  <div className="flex-1 h-6 bg-[#1a1a1a] rounded-full overflow-hidden relative">
+                  <span className={`text-sm w-44 shrink-0 truncate ${textSecondary}`}>{feature.name}</span>
+                  <div className={`flex-1 h-6 rounded-full overflow-hidden relative ${theme === 'dark' ? 'bg-[#1a1a1a]' : 'bg-gray-100'}`}>
                     <motion.div
                       className="h-full rounded-full"
                       style={{ background: feature.color }}
@@ -413,7 +629,7 @@ export default function AIExplainerPage() {
                       transition={{ duration: 0.8, delay: i * 0.05, ease: 'easeOut' }}
                     />
                   </div>
-                  <span className="text-sm font-mono text-gray-400 w-12 text-right shrink-0">
+                  <span className={`text-sm font-mono w-12 text-right shrink-0 ${textSecondary}`}>
                     {(feature.value * 100).toFixed(0)}%
                   </span>
                 </motion.div>
@@ -431,17 +647,17 @@ export default function AIExplainerPage() {
             className="mb-8"
           >
             <h2 className="text-2xl font-bold mb-2">SHAP Explanation</h2>
-            <p className="text-sm text-gray-500">"Why did this user get a score of 72?" — Every prediction is explainable</p>
+            <p className={`text-sm ${textSecondary}`}>"Why did this user get a score of 72?" — Every prediction is explainable</p>
           </motion.div>
 
-          <div className="bg-[#111] border border-[#1f1f1f] rounded-2xl p-6 md:p-8">
+          <div className={`border rounded-2xl p-6 md:p-8 ${cardBg}`}>
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
                 <Eye size={18} className="text-blue-400" />
               </div>
               <div>
-                <p className="text-sm font-medium">Example: User Score 72</p>
-                <p className="text-xs text-gray-500">Base score: 60 → Final: 72 (net +12)</p>
+                <p className={`text-sm font-medium ${textPrimary}`}>Example: User Score 72</p>
+                <p className={`text-xs ${textSecondary}`}>Base score: 60 → Final: 72 (net +12)</p>
               </div>
             </div>
 
@@ -455,9 +671,9 @@ export default function AIExplainerPage() {
                   transition={{ delay: i * 0.08 }}
                   className="flex items-center gap-4"
                 >
-                  <span className="text-sm text-gray-400 w-44 shrink-0 truncate">{item.feature}</span>
+                  <span className={`text-sm w-44 shrink-0 truncate ${textSecondary}`}>{item.feature}</span>
                   <div className="flex-1 flex items-center justify-center relative h-8">
-                    <div className="absolute inset-y-0 left-1/2 w-px bg-[#2a2a2a]" />
+                    <div className={`absolute inset-y-0 left-1/2 w-px ${theme === 'dark' ? 'bg-[#2a2a2a]' : 'bg-gray-300'}`} />
                     {item.positive ? (
                       <motion.div
                         className="absolute left-1/2 h-6 rounded-r-full bg-green-500/30 border border-green-500/40"
@@ -486,8 +702,8 @@ export default function AIExplainerPage() {
               ))}
             </div>
 
-            <div className="mt-6 pt-4 border-t border-[#1f1f1f] flex items-center justify-between">
-              <div className="flex items-center gap-4 text-xs text-gray-500">
+            <div className={`mt-6 pt-4 border-t flex items-center justify-between ${theme === 'dark' ? 'border-[#1f1f1f]' : 'border-gray-200'}`}>
+              <div className={`flex items-center gap-4 text-xs ${textSecondary}`}>
                 <span className="flex items-center gap-1.5">
                   <span className="w-3 h-3 rounded-sm bg-green-500/30 border border-green-500/40" />
                   Helping score
@@ -500,6 +716,9 @@ export default function AIExplainerPage() {
             </div>
           </div>
         </section>
+
+        {/* Interactive SHAP Demo */}
+        <InteractiveSHAPDemo />
 
         {/* Tech Badges */}
         <section className="mb-16">
@@ -539,16 +758,16 @@ export default function AIExplainerPage() {
           viewport={{ once: true }}
           className="text-center"
         >
-          <div className="bg-[#111] border border-[#1f1f1f] rounded-3xl p-10">
+          <div className={`border rounded-3xl p-10 ${cardBg}`}>
             <Shield size={32} className="text-teal-400 mx-auto mb-4" />
             <h2 className="text-2xl font-bold mb-3">Responsible AI, Built for Malaysia</h2>
-            <p className="text-sm text-gray-400 max-w-lg mx-auto mb-6">
+            <p className={`text-sm max-w-lg mx-auto mb-6 ${textSecondary}`}>
               Our model is regularly audited for fairness across demographics.
               Every prediction comes with a full explanation. No black boxes.
             </p>
             <Link
               to="/score"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-500 hover:to-teal-500 rounded-xl text-base font-medium transition-all duration-300 shadow-lg shadow-blue-600/20"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-500 hover:to-teal-500 rounded-xl text-base font-medium text-white transition-all duration-300 shadow-lg shadow-blue-600/20"
             >
               Try It Yourself <ChevronRight size={16} />
             </Link>

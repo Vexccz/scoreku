@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import { Toaster } from 'react-hot-toast'
 import { AnimatePresence, motion } from 'framer-motion'
 import { AuthProvider } from './context/AuthContext'
+import { ThemeProvider, useTheme } from './context/ThemeContext'
 import LandingPage from './pages/LandingPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
@@ -53,16 +54,32 @@ function AnimatedRoutes() {
   )
 }
 
+function ThemedApp() {
+  const { theme } = useTheme()
+  return (
+    <div className={`min-h-screen transition-colors duration-300 ${theme === 'dark' ? 'bg-[#0f0f0f] text-white' : 'bg-white text-gray-900'}`}>
+      <AnimatedRoutes />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: theme === 'dark'
+            ? { background: '#1f1f1f', color: '#fff' }
+            : { background: '#fff', color: '#111', border: '1px solid #e5e7eb' }
+        }}
+      />
+    </div>
+  )
+}
+
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <div className="min-h-screen bg-[#0f0f0f] text-white">
-          <AnimatedRoutes />
-          <Toaster position="top-right" toastOptions={{ style: { background: '#1f1f1f', color: '#fff' } }} />
-        </div>
-      </Router>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <Router>
+          <ThemedApp />
+        </Router>
+      </AuthProvider>
+    </ThemeProvider>
   )
 }
 
