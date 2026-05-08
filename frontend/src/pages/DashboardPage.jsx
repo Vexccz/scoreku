@@ -131,9 +131,17 @@ function ScoreGauge({ score, category }) {
 
 // ─── Sidebar ─────────────────────────────────────────────────────────────────
 
-function Sidebar({ user, onRecalculate }) {
+function Sidebar({ user, onRecalculate, mobileOpen, onClose }) {
   return (
-    <aside className="hidden lg:flex flex-col fixed left-0 top-0 bottom-0 w-[260px] bg-[#0f0f0f] border-r border-[#1f1f1f] z-50">
+    <>
+      {mobileOpen && (
+        <motion.div
+          className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[60]"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          onClick={onClose}
+        />
+      )}
+      <aside className={`flex flex-col fixed left-0 top-0 bottom-0 w-[260px] bg-[#0f0f0f] border-r border-[#1f1f1f] z-[70] transform transition-transform duration-300 ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
       {/* Logo */}
       <div className="flex items-center gap-3 px-6 py-6">
         <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center">
@@ -202,7 +210,8 @@ function Sidebar({ user, onRecalculate }) {
           Recalculate Score
         </button>
       </div>
-    </aside>
+      </aside>
+    </>
   )
 }
 
@@ -292,6 +301,8 @@ export default function DashboardPage() {
     })
   }
 
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+
   const handleRecalculate = () => {
     window.location.href = '/score'
   }
@@ -313,14 +324,19 @@ export default function DashboardPage() {
         <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-teal-600/5 rounded-full blur-[100px]" />
       </div>
 
-      {/* Sidebar */}
-      <Sidebar user={user} onRecalculate={handleRecalculate} />
+      {/* Mobile hamburger */}
+      <button
+        className="lg:hidden fixed top-4 left-4 z-[55] p-2.5 bg-[#111] border border-[#1f1f1f] rounded-xl"
+        onClick={() => setSidebarOpen(true)}
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
 
-      {/* Mobile Nav */}
-      <MobileNav />
+      {/* Sidebar */}
+      <Sidebar user={user} onRecalculate={handleRecalculate} mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Main Content */}
-      <main className="lg:ml-[260px] min-h-screen pb-20 lg:pb-8">
+      <main className="lg:ml-[260px] min-h-screen pb-8">
         <motion.div
           variants={container}
           initial="hidden"
