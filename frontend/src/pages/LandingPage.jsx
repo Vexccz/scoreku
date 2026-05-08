@@ -1081,6 +1081,68 @@ export default function LandingPage() {
         </motion.div>
       </section>
 
+      {/* ─── BNM Alignment ───────────────────────────────────────────────────────── */}
+      <section className="relative z-10 max-w-5xl mx-auto px-6 pb-28">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7 } } }}
+        >
+          <div className="bg-gradient-to-br from-[#111] to-[#0a0a0a] border border-[#1f1f1f] rounded-3xl p-8 md:p-12 relative overflow-hidden">
+            {/* Background accent */}
+            <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-blue-600/5 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-[200px] h-[200px] bg-teal-600/5 rounded-full blur-[80px] pointer-events-none" />
+
+            <div className="relative">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+                  <Shield className="w-5 h-5 text-blue-400" />
+                </div>
+                <span className="text-xs font-medium text-blue-400 uppercase tracking-wider">Regulatory Alignment</span>
+              </div>
+
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                Aligned with BNM Financial Inclusion Framework 2023-2026
+              </h2>
+              <p className="text-gray-400 max-w-2xl mb-8">
+                ScoreKu is built in accordance with Bank Negara Malaysia's strategic roadmap for financial inclusion, which explicitly calls for alternative credit assessment methods to serve underbanked Malaysians.
+              </p>
+
+              <div className="grid md:grid-cols-2 gap-4 mb-8">
+                {[
+                  { title: 'Alternative Credit Assessment', desc: 'BNM encourages use of non-traditional data (e-wallet, bills, digital footprint) for credit evaluation' },
+                  { title: 'Digital Financial Services', desc: 'Leveraging DuitNow, e-wallets, and digital channels as financial inclusion tools' },
+                  { title: 'Underserved Populations', desc: 'Targeting gig workers, micro-entrepreneurs, rural communities, and B40 households' },
+                  { title: 'Open Banking Initiative', desc: 'Supporting data sharing (with consent) to enable better financial products for all' },
+                ].map((item, i) => (
+                  <motion.div
+                    key={i}
+                    className="bg-[#0a0a0a] border border-[#1f1f1f] rounded-xl p-4"
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.1 + i * 0.1 }}
+                  >
+                    <h4 className="text-sm font-semibold text-white mb-1">{item.title}</h4>
+                    <p className="text-xs text-gray-500 leading-relaxed">{item.desc}</p>
+                  </motion.div>
+                ))}
+              </div>
+
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="px-3 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-lg text-xs text-blue-400 font-medium">BNM Framework 2023-2026</span>
+                <span className="px-3 py-1.5 bg-teal-500/10 border border-teal-500/20 rounded-lg text-xs text-teal-400 font-medium">PDPA Compliant</span>
+                <span className="px-3 py-1.5 bg-purple-500/10 border border-purple-500/20 rounded-lg text-xs text-purple-400 font-medium">Open Banking Ready</span>
+                <span className="px-3 py-1.5 bg-amber-500/10 border border-amber-500/20 rounded-lg text-xs text-amber-400 font-medium">UN SDG Aligned</span>
+              </div>
+
+              <p className="text-[10px] text-gray-600 mt-6">Source: Bank Negara Malaysia Discussion Paper on Financial Inclusion Framework 2023-2026, February 2023</p>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
       {/* ─── 12. FAQ ───────────────────────────────────────────────────────── */}
       <section id="faq" className="relative z-10 max-w-3xl mx-auto px-6 pb-28">
         <motion.div
