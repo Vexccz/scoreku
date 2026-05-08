@@ -29,7 +29,7 @@ const poweredBy = [
 ]
 
 const stats = [
-  { value: 3800000, display: '3.8M', label: 'Unbanked Malaysians', icon: Users },
+  { value: 3500000, display: '3.5M', label: 'Unbanked Malaysians', icon: Users },
   { value: 89, display: '89%', label: 'AI Model Accuracy', icon: Zap },
   { value: 10000, display: '10K+', label: 'Profiles Analyzed', icon: Globe },
 ]
@@ -52,7 +52,7 @@ const howItWorks = [
 const comparisonData = {
   traditional: [
     'Requires bank account & credit history',
-    'Excludes 3.8M Malaysians',
+    'Excludes 3.5M Malaysians',
     '3-5 business days processing',
     'Black box — no explanation',
     'RM50-100 per report',
@@ -737,7 +737,7 @@ export default function LandingPage() {
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium mb-6">The Problem</span>
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            <AnimatedCounter target={3800000} prefix="" suffix="" /> Malaysians are{' '}
+            <AnimatedCounter target={3500000} prefix="" suffix="" /> Malaysians are{' '}
             <span className="text-red-400">financially invisible</span>
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
@@ -796,7 +796,7 @@ export default function LandingPage() {
                 <stat.icon className="w-7 h-7 text-teal-400" />
               </div>
               <div className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent mb-2">
-                {stat.display === '3.8M' && <AnimatedCounter target={3800000} />}
+                {stat.display === '3.5M' && <AnimatedCounter target={3500000} />}
                 {stat.display === '89%' && <><AnimatedCounter target={89} />%</>}
                 {stat.display === '10K+' && <><AnimatedCounter target={10000} />+</>}
               </div>
@@ -1101,7 +1101,7 @@ export default function LandingPage() {
                 <span className="px-3 py-1.5 bg-amber-500/10 border border-amber-500/20 rounded-lg text-xs text-amber-400 font-medium">UN SDG Aligned</span>
               </div>
 
-              <p className="text-[10px] text-gray-600 mt-6">Source: Bank Negara Malaysia Discussion Paper on Financial Inclusion Framework 2023-2026, February 2023</p>
+              <p className="text-[10px] text-gray-600 mt-6">Sources: Bank Negara Malaysia Financial Inclusion Framework 2023-2026 | PwC Malaysia Digital Banking Report 2024 | World Bank Global Findex 2021</p>
             </div>
           </div>
         </motion.div>
