@@ -12,8 +12,8 @@ import BrandLogo from '../components/BrandLogo'
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 const navLinks = [
-  { label: 'Features', href: '/features', isRoute: true },
-  { label: 'How it Works', href: '/how-it-works', isRoute: true },
+  { label: 'Features', href: '#features' },
+  { label: 'How it Works', href: '#how-it-works' },
   { label: 'Simulator', href: '/simulation', isRoute: true },
   { label: 'AI Model', href: '/ai', isRoute: true },
   { label: 'FAQ', href: '#faq' },
@@ -654,7 +654,7 @@ export default function LandingPage() {
               <Link to="/register" className="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-2xl text-lg font-semibold transition-all duration-300 shadow-xl shadow-blue-600/25 hover:shadow-blue-500/40 hover:-translate-y-0.5">
                 Get Your Score <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </Link>
-              <a href="/how-it-works" className="inline-flex items-center gap-2 px-8 py-4 border border-[#2a2a2a] hover:border-gray-600 rounded-2xl text-lg transition-all duration-300 text-gray-300 hover:text-white hover:-translate-y-0.5">
+              <a href="#how-it-works" className="inline-flex items-center gap-2 px-8 py-4 border border-[#2a2a2a] hover:border-gray-600 rounded-2xl text-lg transition-all duration-300 text-gray-300 hover:text-white hover:-translate-y-0.5">
                 Learn More
               </a>
             </div>
@@ -1198,8 +1198,8 @@ export default function LandingPage() {
             <div>
               <h4 className="text-sm font-semibold mb-4 text-gray-300">Product</h4>
               <ul className="space-y-2.5 text-sm text-gray-500">
-                <li><a href="/features" className="hover:text-white transition-colors">Features</a></li>
-                <li><a href="/how-it-works" className="hover:text-white transition-colors">How It Works</a></li>
+                <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
+                <li><a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a></li>
                 <li><Link to="/simulation" className="hover:text-white transition-colors">Score Simulator</Link></li>
                 <li><Link to="/ai" className="hover:text-white transition-colors">How AI Works</Link></li>
                 <li><a href="#faq" className="hover:text-white transition-colors">FAQ</a></li>
