@@ -450,7 +450,7 @@ export default function AIExplainerPage() {
             <Sparkles size={12} /> {t('transparentExplainableAI')}
           </motion.div>
           <h1 className="text-3xl md:text-5xl font-bold mb-4">
-            {t('howOurAIWorks').replace('AI', '').trim().split(' ').slice(0, -1).join(' ')} <span className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">AI</span> {t('howOurAIWorks').split(' ').pop()}
+            {t('howOurAIWorks').split('AI')[0]}<span className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">AI</span>{t('howOurAIWorks').split('AI')[1]}
           </h1>
           <p className={`text-lg max-w-2xl mx-auto ${textSecondary}`}>
             {t('aiHeroDesc')}
