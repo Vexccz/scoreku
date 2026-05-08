@@ -6,6 +6,7 @@ import {
   BookOpen, Gift
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
+import { useLanguage } from '../context/LanguageContext'
 import ThemeToggle from './ThemeToggle'
 
 const navItems = [
@@ -31,6 +32,7 @@ const defaultUser = {
 
 export default function AppSidebar({ activePath, mobileOpen, onClose, user = defaultUser, onRecalculate }) {
   const { theme } = useTheme()
+  const { language, toggleLanguage } = useLanguage()
   const sidebarBg = theme === 'dark' ? 'bg-[#0f0f0f] border-[#1f1f1f]' : 'bg-white border-gray-200'
   const navActive = theme === 'dark' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : 'bg-blue-50 text-blue-600 border border-blue-200'
   const navInactive = theme === 'dark' ? 'text-gray-400 hover:text-white hover:bg-[#1a1a1a]' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
@@ -58,7 +60,19 @@ export default function AppSidebar({ activePath, mobileOpen, onClose, user = def
               ScoreKu
             </span>
           </div>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <button
+              onClick={toggleLanguage}
+              className={`px-2 py-1 rounded-lg text-xs font-bold transition-all border ${
+                theme === 'dark'
+                  ? 'bg-[#1a1a1a] border-[#2a2a2a] text-gray-300 hover:border-blue-500/50'
+                  : 'bg-gray-100 border-gray-200 text-gray-600 hover:border-blue-300'
+              }`}
+            >
+              {language === 'en' ? 'BM' : 'EN'}
+            </button>
+            <ThemeToggle />
+          </div>
         </div>
 
         {/* Navigation */}

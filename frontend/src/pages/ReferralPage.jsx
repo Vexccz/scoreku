@@ -66,7 +66,7 @@ export default function ReferralPage() {
       <main className="lg:ml-[260px] min-h-screen pb-8">
         <motion.div variants={container} initial="hidden" animate="show" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {/* Header */}
-          <motion.div variants={item} className="mb-6">
+          <motion.div variants={item} className="mb-6 pt-12 lg:pt-0">
             <h1 className={`text-2xl font-bold ${textPrimary}`}>Invite Friends, Earn Rewards</h1>
             <p className={`text-sm mt-1 ${textSecondary}`}>Share ScoreKu and earn bonus points</p>
           </motion.div>

@@ -115,7 +115,7 @@ export default function LearningPage() {
       <main className="lg:ml-[260px] min-h-screen pb-8">
         <motion.div variants={container} initial="hidden" animate="show" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {/* Header */}
-          <motion.div variants={item} className="mb-6">
+          <motion.div variants={item} className="mb-6 pt-12 lg:pt-0">
             <h1 className={`text-2xl font-bold ${textPrimary}`}>Financial Literacy Hub</h1>
             <p className={`text-sm mt-1 ${textSecondary}`}>Learn how to build and maintain a strong credit profile</p>
           </motion.div>

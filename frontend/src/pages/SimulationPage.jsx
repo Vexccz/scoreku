@@ -151,12 +151,12 @@ export default function SimulationPage() {
 
       {/* Main Content */}
       <main className="lg:ml-[260px] min-h-screen">
-      <div className="max-w-6xl mx-auto px-6 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
         {/* Hero */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
+          className="text-center mb-12 pt-12 lg:pt-0"
         >
           <h1 className="text-3xl md:text-4xl font-bold mb-3">
             Score <span className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">Simulator</span>

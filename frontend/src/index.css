@@ -199,3 +199,30 @@ input[type="range"]::-moz-range-thumb {
 .light input:focus, .light select:focus {
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
 }
+
+/* ─── Mobile Responsive Fixes ─────────────────────────────────────────────── */
+
+/* Prevent horizontal overflow on mobile */
+@media (max-width: 640px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Tables scroll horizontally */
+  .mobile-scroll-x {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Ensure cards don't overflow */
+  .border {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  /* Score gauge sizing */
+  .score-gauge-mobile {
+    max-width: 10rem;
+    max-height: 10rem;
+  }
+}

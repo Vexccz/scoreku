@@ -13,6 +13,7 @@ import {
   Trophy, Star, Flame, Gem, Lock, Bell, AlertCircle, X as XIcon
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
+import { useLanguage } from '../context/LanguageContext'
 import ThemeToggle from '../components/ThemeToggle'
 import NotificationBell from '../components/NotificationBell'
 import ShareScoreModal from '../components/ShareScoreModal'
@@ -240,12 +241,12 @@ function ScoreGauge({ score, category }) {
   const progress = ((score - 300) / 550) * circumference
 
   return (
-    <div className="relative inline-flex items-center justify-center w-44 h-44">
+    <div className="relative inline-flex items-center justify-center w-36 h-36 sm:w-44 sm:h-44">
       <div
         className="absolute inset-4 rounded-full blur-2xl opacity-30"
         style={{ background: `radial-gradient(circle, ${category.color}, transparent 70%)` }}
       />
-      <svg className="w-44 h-44 -rotate-90" viewBox="0 0 120 120">
+      <svg className="w-36 h-36 sm:w-44 sm:h-44 -rotate-90" viewBox="0 0 120 120">
         <defs>
           <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#2563eb" />
@@ -264,7 +265,7 @@ function ScoreGauge({ score, category }) {
         />
       </svg>
       <div className="absolute flex flex-col items-center">
-        <span className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
+        <span className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
           <AnimatedScore target={score} />
         </span>
         <span className="text-[10px] text-gray-500 mt-1">out of 850</span>
@@ -304,6 +305,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true)
   const [shareModalOpen, setShareModalOpen] = useState(false)
   const { theme } = useTheme()
+  const { t } = useLanguage()
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 800)
@@ -391,6 +393,7 @@ export default function DashboardPage() {
           theme === 'dark' ? 'bg-[#111] border-[#1f1f1f]' : 'bg-white border-gray-200'
         }`}
         onClick={() => setSidebarOpen(true)}
+        aria-label="Open menu"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
@@ -414,10 +417,10 @@ export default function DashboardPage() {
           className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6"
         >
           {/* Top Bar */}
-          <motion.div variants={item} className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
+          <motion.div variants={item} className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4 pt-12 lg:pt-0">
             <div>
-              <h1 className={`text-2xl font-bold ${textPrimary}`}>Dashboard</h1>
-              <p className={`text-sm mt-1 ${textSecondary}`}>Your financial identity overview</p>
+              <h1 className={`text-2xl font-bold ${textPrimary}`}>{t('dashboard')}</h1>
+              <p className={`text-sm mt-1 ${textSecondary}`}>{t('dashboardSubtitle')}</p>
             </div>
             <div className="flex items-center gap-3">
               <div className={`flex items-center gap-2 text-xs ${textSecondary}`}>
@@ -435,7 +438,7 @@ export default function DashboardPage() {
                 }`}
               >
                 <Share2 size={14} />
-                Share Score
+                {t('shareScore')}
               </button>
             </div>
           </motion.div>
@@ -480,7 +483,7 @@ export default function DashboardPage() {
             {/* Score Trend Card */}
             <div className={`border rounded-2xl p-6 ${cardBg}`}>
               <div className="flex items-center justify-between mb-4">
-                <h3 className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>Score Trend</h3>
+                <h3 className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>{t('scoreTrend')}</h3>
                 <span className="text-xs text-emerald-400 flex items-center gap-1">
                   <TrendingUp size={12} /> +177 pts
                 </span>
@@ -512,10 +515,10 @@ export default function DashboardPage() {
                   <div className="w-8 h-8 rounded-lg bg-teal-500/10 flex items-center justify-center">
                     <Users size={16} className="text-teal-400" />
                   </div>
-                  <h3 className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>Percentile</h3>
+                  <h3 className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>{t('percentile')}</h3>
                 </div>
                 <p className={`text-2xl font-bold mb-1 ${textPrimary}`}>Top {percentile}%</p>
-                <p className={`text-xs ${textSecondary}`}>of ScoreKu users</p>
+                <p className={`text-xs ${textSecondary}`}>{t('ofScoreKuUsers')}</p>
               </div>
               <div className="mt-4">
                 <div className={`h-2.5 rounded-full overflow-hidden relative ${barBg}`}>
@@ -569,7 +572,7 @@ export default function DashboardPage() {
                 <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
                   <TrendingUp size={16} className="text-emerald-400" />
                 </div>
-                <h3 className="font-semibold text-emerald-300 text-sm">Helping Your Score</h3>
+                <h3 className="font-semibold text-emerald-300 text-sm">{t('helpingYourScore')}</h3>
               </div>
               <div className="space-y-4">
                 {helpingFactors.map((f, i) => (
@@ -606,7 +609,7 @@ export default function DashboardPage() {
                 <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center">
                   <TrendingDown size={16} className="text-red-400" />
                 </div>
-                <h3 className="font-semibold text-red-300 text-sm">Hurting Your Score</h3>
+                <h3 className="font-semibold text-red-300 text-sm">{t('hurtingYourScore')}</h3>
               </div>
               <div className="space-y-4">
                 {hurtingFactors.map((f, i) => (
@@ -638,13 +641,174 @@ export default function DashboardPage() {
             </div>
           </motion.div>
 
+          {/* Spending Insights */}
+          <motion.div variants={item} className={`border rounded-2xl p-6 mb-6 ${cardBg}`}>
+            <div className="flex items-center gap-2 mb-5">
+              <div className="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center">
+                <PiggyBank size={16} className="text-violet-400" />
+              </div>
+              <h3 className="font-semibold text-sm">{t('spendingInsights')}</h3>
+            </div>
+            <div className="space-y-4">
+              {[
+                { category: 'Food & Dining', pct: 35, amount: 'RM1,225', insight: `${t('aboveAverage')} (${t('avg')}: 28%)`, color: '#f97316', barColor: 'from-orange-500 to-orange-400' },
+                { category: 'Transport', pct: 20, amount: 'RM700', insight: t('normalRange'), color: '#3b82f6', barColor: 'from-blue-500 to-blue-400' },
+                { category: 'Bills & Utilities', pct: 25, amount: 'RM875', insight: t('consistent'), color: '#10b981', barColor: 'from-emerald-500 to-emerald-400' },
+                { category: 'Shopping', pct: 12, amount: 'RM420', insight: t('belowAverage'), color: '#ec4899', barColor: 'from-pink-500 to-pink-400' },
+                { category: 'Others', pct: 8, amount: 'RM280', insight: '', color: '#6b7280', barColor: 'from-gray-500 to-gray-400' },
+              ].map((entry, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 + i * 0.08 }}
+                >
+                  <div className="flex items-center justify-between mb-1.5">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: entry.color }} />
+                      <span className={`text-xs font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>{entry.category}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className={`text-xs ${textSecondary}`}>{entry.amount}</span>
+                      <span className={`text-xs font-bold ${textPrimary}`}>{entry.pct}%</span>
+                    </div>
+                  </div>
+                  <div className={`h-2 rounded-full overflow-hidden ${barBg}`}>
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${entry.pct}%` }}
+                      transition={{ delay: 0.4 + i * 0.1, duration: 0.8 }}
+                      className={`h-full rounded-full bg-gradient-to-r ${entry.barColor}`}
+                    />
+                  </div>
+                  {entry.insight && (
+                    <p className={`text-[11px] mt-1 ${textMuted}`}>{entry.insight}</p>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+            <div className={`mt-5 p-3 rounded-xl border ${theme === 'dark' ? 'bg-emerald-500/5 border-emerald-500/20' : 'bg-emerald-50 border-emerald-200'}`}>
+              <p className={`text-xs ${theme === 'dark' ? 'text-emerald-300' : 'text-emerald-700'}`}>
+                💡 {t('spendingHealthy')}
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Upcoming Bills */}
+          <motion.div variants={item} className={`border rounded-2xl p-6 mb-6 ${cardBg}`}>
+            <div className="flex items-center gap-2 mb-5">
+              <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center">
+                <Bell size={16} className="text-amber-400" />
+              </div>
+              <h3 className="font-semibold text-sm">{t('upcomingBills')}</h3>
+            </div>
+            <div className="space-y-3">
+              {[
+                { name: 'TNB Electricity', amount: 'RM85', daysUntil: 3, icon: Zap, urgency: 'red' },
+                { name: 'Unifi Internet', amount: 'RM149', daysUntil: 7, icon: Smartphone, urgency: 'amber' },
+                { name: 'Water (SYABAS)', amount: 'RM35', daysUntil: 12, icon: Receipt, urgency: 'green' },
+                { name: 'Phone (Celcom)', amount: 'RM68', daysUntil: 15, icon: Smartphone, urgency: 'green' },
+              ].map((bill, i) => {
+                const BillIcon = bill.icon
+                const urgencyColors = {
+                  red: { bg: 'bg-red-500/10', text: 'text-red-400', border: 'border-red-500/20' },
+                  amber: { bg: 'bg-amber-500/10', text: 'text-amber-400', border: 'border-amber-500/20' },
+                  green: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', border: 'border-emerald-500/20' },
+                }
+                const uc = urgencyColors[bill.urgency]
+                return (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 + i * 0.08 }}
+                    className={`flex items-center gap-3 p-3 rounded-xl border ${theme === 'dark' ? 'border-[#1f1f1f]' : 'border-gray-100'}`}
+                  >
+                    <div className={`w-9 h-9 rounded-lg ${uc.bg} flex items-center justify-center flex-shrink-0`}>
+                      <BillIcon size={16} className={uc.text} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-200' : 'text-gray-800'}`}>{bill.name}</p>
+                      <p className={`text-xs ${textSecondary}`}>{bill.amount}</p>
+                    </div>
+                    <div className="flex items-center gap-1.5 flex-shrink-0">
+                      <span className={`text-xs font-medium px-2 py-1 rounded-full border ${uc.bg} ${uc.text} ${uc.border}`}>
+                        {t('dueIn')} {bill.daysUntil} {t('days')} {bill.urgency === 'red' ? '⚠️' : ''}
+                      </span>
+                    </div>
+                  </motion.div>
+                )
+              })}
+            </div>
+            <div className={`mt-4 p-3 rounded-xl border ${theme === 'dark' ? 'bg-blue-500/5 border-blue-500/20' : 'bg-blue-50 border-blue-200'}`}>
+              <p className={`text-xs ${theme === 'dark' ? 'text-blue-300' : 'text-blue-700'}`}>
+                🔔 {t('payOnTimeTip')}
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Score Forecast */}
+          <motion.div variants={item} className={`border rounded-2xl p-6 mb-6 ${cardBg}`}>
+            <div className="flex items-center gap-2 mb-5">
+              <div className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center">
+                <TrendingUp size={16} className="text-indigo-400" />
+              </div>
+              <h3 className="font-semibold text-sm">{t('scoreForecast')}</h3>
+            </div>
+            <div className="h-48">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={[
+                  { name: 'Now', score: 697, predicted: 697 },
+                  { name: '1mo', score: null, predicted: 710 },
+                  { name: '3mo', score: null, predicted: 735 },
+                  { name: '6mo', score: null, predicted: 760 },
+                ]} margin={{ top: 10, right: 20, left: 0, bottom: 5 }}>
+                  <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#6b7280' }} axisLine={false} tickLine={false} />
+                  <YAxis hide domain={[650, 800]} />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Line
+                    type="monotone"
+                    dataKey="score"
+                    stroke="#2563eb"
+                    strokeWidth={2.5}
+                    dot={{ fill: '#2563eb', r: 4 }}
+                    connectNulls={false}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="predicted"
+                    stroke="#8b5cf6"
+                    strokeWidth={2}
+                    strokeDasharray="6 4"
+                    dot={{ fill: '#8b5cf6', r: 3, strokeDasharray: '0' }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="flex items-center gap-4 mt-3">
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-0.5 bg-blue-500 rounded" />
+                <span className={`text-[11px] ${textSecondary}`}>{t('current')}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-0.5 bg-violet-500 rounded" style={{ borderTop: '2px dashed #8b5cf6', height: 0 }} />
+                <span className={`text-[11px] ${textSecondary}`}>{t('predicted')}</span>
+              </div>
+            </div>
+            <div className={`mt-4 p-3 rounded-xl border ${theme === 'dark' ? 'bg-indigo-500/5 border-indigo-500/20' : 'bg-indigo-50 border-indigo-200'}`}>
+              <p className={`text-xs ${theme === 'dark' ? 'text-indigo-300' : 'text-indigo-700'}`}>
+                📈 {t('basedOnBehavior')}
+              </p>
+            </div>
+          </motion.div>
+
           {/* Feature Breakdown */}
           <motion.div variants={item} className={`border rounded-2xl p-6 mb-6 ${cardBg}`}>
             <div className="flex items-center gap-2 mb-6">
               <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
                 <BarChart3 size={16} className="text-blue-400" />
               </div>
-              <h3 className="font-semibold text-sm">Feature Breakdown</h3>
+              <h3 className="font-semibold text-sm">{t('featureBreakdown')}</h3>
             </div>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
@@ -670,7 +834,7 @@ export default function DashboardPage() {
               <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center">
                 <Lightbulb size={16} className="text-amber-400" />
               </div>
-              <h3 className="font-semibold text-sm">Improvement Tips</h3>
+              <h3 className="font-semibold text-sm">{t('improvementTips')}</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {(Array.isArray(tips) ? tips : demoData.tips).map((tip, i) => {
@@ -708,8 +872,8 @@ export default function DashboardPage() {
               <div className="w-8 h-8 rounded-lg bg-teal-500/10 flex items-center justify-center">
                 <CreditCard size={16} className="text-teal-400" />
               </div>
-              <h3 className="font-semibold text-sm">Eligible Financial Products</h3>
-              <span className={`ml-auto text-xs ${textSecondary}`}>Based on your score tier</span>
+              <h3 className="font-semibold text-sm">{t('eligibleProducts')}</h3>
+              <span className={`ml-auto text-xs ${textSecondary}`}>{t('basedOnScoreTier')}</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {eligibleProducts.map((product, i) => {
@@ -743,7 +907,7 @@ export default function DashboardPage() {
               <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
                 <Target size={16} className="text-blue-400" />
               </div>
-              <h3 className="font-semibold text-sm">Financial Goals</h3>
+              <h3 className="font-semibold text-sm">{t('financialGoals')}</h3>
             </div>
             <div className={`border rounded-2xl p-6 ${cardBg}`}>
               <div className="flex items-start justify-between mb-4">
@@ -828,7 +992,7 @@ export default function DashboardPage() {
                 <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center">
                   <Bell size={16} className="text-amber-400" />
                 </div>
-                <h3 className="font-semibold text-sm">Recent Alerts</h3>
+                <h3 className="font-semibold text-sm">{t('recentAlerts')}</h3>
               </div>
               <button className={`text-xs ${textSecondary} hover:text-blue-400 transition-colors`}>View All</button>
             </div>
@@ -864,7 +1028,7 @@ export default function DashboardPage() {
               <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center">
                 <Award size={16} className="text-purple-400" />
               </div>
-              <h3 className="font-semibold text-sm">Achievements</h3>
+              <h3 className="font-semibold text-sm">{t('achievements')}</h3>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
               {achievementBadges.map((badge, i) => {
@@ -903,10 +1067,10 @@ export default function DashboardPage() {
               <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center">
                 <Calendar size={16} className="text-purple-400" />
               </div>
-              <h3 className="font-semibold text-sm">Score History</h3>
+              <h3 className="font-semibold text-sm">{t('scoreHistory')}</h3>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+            <div className="overflow-x-auto -mx-2 px-2">
+              <table className="w-full text-sm min-w-[500px]">
                 <thead>
                   <tr className={`border-b ${tableBorder}`}>
                     <th className={`text-left py-3 px-4 text-xs font-medium uppercase tracking-wider ${textSecondary}`}>Date</th>

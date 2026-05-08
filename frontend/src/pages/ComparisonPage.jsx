@@ -159,7 +159,7 @@ export default function ComparisonPage() {
           className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6"
         >
           {/* Hero */}
-          <motion.div variants={item} className="mb-8">
+          <motion.div variants={item} className="mb-8 pt-12 lg:pt-0">
             <h1 className={`text-2xl font-bold ${textPrimary}`}>How You Compare</h1>
             <p className={`text-sm mt-1 ${textSecondary}`}>See how your score stacks up against others</p>
           </motion.div>

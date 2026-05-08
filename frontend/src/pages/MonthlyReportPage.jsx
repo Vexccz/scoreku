@@ -59,7 +59,7 @@ export default function MonthlyReportPage() {
       <main className="lg:ml-[260px] min-h-screen pb-8">
         <motion.div variants={container} initial="hidden" animate="show" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {/* Header */}
-          <motion.div variants={item} className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+          <motion.div variants={item} className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4 pt-12 lg:pt-0">
             <div>
               <h1 className={`text-2xl font-bold ${textPrimary}`}>Monthly Score Report</h1>
               <p className={`text-sm mt-1 ${textSecondary}`}>May 2026</p>
@@ -134,8 +134,8 @@ export default function MonthlyReportPage() {
             </div>
             <div className="space-y-4">
               {categoryBreakdown.map((cat, i) => (
-                <div key={i} className="flex items-center gap-4">
-                  <div className={`w-40 text-xs font-medium truncate ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>{cat.name}</div>
+                <div key={i} className="flex items-center gap-3 sm:gap-4">
+                  <div className={`w-28 sm:w-40 text-xs font-medium truncate flex-shrink-0 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>{cat.name}</div>
                   <div className={`flex-1 h-2 rounded-full overflow-hidden ${barBg}`}>
                     <motion.div
                       initial={{ width: 0 }}

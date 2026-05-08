@@ -597,7 +597,7 @@ export default function BankConnectionPage() {
 
       {/* Main Content */}
       <main className="lg:ml-[260px] min-h-screen pb-8">
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-16 lg:pt-8">
           {/* Step Indicator */}
           {step < 4 && (
             <motion.div

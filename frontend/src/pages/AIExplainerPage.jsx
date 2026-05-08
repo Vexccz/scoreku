@@ -431,12 +431,12 @@ export default function AIExplainerPage() {
       <AppSidebar activePath="/ai" mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <main className="lg:ml-[260px] min-h-screen">
-      <div className="max-w-5xl mx-auto px-6 py-12">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12">
         {/* Hero */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
+          className="text-center mb-16 pt-12 lg:pt-0"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}

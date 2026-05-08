@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast'
 import { AnimatePresence, motion } from 'framer-motion'
 import { AuthProvider } from './context/AuthContext'
 import { ThemeProvider, useTheme } from './context/ThemeContext'
+import { LanguageProvider } from './context/LanguageContext'
 import LandingPage from './pages/LandingPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
@@ -89,13 +90,15 @@ function ThemedApp() {
 
 function App() {
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <Router>
-          <ThemedApp />
-        </Router>
-      </AuthProvider>
-    </ThemeProvider>
+    <LanguageProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <Router>
+            <ThemedApp />
+          </Router>
+        </AuthProvider>
+      </ThemeProvider>
+    </LanguageProvider>
   )
 }
 
