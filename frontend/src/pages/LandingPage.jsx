@@ -20,7 +20,8 @@ const navLinks = [
   { label: 'FAQ', href: '#faq' },
 ]
 
-const typingWords = ['Gig Workers', 'Fresh Graduates', 'Small Traders', 'Rural Communities']
+const typingWordsEn = ['Gig Workers', 'Fresh Graduates', 'Small Traders', 'Rural Communities']
+const typingWordsBm = ['Pekerja Gig', 'Graduan Baru', 'Peniaga Kecil', 'Komuniti Luar Bandar']
 
 const poweredBy = [
   { name: 'DuitNow', logo: 'https://img.logo.dev/paynet.my?token=pk_free', color: '#1a3c6e' },
@@ -130,13 +131,20 @@ function ScrollProgress() {
   )
 }
 
-function TypeWriter() {
+function TypeWriter({ language }) {
   const [wordIndex, setWordIndex] = useState(0)
   const [text, setText] = useState('')
   const [isDeleting, setIsDeleting] = useState(false)
+  const words = language === 'bm' ? typingWordsBm : typingWordsEn
 
   useEffect(() => {
-    const word = typingWords[wordIndex]
+    setText('')
+    setWordIndex(0)
+    setIsDeleting(false)
+  }, [language])
+
+  useEffect(() => {
+    const word = words[wordIndex]
     const timeout = setTimeout(() => {
       if (!isDeleting) {
         setText(word.slice(0, text.length + 1))
@@ -147,12 +155,12 @@ function TypeWriter() {
         setText(word.slice(0, text.length - 1))
         if (text === '') {
           setIsDeleting(false)
-          setWordIndex((wordIndex + 1) % typingWords.length)
+          setWordIndex((wordIndex + 1) % words.length)
         }
       }
     }, isDeleting ? 40 : 80)
     return () => clearTimeout(timeout)
-  }, [text, isDeleting, wordIndex])
+  }, [text, isDeleting, wordIndex, words])
 
   return (
     <span className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
@@ -193,7 +201,7 @@ function AnimatedCounter({ target, suffix = '', prefix = '' }) {
   )
 }
 
-function AnimatedGauge() {
+function AnimatedGauge({ language }) {
   const [score, setScore] = useState(300)
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true })
@@ -233,9 +241,9 @@ function AnimatedGauge() {
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className="text-5xl font-bold tracking-tight" style={{ color }}>{score}</span>
-        <span className="text-xs text-gray-500 mt-1 uppercase tracking-wider">out of 850</span>
+        <span className="text-xs text-gray-500 mt-1 uppercase tracking-wider">{language === 'bm' ? 'daripada 850' : 'out of 850'}</span>
         <span className="text-[10px] text-gray-600 mt-0.5">
-          {score >= 720 ? 'Excellent' : score >= 650 ? 'Good' : score >= 530 ? 'Fair' : 'Building'}
+          {score >= 720 ? (language === 'bm' ? 'Cemerlang' : 'Excellent') : score >= 650 ? (language === 'bm' ? 'Baik' : 'Good') : score >= 530 ? (language === 'bm' ? 'Sederhana' : 'Fair') : (language === 'bm' ? 'Membina' : 'Building')}
         </span>
       </div>
     </div>
@@ -342,7 +350,7 @@ function TechMarquee() {
 }
 
 const DEMO_USER = { name: 'Ahmad', income: 'RM3,500', employment: 'Gig Worker', ewallet: '32 txn/month', bills: '11/12 paid', ecommerce: '8 orders/month' }
-const PIPELINE_STEPS = [
+const PIPELINE_STEPS_EN = [
   { id: 'collect', label: 'Collecting Data', icon: '📥' },
   { id: 'validate', label: 'Validating', icon: '✅' },
   { id: 'features', label: 'Feature Engineering', icon: '⚙️' },
@@ -350,12 +358,21 @@ const PIPELINE_STEPS = [
   { id: 'shap', label: 'SHAP Analysis', icon: '📊' },
   { id: 'score', label: 'Score Generated', icon: '🎯' },
 ]
+const PIPELINE_STEPS_BM = [
+  { id: 'collect', label: 'Mengumpul Data', icon: '📥' },
+  { id: 'validate', label: 'Mengesahkan', icon: '✅' },
+  { id: 'features', label: 'Kejuruteraan Ciri', icon: '⚙️' },
+  { id: 'model', label: 'Model XGBoost', icon: '🧠' },
+  { id: 'shap', label: 'Analisis SHAP', icon: '📊' },
+  { id: 'score', label: 'Skor Dijana', icon: '🎯' },
+]
 
-function PipelineDemo() {
+function PipelineDemo({ t, language }) {
   const [phase, setPhase] = useState('collect')
   const [stepIndex, setStepIndex] = useState(0)
   const [showResult, setShowResult] = useState(false)
   const resultHandled = useRef(false)
+  const PIPELINE_STEPS = language === 'bm' ? PIPELINE_STEPS_BM : PIPELINE_STEPS_EN
 
   useEffect(() => {
     const durations = [4500, 4000, 5000, 5500, 4500, 5000]
@@ -383,9 +400,9 @@ function PipelineDemo() {
         <span className="w-3 h-3 rounded-full bg-red-400" />
         <span className="w-3 h-3 rounded-full bg-yellow-400" />
         <span className="w-3 h-3 rounded-full bg-green-400" />
-        <span className="ml-3 text-xs text-gray-500">ScoreKu — Credit Scoring Pipeline</span>
+        <span className="ml-3 text-xs text-gray-500">{language === 'bm' ? 'ScoreKu — Saluran Pemarkahan Kredit' : 'ScoreKu — Credit Scoring Pipeline'}</span>
         <motion.div className="ml-auto w-2 h-2 rounded-full bg-green-400" animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1.5, repeat: Infinity }} />
-        <span className="text-[10px] text-gray-500">Live</span>
+        <span className="text-[10px] text-gray-500">{language === 'bm' ? 'Langsung' : 'Live'}</span>
       </div>
 
       <div className="p-5">
@@ -418,7 +435,7 @@ function PipelineDemo() {
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center text-xs font-bold">A</div>
             <div>
               <p className="text-sm font-medium text-white">{DEMO_USER.name}</p>
-              <p className="text-[10px] text-gray-500">{DEMO_USER.employment} • Selangor</p>
+              <p className="text-[10px] text-gray-500">{language === 'bm' ? 'Pekerja Gig' : DEMO_USER.employment} • Selangor</p>
             </div>
           </div>
 
@@ -428,10 +445,10 @@ function PipelineDemo() {
               <motion.div key="collect" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-2">
                 <div className="flex items-center gap-2">
                   <motion.div className="w-3 h-3 border-2 border-blue-500 border-t-transparent rounded-full" animate={{ rotate: 360 }} transition={{ duration: 0.6, repeat: Infinity, ease: 'linear' }} />
-                  <span className="text-xs text-blue-400">Collecting user data...</span>
+                  <span className="text-xs text-blue-400">{language === 'bm' ? 'Mengumpul data pengguna...' : 'Collecting user data...'}</span>
                 </div>
                 <div className="grid grid-cols-3 gap-2">
-                  {[{ l: 'Income', v: DEMO_USER.income }, { l: 'E-wallet', v: DEMO_USER.ewallet }, { l: 'Bills', v: DEMO_USER.bills }].map((d, i) => (
+                  {[{ l: language === 'bm' ? 'Pendapatan' : 'Income', v: DEMO_USER.income }, { l: 'E-wallet', v: DEMO_USER.ewallet }, { l: language === 'bm' ? 'Bil' : 'Bills', v: DEMO_USER.bills }].map((d, i) => (
                     <motion.div key={d.l} className="bg-[#111] rounded-lg p-2 text-center border border-[#1f1f1f]" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 + i * 0.4 }}>
                       <div className="text-[9px] text-gray-500">{d.l}</div>
                       <div className="text-[11px] font-medium text-white mt-0.5">{d.v}</div>
@@ -443,8 +460,8 @@ function PipelineDemo() {
 
             {phase === 'validate' && (
               <motion.div key="validate" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-2">
-                <span className="text-xs text-blue-400">✅ Validating data integrity...</span>
-                {['Income range: valid (RM1K-50K)', 'E-wallet data: 32 transactions found', 'Bill history: 12 months available', 'No anomalies detected'].map((check, i) => (
+                <span className="text-xs text-blue-400">{language === 'bm' ? '✅ Mengesahkan integriti data...' : '✅ Validating data integrity...'}</span>
+                {(language === 'bm' ? ['Julat pendapatan: sah (RM1K-50K)', 'Data e-dompet: 32 transaksi ditemui', 'Sejarah bil: 12 bulan tersedia', 'Tiada anomali dikesan'] : ['Income range: valid (RM1K-50K)', 'E-wallet data: 32 transactions found', 'Bill history: 12 months available', 'No anomalies detected']).map((check, i) => (
                   <motion.div key={i} className="flex items-center gap-2" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 + i * 0.4 }}>
                     <motion.span className="text-emerald-400 text-xs" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5 + i * 0.4 }}>✓</motion.span>
                     <span className="text-[11px] text-gray-400">{check}</span>
@@ -455,7 +472,7 @@ function PipelineDemo() {
 
             {phase === 'features' && (
               <motion.div key="features" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-2">
-                <span className="text-xs text-blue-400">⚙️ Engineering 40+ features...</span>
+                <span className="text-xs text-blue-400">{language === 'bm' ? '⚙️ Merekayasa 40+ ciri...' : '⚙️ Engineering 40+ features...'}</span>
                 <div className="space-y-1.5">
                   {[
                     { name: 'income_stability', val: '0.82', desc: 'std/mean of 6 months' },
@@ -477,13 +494,13 @@ function PipelineDemo() {
               <motion.div key="model" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-2">
                 <div className="flex items-center gap-2">
                   <motion.div className="w-3 h-3 border-2 border-purple-500 border-t-transparent rounded-full" animate={{ rotate: 360 }} transition={{ duration: 0.5, repeat: Infinity, ease: 'linear' }} />
-                  <span className="text-xs text-purple-400">🧠 Running XGBoost classifier...</span>
+                  <span className="text-xs text-purple-400">{language === 'bm' ? '🧠 Menjalankan pengelas XGBoost...' : '🧠 Running XGBoost classifier...'}</span>
                 </div>
                 <motion.div className="text-[10px] text-gray-500 font-mono bg-[#111] rounded px-2 py-1 border border-[#1f1f1f]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
                   Model: xgb_credit_v2 | Trees: 150 | Depth: 6 | Features: 42
                 </motion.div>
                 <div className="space-y-1.5">
-                  {['Loading model weights', 'Processing feature vector', 'Running 150 decision trees', 'Aggregating predictions'].map((step, i) => (
+                  {(language === 'bm' ? ['Memuatkan pemberat model', 'Memproses vektor ciri', 'Menjalankan 150 pokok keputusan', 'Mengagregat ramalan'] : ['Loading model weights', 'Processing feature vector', 'Running 150 decision trees', 'Aggregating predictions']).map((step, i) => (
                     <div key={i} className="flex items-center gap-2">
                       <span className="text-[10px] text-gray-400 flex-1">{step}</span>
                       <div className="w-20 h-1.5 bg-[#1a1a1a] rounded-full overflow-hidden">
@@ -498,15 +515,21 @@ function PipelineDemo() {
 
             {phase === 'shap' && (
               <motion.div key="shap" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-2">
-                <span className="text-xs text-blue-400">📊 Computing SHAP explanations...</span>
+                <span className="text-xs text-blue-400">{language === 'bm' ? '📊 Mengira penjelasan SHAP...' : '📊 Computing SHAP explanations...'}</span>
                 <div className="space-y-1.5">
-                  {[
+                  {(language === 'bm' ? [
+                    { name: 'Konsistensi Pembayaran', val: +0.18, color: '#22c55e' },
+                    { name: 'Kestabilan Pendapatan', val: +0.12, color: '#22c55e' },
+                    { name: 'Aktiviti Digital', val: +0.08, color: '#22c55e' },
+                    { name: 'Pulangan E-dagang', val: -0.05, color: '#ef4444' },
+                    { name: 'Umur Akaun', val: -0.03, color: '#ef4444' },
+                  ] : [
                     { name: 'Payment Consistency', val: +0.18, color: '#22c55e' },
                     { name: 'Income Stability', val: +0.12, color: '#22c55e' },
                     { name: 'Digital Activity', val: +0.08, color: '#22c55e' },
                     { name: 'E-commerce Returns', val: -0.05, color: '#ef4444' },
                     { name: 'Account Age', val: -0.03, color: '#ef4444' },
-                  ].map((f, i) => (
+                  ]).map((f, i) => (
                     <motion.div key={f.name} className="flex items-center gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 + i * 0.4 }}>
                       <span className="text-[10px] text-gray-400 w-28 truncate">{f.name}</span>
                       <div className="flex-1 h-2 bg-[#1a1a1a] rounded-full overflow-hidden relative">
@@ -529,11 +552,11 @@ function PipelineDemo() {
             {phase === 'score' && showResult && (
               <motion.div key="score" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="text-center py-2">
                 <motion.div className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 200 }}>712</motion.div>
-                <p className="text-sm text-gray-400 mt-1">Credit Score Generated</p>
+                <p className="text-sm text-gray-400 mt-1">{t('landingPipelineScoreLabel')}</p>
                 <div className="flex gap-2 justify-center mt-3">
-                  <motion.span className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-xs text-emerald-400 font-medium" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>Good Risk</motion.span>
-                  <motion.span className="px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full text-xs text-blue-400 font-medium" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>5 Tips Available</motion.span>
-                  <motion.span className="px-3 py-1 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs text-teal-400 font-medium" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>3 Products Eligible</motion.span>
+                  <motion.span className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-xs text-emerald-400 font-medium" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>{t('landingPipelineGoodRisk')}</motion.span>
+                  <motion.span className="px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full text-xs text-blue-400 font-medium" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>{t('landingPipelineTips')}</motion.span>
+                  <motion.span className="px-3 py-1 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs text-teal-400 font-medium" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>{t('landingPipelineProducts')}</motion.span>
                 </div>
               </motion.div>
             )}
@@ -662,7 +685,7 @@ export default function LandingPage() {
               transition={{ delay: 0.2 }}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium mb-8"
             >
-              <Sparkles size={12} /> Powered by Machine Learning
+              <Sparkles size={12} /> {t('landingHeroBadge')}
             </motion.div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] mb-6 tracking-tight">
@@ -674,7 +697,7 @@ export default function LandingPage() {
             </h1>
 
             <p className="text-xl text-gray-300 mb-2">
-              Alternative credit scoring for <TypeWriter />
+              {t('landingHeroScoring')} <TypeWriter language={language} />
             </p>
 
             <p className="text-base text-gray-500 max-w-lg mb-8 leading-relaxed">
@@ -691,7 +714,7 @@ export default function LandingPage() {
             </div>
             <div className="mb-8">
               <Link to="/dashboard?demo=true" className="inline-flex items-center gap-2 text-sm text-teal-400 hover:text-teal-300 transition-colors group">
-                <Eye size={14} /> Try Demo (No Login) <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                <Eye size={14} /> {t('landingTryDemo')} <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
 
@@ -718,13 +741,13 @@ export default function LandingPage() {
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-teal-500/10 rounded-3xl blur-2xl" />
               <div className="relative bg-[#111]/90 backdrop-blur-sm border border-[#1f1f1f] rounded-3xl p-10">
                 <div className="text-center mb-6">
-                  <p className="text-sm text-gray-400 mb-4">Your Alternative Credit Score</p>
-                  <AnimatedGauge />
+                  <p className="text-sm text-gray-400 mb-4">{t('landingYourAltScore')}</p>
+                  <AnimatedGauge language={language} />
                 </div>
                 <div className="mt-6 space-y-4">
                   <div>
                     <div className="flex justify-between text-sm mb-1.5">
-                      <span className="text-gray-400">Payment Consistency</span>
+                      <span className="text-gray-400">{t('landingPaymentConsistency')}</span>
                       <span className="text-teal-400 font-medium">85%</span>
                     </div>
                     <div className="w-full h-2 bg-[#1a1a1a] rounded-full overflow-hidden">
@@ -733,7 +756,7 @@ export default function LandingPage() {
                   </div>
                   <div>
                     <div className="flex justify-between text-sm mb-1.5">
-                      <span className="text-gray-400">Digital Activity</span>
+                      <span className="text-gray-400">{t('landingDigitalActivity')}</span>
                       <span className="text-blue-400 font-medium">72%</span>
                     </div>
                     <div className="w-full h-2 bg-[#1a1a1a] rounded-full overflow-hidden">
@@ -742,7 +765,7 @@ export default function LandingPage() {
                   </div>
                   <div>
                     <div className="flex justify-between text-sm mb-1.5">
-                      <span className="text-gray-400">Income Stability</span>
+                      <span className="text-gray-400">{t('landingIncomeStability')}</span>
                       <span className="text-purple-400 font-medium">68%</span>
                     </div>
                     <div className="w-full h-2 bg-[#1a1a1a] rounded-full overflow-hidden">
@@ -766,10 +789,10 @@ export default function LandingPage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <span className="inline-block px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium mb-6">{language === 'en' ? 'The Problem' : 'Masalah'}</span>
+          <span className="inline-block px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium mb-6">{t('landingProblemBadge')}</span>
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            <AnimatedCounter target={3500000} prefix="" suffix="" /> {language === 'en' ? 'Malaysians are' : 'Rakyat Malaysia'}{' '}
-            <span className="text-red-400">{language === 'en' ? 'financially invisible' : 'tidak kelihatan dari segi kewangan'}</span>
+            <AnimatedCounter target={3500000} prefix="" suffix="" /> {t('landingProblemHeadMid')}{' '}
+            <span className="text-red-400">{t('landingProblemHeadEnd')}</span>
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
             {t('landingProblemDesc')}
@@ -785,24 +808,24 @@ export default function LandingPage() {
         >
           <motion.div variants={fadeInUp} className="bg-[#111] border border-red-500/10 rounded-2xl p-8">
             <h3 className="text-lg font-semibold text-red-400 mb-4 flex items-center gap-2">
-              <X size={18} /> Traditional Data
+              <X size={18} /> {t('landingTraditionalData')}
             </h3>
             <ul className="space-y-3 text-sm text-gray-400">
-              <li className="flex items-start gap-2"><X size={14} className="text-red-400/60 mt-0.5 shrink-0" /> Bank statements & loan history</li>
-              <li className="flex items-start gap-2"><X size={14} className="text-red-400/60 mt-0.5 shrink-0" /> Credit card usage records</li>
-              <li className="flex items-start gap-2"><X size={14} className="text-red-400/60 mt-0.5 shrink-0" /> CCRIS/CTOS formal reports</li>
-              <li className="flex items-start gap-2"><X size={14} className="text-red-400/60 mt-0.5 shrink-0" /> Requires years of banking relationship</li>
+              <li className="flex items-start gap-2"><X size={14} className="text-red-400/60 mt-0.5 shrink-0" /> {t('landingTradItem1')}</li>
+              <li className="flex items-start gap-2"><X size={14} className="text-red-400/60 mt-0.5 shrink-0" /> {t('landingTradItem2')}</li>
+              <li className="flex items-start gap-2"><X size={14} className="text-red-400/60 mt-0.5 shrink-0" /> {t('landingTradItem3')}</li>
+              <li className="flex items-start gap-2"><X size={14} className="text-red-400/60 mt-0.5 shrink-0" /> {t('landingTradItem4')}</li>
             </ul>
           </motion.div>
           <motion.div variants={fadeInUp} className="bg-[#111] border border-teal-500/10 rounded-2xl p-8">
             <h3 className="text-lg font-semibold text-teal-400 mb-4 flex items-center gap-2">
-              <CheckCircle2 size={18} /> Alternative Data
+              <CheckCircle2 size={18} /> {t('landingAlternativeData')}
             </h3>
             <ul className="space-y-3 text-sm text-gray-400">
-              <li className="flex items-start gap-2"><CheckCircle2 size={14} className="text-teal-400 mt-0.5 shrink-0" /> E-wallet transaction patterns</li>
-              <li className="flex items-start gap-2"><CheckCircle2 size={14} className="text-teal-400 mt-0.5 shrink-0" /> Bill payment consistency</li>
-              <li className="flex items-start gap-2"><CheckCircle2 size={14} className="text-teal-400 mt-0.5 shrink-0" /> Digital commerce activity</li>
-              <li className="flex items-start gap-2"><CheckCircle2 size={14} className="text-teal-400 mt-0.5 shrink-0" /> Available to anyone with a smartphone</li>
+              <li className="flex items-start gap-2"><CheckCircle2 size={14} className="text-teal-400 mt-0.5 shrink-0" /> {t('landingAltItem1')}</li>
+              <li className="flex items-start gap-2"><CheckCircle2 size={14} className="text-teal-400 mt-0.5 shrink-0" /> {t('landingAltItem2')}</li>
+              <li className="flex items-start gap-2"><CheckCircle2 size={14} className="text-teal-400 mt-0.5 shrink-0" /> {t('landingAltItem3')}</li>
+              <li className="flex items-start gap-2"><CheckCircle2 size={14} className="text-teal-400 mt-0.5 shrink-0" /> {t('landingAltItem4')}</li>
             </ul>
           </motion.div>
         </motion.div>
@@ -849,8 +872,8 @@ export default function LandingPage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">See It In Action</h2>
-          <p className="text-gray-400 max-w-xl mx-auto">Watch how ScoreKu transforms your digital data into a credit score in real-time</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('landingPipelineTitle')}</h2>
+          <p className="text-gray-400 max-w-xl mx-auto">{t('landingPipelineSubtitle')}</p>
         </motion.div>
 
         <motion.div
@@ -861,7 +884,7 @@ export default function LandingPage() {
           transition={{ duration: 0.6 }}
           className="max-w-2xl mx-auto"
         >
-          <PipelineDemo />
+          <PipelineDemo t={t} language={language} />
         </motion.div>
       </section>
 
@@ -877,7 +900,7 @@ export default function LandingPage() {
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('landingFeaturesTitle')}</h2>
           <p className="text-gray-400 max-w-2xl mx-auto">{t('landingFeaturesSubtitle')}</p>
-          <Link to="/features" className="inline-flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 mt-3 transition-colors">See all features <ArrowRight size={14} /></Link>
+          <Link to="/features" className="inline-flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 mt-3 transition-colors">{t('landingFeaturesSeeAll')} <ArrowRight size={14} /></Link>
         </motion.div>
 
         <motion.div
@@ -887,19 +910,23 @@ export default function LandingPage() {
           variants={staggerContainer}
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {features.map((f, i) => (
-            <motion.div
-              key={i}
-              variants={fadeInUp}
-              className="group bg-[#111]/80 backdrop-blur-sm border border-[#1f1f1f] rounded-2xl p-7 hover:border-[#2a2a2a] transition-all duration-300 hover:-translate-y-1"
-            >
-              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${f.color} bg-opacity-10 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`} style={{ background: `linear-gradient(135deg, ${f.color.includes('blue') ? '#3b82f620' : f.color.includes('teal') ? '#14b8a620' : f.color.includes('purple') ? '#8b5cf620' : f.color.includes('amber') ? '#f59e0b20' : f.color.includes('pink') ? '#ec489920' : '#10b98120'}, transparent)` }}>
-                <f.icon className="w-6 h-6 text-white/80" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">{f.title}</h3>
-              <p className="text-sm text-gray-400 leading-relaxed">{f.desc}</p>
-            </motion.div>
-          ))}
+          {features.map((f, i) => {
+            const titleKey = `landingFeature${i + 1}Title`
+            const descKey = `landingFeature${i + 1}Desc`
+            return (
+              <motion.div
+                key={i}
+                variants={fadeInUp}
+                className="group bg-[#111]/80 backdrop-blur-sm border border-[#1f1f1f] rounded-2xl p-7 hover:border-[#2a2a2a] transition-all duration-300 hover:-translate-y-1"
+              >
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${f.color} bg-opacity-10 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`} style={{ background: `linear-gradient(135deg, ${f.color.includes('blue') ? '#3b82f620' : f.color.includes('teal') ? '#14b8a620' : f.color.includes('purple') ? '#8b5cf620' : f.color.includes('amber') ? '#f59e0b20' : f.color.includes('pink') ? '#ec489920' : '#10b98120'}, transparent)` }}>
+                  <f.icon className="w-6 h-6 text-white/80" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{t(titleKey)}</h3>
+                <p className="text-sm text-gray-400 leading-relaxed">{t(descKey)}</p>
+              </motion.div>
+            )
+          })}
         </motion.div>
       </section>
 
@@ -915,7 +942,7 @@ export default function LandingPage() {
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('landingHowItWorksTitle')}</h2>
           <p className="text-gray-400">{t('landingHowItWorksSubtitle')}</p>
-          <Link to="/how-it-works" className="inline-flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 mt-3 transition-colors">See all steps <ArrowRight size={14} /></Link>
+          <Link to="/how-it-works" className="inline-flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 mt-3 transition-colors">{t('landingHowSeeAll')} <ArrowRight size={14} /></Link>
         </motion.div>
 
         <motion.div
@@ -928,21 +955,26 @@ export default function LandingPage() {
           {/* Connecting line */}
           <div className="hidden md:block absolute top-1/2 left-[20%] right-[20%] h-px bg-gradient-to-r from-blue-500/30 via-teal-500/30 to-blue-500/30" />
 
-          {howItWorks.map((item, i) => (
-            <motion.div key={i} variants={fadeInUp} className="relative">
-              <div className="bg-[#111]/80 backdrop-blur-sm border border-[#1f1f1f] rounded-2xl p-8 text-center hover:border-blue-500/20 transition-all duration-300 relative z-10">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-teal-600 flex items-center justify-center mx-auto mb-5 text-sm font-bold shadow-lg shadow-blue-500/20">
-                  {item.step}
+          {howItWorks.map((item, i) => {
+            const stepTitleKey = `landingStep${i + 1}Title`
+            const stepDescKey = `landingStep${i + 1}Desc`
+            const stepDetailKey = `landingStep${i + 1}Detail`
+            return (
+              <motion.div key={i} variants={fadeInUp} className="relative">
+                <div className="bg-[#111]/80 backdrop-blur-sm border border-[#1f1f1f] rounded-2xl p-8 text-center hover:border-blue-500/20 transition-all duration-300 relative z-10">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-teal-600 flex items-center justify-center mx-auto mb-5 text-sm font-bold shadow-lg shadow-blue-500/20">
+                    {item.step}
+                  </div>
+                  <div className="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mx-auto mb-5">
+                    <item.icon className="w-7 h-7 text-blue-400" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">{t(stepTitleKey)}</h3>
+                  <p className="text-sm text-gray-400 leading-relaxed mb-3">{t(stepDescKey)}</p>
+                  <span className="inline-block px-3 py-1 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg text-xs text-gray-500">{t(stepDetailKey)}</span>
                 </div>
-                <div className="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mx-auto mb-5">
-                  <item.icon className="w-7 h-7 text-blue-400" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-                <p className="text-sm text-gray-400 leading-relaxed mb-3">{item.desc}</p>
-                <span className="inline-block px-3 py-1 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg text-xs text-gray-500">{item.details}</span>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            )
+          })}
         </motion.div>
       </section>
 
@@ -957,7 +989,7 @@ export default function LandingPage() {
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('landingComparisonTitle')}</h2>
-          <p className="text-gray-400">{language === 'en' ? 'See why alternative scoring is the future of financial inclusion' : 'Lihat mengapa pemarkahan alternatif adalah masa depan rangkuman kewangan'}</p>
+          <p className="text-gray-400">{t('landingCompSubtitle')}</p>
         </motion.div>
 
         <motion.div
@@ -973,10 +1005,10 @@ export default function LandingPage() {
               <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center">
                 <X size={20} className="text-red-400" />
               </div>
-              <h3 className="text-lg font-semibold text-red-400">Traditional Scoring</h3>
+              <h3 className="text-lg font-semibold text-red-400">{t('landingCompTraditional')}</h3>
             </div>
             <ul className="space-y-4">
-              {comparisonData.traditional.map((item, i) => (
+              {[t('landingCompTrad1'), t('landingCompTrad2'), t('landingCompTrad3'), t('landingCompTrad4'), t('landingCompTrad5')].map((item, i) => (
                 <motion.li
                   key={i}
                   initial={{ opacity: 0, x: -10 }}
@@ -1002,7 +1034,7 @@ export default function LandingPage() {
                 <h3 className="text-lg font-semibold text-teal-400">ScoreKu</h3>
               </div>
               <ul className="space-y-4">
-                {comparisonData.scoreku.map((item, i) => (
+                {[t('landingCompSk1'), t('landingCompSk2'), t('landingCompSk3'), t('landingCompSk4'), t('landingCompSk5')].map((item, i) => (
                   <motion.li
                     key={i}
                     initial={{ opacity: 0, x: -10 }}
@@ -1032,7 +1064,7 @@ export default function LandingPage() {
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('landingUseCasesTitle')}</h2>
-          <p className="text-gray-400">{language === 'en' ? 'Built for Malaysians left behind by traditional finance' : 'Dibina untuk rakyat Malaysia yang ditinggalkan oleh kewangan tradisional'}</p>
+          <p className="text-gray-400">{t('landingUseCasesSubtitle')}</p>
         </motion.div>
 
         <motion.div
@@ -1055,8 +1087,8 @@ export default function LandingPage() {
               >
                 <uc.icon className="w-6 h-6" style={{ color: uc.color }} />
               </div>
-              <h3 className="text-base font-semibold mb-2">{uc.title}</h3>
-              <p className="text-sm text-gray-400 leading-relaxed">{uc.desc}</p>
+              <h3 className="text-base font-semibold mb-2">{t(`landingUc${i + 1}Title`)}</h3>
+              <p className="text-sm text-gray-400 leading-relaxed">{t(`landingUc${i + 1}Desc`)}</p>
             </motion.div>
           ))}
         </motion.div>
@@ -1072,8 +1104,8 @@ export default function LandingPage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-10"
         >
-          <h2 className="text-2xl font-bold mb-2">Built With</h2>
-          <p className="text-sm text-gray-500">Modern, production-ready technology stack</p>
+          <h2 className="text-2xl font-bold mb-2">{t('landingTechTitle')}</h2>
+          <p className="text-sm text-gray-500">{t('landingTechSubtitle')}</p>
         </motion.div>
         <TechMarquee />
       </section>
@@ -1098,45 +1130,40 @@ export default function LandingPage() {
                 <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
                   <Shield className="w-5 h-5 text-blue-400" />
                 </div>
-                <span className="text-xs font-medium text-blue-400 uppercase tracking-wider">Regulatory Alignment</span>
+                <span className="text-xs font-medium text-blue-400 uppercase tracking-wider">{t('landingBnmBadge')}</span>
               </div>
 
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                Aligned with BNM Financial Inclusion Framework 2023-2026
+                {t('landingBnmTitle')}
               </h2>
               <p className="text-gray-400 max-w-2xl mb-8">
-                ScoreKu is built in accordance with Bank Negara Malaysia's strategic roadmap for financial inclusion, which explicitly calls for alternative credit assessment methods to serve underbanked Malaysians.
+                {t('landingBnmDesc')}
               </p>
 
               <div className="grid md:grid-cols-2 gap-4 mb-8">
-                {[
-                  { title: 'Alternative Credit Assessment', desc: 'BNM encourages use of non-traditional data (e-wallet, bills, digital footprint) for credit evaluation' },
-                  { title: 'Digital Financial Services', desc: 'Leveraging DuitNow, e-wallets, and digital channels as financial inclusion tools' },
-                  { title: 'Underserved Populations', desc: 'Targeting gig workers, micro-entrepreneurs, rural communities, and B40 households' },
-                  { title: 'Open Banking Initiative', desc: 'Supporting data sharing (with consent) to enable better financial products for all' },
-                ].map((item, i) => (
+                {[1, 2, 3, 4].map((n) => (
                   <motion.div
-                    key={i}
+                    key={n}
                     className="bg-[#0a0a0a] border border-[#1f1f1f] rounded-xl p-4"
                     initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: 0.1 + i * 0.1 }}
+                    transition={{ delay: 0.1 + (n - 1) * 0.1 }}
                   >
-                    <h4 className="text-sm font-semibold text-white mb-1">{item.title}</h4>
-                    <p className="text-xs text-gray-500 leading-relaxed">{item.desc}</p>
+                    <h4 className="text-sm font-semibold text-white mb-1">{t(`landingBnm${n}Title`)}</h4>
+                    <p className="text-xs text-gray-500 leading-relaxed">{t(`landingBnm${n}Desc`)}</p>
                   </motion.div>
                 ))}
               </div>
 
               <div className="flex flex-wrap items-center gap-3">
-                <span className="px-3 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-lg text-xs text-blue-400 font-medium">BNM Framework 2023-2026</span>
-                <span className="px-3 py-1.5 bg-teal-500/10 border border-teal-500/20 rounded-lg text-xs text-teal-400 font-medium">PDPA Compliant</span>
-                <span className="px-3 py-1.5 bg-purple-500/10 border border-purple-500/20 rounded-lg text-xs text-purple-400 font-medium">Open Banking Ready</span>
-                <span className="px-3 py-1.5 bg-amber-500/10 border border-amber-500/20 rounded-lg text-xs text-amber-400 font-medium">UN SDG Aligned</span>
+                <span className="px-3 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-lg text-xs text-blue-400 font-medium">{t('landingBnmBadge1')}</span>
+                <span className="px-3 py-1.5 bg-teal-500/10 border border-teal-500/20 rounded-lg text-xs text-teal-400 font-medium">{t('landingBnmBadge2')}</span>
+                <span className="px-3 py-1.5 bg-purple-500/10 border border-purple-500/20 rounded-lg text-xs text-purple-400 font-medium">{t('landingBnmBadge3')}</span>
+                <span className="px-3 py-1.5 bg-amber-500/10 border border-amber-500/20 rounded-lg text-xs text-amber-400 font-medium">{t('landingBnmBadge4')}</span>
               </div>
 
-              <p className="text-[10px] text-gray-600 mt-6">Sources: Bank Negara Malaysia Financial Inclusion Framework 2023-2026 | PwC Malaysia Digital Banking Report 2024 | World Bank Global Findex 2021</p>
+              <p className="text-[10px] text-gray-600 mt-6">{t('landingBnmSources')}</p>
             </div>
           </div>
         </motion.div>
@@ -1153,7 +1180,7 @@ export default function LandingPage() {
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('landingFaqTitle')}</h2>
-          <p className="text-gray-400">{language === 'en' ? 'Everything you need to know about ScoreKu' : 'Semua yang anda perlu tahu tentang ScoreKu'}</p>
+          <p className="text-gray-400">{t('landingFaqSubtitle')}</p>
         </motion.div>
 
         <motion.div
@@ -1163,12 +1190,12 @@ export default function LandingPage() {
           variants={staggerContainer}
           className="space-y-3"
         >
-          {faqData.map((item, i) => (
-            <motion.div key={i} variants={fadeInUp}>
+          {[1, 2, 3, 4, 5, 6].map((n) => (
+            <motion.div key={n} variants={fadeInUp}>
               <FAQItem
-                item={item}
-                isOpen={openFaq === i}
-                onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                item={{ q: t(`landingFaq${n}Q`), a: t(`landingFaq${n}A`) }}
+                isOpen={openFaq === n}
+                onClick={() => setOpenFaq(openFaq === n ? null : n)}
               />
             </motion.div>
           ))}
@@ -1224,46 +1251,46 @@ export default function LandingPage() {
                 <span className="text-xl font-bold">Score<span className="text-teal-400">Ku</span></span>
               </div>
               <p className="text-sm text-gray-500 leading-relaxed">
-                Alternative credit scoring for financially invisible Malaysians. Built with AI, designed for inclusion.
+                {t('landingFooterDesc')}
               </p>
             </div>
 
             <div>
-              <h4 className="text-sm font-semibold mb-4 text-gray-300">Product</h4>
+              <h4 className="text-sm font-semibold mb-4 text-gray-300">{t('landingFooterProduct')}</h4>
               <ul className="space-y-2.5 text-sm text-gray-500">
-                <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
-                <li><a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a></li>
-                <li><Link to="/simulation" className="hover:text-white transition-colors">Score Simulator</Link></li>
-                <li><Link to="/ai" className="hover:text-white transition-colors">How AI Works</Link></li>
-                <li><a href="#faq" className="hover:text-white transition-colors">FAQ</a></li>
-                <li><Link to="/register" className="hover:text-white transition-colors">Get Started</Link></li>
+                <li><a href="#features" className="hover:text-white transition-colors">{t('landingFooterFeatures')}</a></li>
+                <li><a href="#how-it-works" className="hover:text-white transition-colors">{t('landingFooterHowItWorks')}</a></li>
+                <li><Link to="/simulation" className="hover:text-white transition-colors">{t('landingFooterSimulator')}</Link></li>
+                <li><Link to="/ai" className="hover:text-white transition-colors">{t('landingFooterAI')}</Link></li>
+                <li><a href="#faq" className="hover:text-white transition-colors">{t('landingFooterFaq')}</a></li>
+                <li><Link to="/register" className="hover:text-white transition-colors">{t('landingFooterGetStarted')}</Link></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-sm font-semibold mb-4 text-gray-300">Company</h4>
+              <h4 className="text-sm font-semibold mb-4 text-gray-300">{t('landingFooterCompany')}</h4>
               <ul className="space-y-2.5 text-sm text-gray-500">
-                <li><a href="#" className="hover:text-white transition-colors">About</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">{t('landingFooterAbout')}</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">{t('landingFooterBlog')}</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">{t('landingFooterCareers')}</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">{t('landingFooterContact')}</a></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-sm font-semibold mb-4 text-gray-300">Legal</h4>
+              <h4 className="text-sm font-semibold mb-4 text-gray-300">{t('landingFooterLegal')}</h4>
               <ul className="space-y-2.5 text-sm text-gray-500">
-                <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">PDPA Compliance</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">{t('landingFooterPrivacy')}</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">{t('landingFooterTerms')}</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">{t('landingFooterPdpa')}</a></li>
               </ul>
             </div>
           </div>
 
           <div className="border-t border-[#1f1f1f] mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-gray-600">© 2026 ScoreKu. Built for financial inclusion.</p>
+            <p className="text-sm text-gray-600">{t('landingFooterCopyright')}</p>
             <div className="flex items-center gap-2 text-xs text-gray-600">
-              <Lock size={12} /> Bank-grade encryption · PDPA compliant
+              <Lock size={12} /> {t('landingFooterEncryption')}
             </div>
           </div>
         </div>
