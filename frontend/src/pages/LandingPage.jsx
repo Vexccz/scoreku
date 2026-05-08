@@ -340,86 +340,204 @@ function TechMarquee() {
   )
 }
 
+const DEMO_USER = { name: 'Ahmad', income: 'RM3,500', employment: 'Gig Worker', ewallet: '32 txn/month', bills: '11/12 paid', ecommerce: '8 orders/month' }
+const PIPELINE_STEPS = [
+  { id: 'collect', label: 'Collecting Data', icon: '📥' },
+  { id: 'validate', label: 'Validating', icon: '✅' },
+  { id: 'features', label: 'Feature Engineering', icon: '⚙️' },
+  { id: 'model', label: 'XGBoost Model', icon: '🧠' },
+  { id: 'shap', label: 'SHAP Analysis', icon: '📊' },
+  { id: 'score', label: 'Score Generated', icon: '🎯' },
+]
+
 function PipelineDemo() {
-  const [stage, setStage] = useState(0)
-  const stages = ['input', 'processing', 'result']
+  const [phase, setPhase] = useState('collect')
+  const [stepIndex, setStepIndex] = useState(0)
+  const [showResult, setShowResult] = useState(false)
+  const resultHandled = useRef(false)
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setStage((s) => (s + 1) % 3)
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [])
+    const durations = [2500, 2000, 3000, 4000, 3000, 3500]
+    let timeout
+
+    if (stepIndex < 5) {
+      setPhase(PIPELINE_STEPS[stepIndex].id)
+      setShowResult(false)
+      timeout = setTimeout(() => setStepIndex(s => s + 1), durations[stepIndex])
+    } else {
+      setPhase('score')
+      setShowResult(true)
+      timeout = setTimeout(() => {
+        setStepIndex(0)
+        setShowResult(false)
+      }, 5000)
+    }
+    return () => clearTimeout(timeout)
+  }, [stepIndex])
 
   return (
-    <div className="bg-[#111] border border-[#1f1f1f] rounded-2xl p-6 h-64 flex items-center justify-center relative overflow-hidden">
-      <AnimatePresence mode="wait">
-        {stage === 0 && (
-          <motion.div
-            key="input"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 20 }}
-            className="text-center"
-          >
-            <Smartphone className="w-12 h-12 text-blue-400 mx-auto mb-3" />
-            <p className="text-sm text-gray-300">User inputs data</p>
-            <div className="flex gap-2 justify-center mt-3">
-              {['DuitNow', 'Bills', 'Income'].map((t) => (
-                <span key={t} className="px-2 py-1 bg-blue-500/10 border border-blue-500/20 rounded-lg text-xs text-blue-400">{t}</span>
-              ))}
+    <div className="bg-[#111] border border-[#1f1f1f] rounded-2xl overflow-hidden">
+      {/* Window chrome */}
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-[#1f1f1f]">
+        <span className="w-3 h-3 rounded-full bg-red-400" />
+        <span className="w-3 h-3 rounded-full bg-yellow-400" />
+        <span className="w-3 h-3 rounded-full bg-green-400" />
+        <span className="ml-3 text-xs text-gray-500">ScoreKu — Credit Scoring Pipeline</span>
+        <motion.div className="ml-auto w-2 h-2 rounded-full bg-green-400" animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1.5, repeat: Infinity }} />
+        <span className="text-[10px] text-gray-500">Live</span>
+      </div>
+
+      <div className="p-5">
+        {/* Pipeline progress */}
+        <div className="flex items-center gap-1 mb-5 overflow-x-auto pb-1">
+          {PIPELINE_STEPS.map((step, i) => (
+            <div key={step.id} className="flex items-center">
+              <motion.div
+                className={`flex items-center gap-1 px-2 py-1.5 rounded-lg text-[10px] font-medium whitespace-nowrap ${
+                  i < stepIndex ? 'bg-emerald-500/10 text-emerald-400' :
+                  i === stepIndex ? 'bg-blue-500/10 text-blue-400 ring-1 ring-blue-500/30' :
+                  'bg-[#1a1a1a] text-gray-500'
+                }`}
+                animate={i === stepIndex ? { scale: [1, 1.05, 1] } : {}}
+                transition={{ duration: 1, repeat: Infinity }}
+              >
+                <span>{step.icon}</span>
+                <span className="hidden sm:inline">{step.label}</span>
+              </motion.div>
+              {i < PIPELINE_STEPS.length - 1 && (
+                <div className={`w-3 h-0.5 mx-0.5 rounded-full ${i < stepIndex ? 'bg-emerald-500' : 'bg-[#2a2a2a]'}`} />
+              )}
             </div>
-          </motion.div>
-        )}
-        {stage === 1 && (
-          <motion.div
-            key="processing"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            className="text-center"
-          >
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-            >
-              <Brain className="w-12 h-12 text-teal-400 mx-auto" />
-            </motion.div>
-            <p className="text-sm text-gray-300 mt-3">AI Processing...</p>
-            <div className="flex gap-1 justify-center mt-3">
-              {[0, 1, 2, 3, 4].map((i) => (
-                <motion.div
-                  key={i}
-                  className="w-2 h-6 bg-teal-500/40 rounded-full"
-                  animate={{ scaleY: [1, 1.5, 1] }}
-                  transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.1 }}
-                />
-              ))}
+          ))}
+        </div>
+
+        {/* User profile being processed */}
+        <div className="bg-[#0a0a0a] rounded-xl p-4 mb-4">
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center text-xs font-bold">A</div>
+            <div>
+              <p className="text-sm font-medium text-white">{DEMO_USER.name}</p>
+              <p className="text-[10px] text-gray-500">{DEMO_USER.employment} • Selangor</p>
             </div>
-          </motion.div>
-        )}
-        {stage === 2 && (
-          <motion.div
-            key="result"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="text-center"
-          >
-            <div className="text-4xl font-bold text-green-400 mb-2">78</div>
-            <p className="text-sm text-gray-300">Score Generated!</p>
-            <div className="flex gap-2 justify-center mt-3">
-              <span className="px-2 py-1 bg-green-500/10 border border-green-500/20 rounded-lg text-xs text-green-400">Good</span>
-              <span className="px-2 py-1 bg-teal-500/10 border border-teal-500/20 rounded-lg text-xs text-teal-400">+5 Tips</span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      {/* Stage indicators */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-        {stages.map((_, i) => (
-          <div key={i} className={`w-2 h-2 rounded-full transition-colors ${i === stage ? 'bg-teal-400' : 'bg-gray-700'}`} />
-        ))}
+          </div>
+
+          {/* Step-specific content */}
+          <AnimatePresence mode="wait">
+            {phase === 'collect' && (
+              <motion.div key="collect" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <motion.div className="w-3 h-3 border-2 border-blue-500 border-t-transparent rounded-full" animate={{ rotate: 360 }} transition={{ duration: 0.6, repeat: Infinity, ease: 'linear' }} />
+                  <span className="text-xs text-blue-400">Collecting user data...</span>
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  {[{ l: 'Income', v: DEMO_USER.income }, { l: 'E-wallet', v: DEMO_USER.ewallet }, { l: 'Bills', v: DEMO_USER.bills }].map((d, i) => (
+                    <motion.div key={d.l} className="bg-[#111] rounded-lg p-2 text-center border border-[#1f1f1f]" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 + i * 0.4 }}>
+                      <div className="text-[9px] text-gray-500">{d.l}</div>
+                      <div className="text-[11px] font-medium text-white mt-0.5">{d.v}</div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {phase === 'validate' && (
+              <motion.div key="validate" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-2">
+                <span className="text-xs text-blue-400">✅ Validating data integrity...</span>
+                {['Income range: valid (RM1K-50K)', 'E-wallet data: 32 transactions found', 'Bill history: 12 months available', 'No anomalies detected'].map((check, i) => (
+                  <motion.div key={i} className="flex items-center gap-2" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 + i * 0.4 }}>
+                    <motion.span className="text-emerald-400 text-xs" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5 + i * 0.4 }}>✓</motion.span>
+                    <span className="text-[11px] text-gray-400">{check}</span>
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
+
+            {phase === 'features' && (
+              <motion.div key="features" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-2">
+                <span className="text-xs text-blue-400">⚙️ Engineering 40+ features...</span>
+                <div className="space-y-1.5">
+                  {[
+                    { name: 'income_stability', val: '0.82', desc: 'std/mean of 6 months' },
+                    { name: 'payment_consistency', val: '0.92', desc: 'bills_paid / total' },
+                    { name: 'digital_activity', val: '0.71', desc: 'normalized txn count' },
+                    { name: 'account_maturity', val: '0.65', desc: 'years with same number' },
+                  ].map((f, i) => (
+                    <motion.div key={f.name} className="flex items-center gap-2 bg-[#111] rounded-lg px-3 py-1.5 border border-[#1f1f1f]" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 + i * 0.5 }}>
+                      <span className="text-[10px] font-mono text-purple-400 flex-1">{f.name}</span>
+                      <span className="text-[10px] font-bold text-white">{f.val}</span>
+                      <span className="text-[9px] text-gray-600 hidden sm:inline">({f.desc})</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {phase === 'model' && (
+              <motion.div key="model" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <motion.div className="w-3 h-3 border-2 border-purple-500 border-t-transparent rounded-full" animate={{ rotate: 360 }} transition={{ duration: 0.5, repeat: Infinity, ease: 'linear' }} />
+                  <span className="text-xs text-purple-400">🧠 Running XGBoost classifier...</span>
+                </div>
+                <motion.div className="text-[10px] text-gray-500 font-mono bg-[#111] rounded px-2 py-1 border border-[#1f1f1f]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
+                  Model: xgb_credit_v2 | Trees: 150 | Depth: 6 | Features: 42
+                </motion.div>
+                <div className="space-y-1.5">
+                  {['Loading model weights', 'Processing feature vector', 'Running 150 decision trees', 'Aggregating predictions'].map((step, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <span className="text-[10px] text-gray-400 flex-1">{step}</span>
+                      <div className="w-20 h-1.5 bg-[#1a1a1a] rounded-full overflow-hidden">
+                        <motion.div className="h-full bg-purple-500 rounded-full" initial={{ width: '0%' }} animate={{ width: '100%' }} transition={{ duration: 0.8, delay: 0.5 + i * 0.7 }} />
+                      </div>
+                      <motion.span className="text-[9px] text-emerald-400" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.3 + i * 0.7 }}>✓</motion.span>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {phase === 'shap' && (
+              <motion.div key="shap" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-2">
+                <span className="text-xs text-blue-400">📊 Computing SHAP explanations...</span>
+                <div className="space-y-1.5">
+                  {[
+                    { name: 'Payment Consistency', val: +0.18, color: '#22c55e' },
+                    { name: 'Income Stability', val: +0.12, color: '#22c55e' },
+                    { name: 'Digital Activity', val: +0.08, color: '#22c55e' },
+                    { name: 'E-commerce Returns', val: -0.05, color: '#ef4444' },
+                    { name: 'Account Age', val: -0.03, color: '#ef4444' },
+                  ].map((f, i) => (
+                    <motion.div key={f.name} className="flex items-center gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 + i * 0.4 }}>
+                      <span className="text-[10px] text-gray-400 w-28 truncate">{f.name}</span>
+                      <div className="flex-1 h-2 bg-[#1a1a1a] rounded-full overflow-hidden relative">
+                        <motion.div
+                          className="absolute top-0 h-full rounded-full"
+                          style={{ backgroundColor: f.color, left: f.val > 0 ? '50%' : undefined, right: f.val < 0 ? '50%' : undefined }}
+                          initial={{ width: '0%' }}
+                          animate={{ width: `${Math.abs(f.val) * 200}%` }}
+                          transition={{ duration: 0.6, delay: 0.5 + i * 0.3 }}
+                        />
+                        <div className="absolute top-0 left-1/2 w-px h-full bg-gray-600" />
+                      </div>
+                      <span className={`text-[10px] font-bold ${f.val > 0 ? 'text-emerald-400' : 'text-red-400'}`}>{f.val > 0 ? '+' : ''}{f.val.toFixed(2)}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {phase === 'score' && showResult && (
+              <motion.div key="score" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="text-center py-2">
+                <motion.div className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 200 }}>78</motion.div>
+                <p className="text-sm text-gray-400 mt-1">Credit Score Generated</p>
+                <div className="flex gap-2 justify-center mt-3">
+                  <motion.span className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-xs text-emerald-400 font-medium" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>Fair Risk</motion.span>
+                  <motion.span className="px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full text-xs text-blue-400 font-medium" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>5 Tips Available</motion.span>
+                  <motion.span className="px-3 py-1 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs text-teal-400 font-medium" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>3 Products Eligible</motion.span>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   )
