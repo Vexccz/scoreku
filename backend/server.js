@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB connection (optional for hackathon - works without it)
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/scoreku';
+const MONGO_URI = process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb://localhost:27017/scoreku';
 mongoose.connect(MONGO_URI)
   .then(() => console.log('✓ MongoDB connected'))
   .catch(err => console.log('⚠ MongoDB not connected (running without DB):', err.message));
