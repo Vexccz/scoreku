@@ -13,6 +13,8 @@ import {
 const navLinks = [
   { label: 'Features', href: '#features' },
   { label: 'How it Works', href: '#how-it-works' },
+  { label: 'Simulator', href: '/simulation', isRoute: true },
+  { label: 'AI Model', href: '/ai', isRoute: true },
   { label: 'FAQ', href: '#faq' },
 ]
 
@@ -441,7 +443,11 @@ export default function LandingPage() {
 
           <div className="hidden md:flex items-center gap-8 text-sm text-gray-400">
             {navLinks.map((link) => (
-              <a key={link.label} href={link.href} className="hover:text-white transition-colors duration-200">{link.label}</a>
+              link.isRoute ? (
+                <Link key={link.label} to={link.href} className="hover:text-white transition-colors duration-200">{link.label}</Link>
+              ) : (
+                <a key={link.label} href={link.href} className="hover:text-white transition-colors duration-200">{link.label}</a>
+              )
             ))}
           </div>
 
@@ -473,7 +479,11 @@ export default function LandingPage() {
             >
               <div className="px-6 py-4 space-y-3">
                 {navLinks.map((link) => (
-                  <a key={link.label} href={link.href} className="block text-gray-300 hover:text-white py-2" onClick={() => setMobileMenuOpen(false)}>{link.label}</a>
+                  link.isRoute ? (
+                    <Link key={link.label} to={link.href} className="block text-gray-300 hover:text-white py-2" onClick={() => setMobileMenuOpen(false)}>{link.label}</Link>
+                  ) : (
+                    <a key={link.label} href={link.href} className="block text-gray-300 hover:text-white py-2" onClick={() => setMobileMenuOpen(false)}>{link.label}</a>
+                  )
                 ))}
                 <div className="flex gap-3 pt-3 border-t border-[#1f1f1f]">
                   <Link to="/login" className="flex-1 text-center px-4 py-2.5 rounded-xl text-sm border border-[#2a2a2a]">Log In</Link>
@@ -516,13 +526,18 @@ export default function LandingPage() {
               No bank history? No problem. ScoreKu uses your digital footprint — e-wallet transactions, bill payments, and online activity — to generate a fair credit score in seconds.
             </p>
 
-            <div className="flex flex-wrap gap-4 mb-8">
+            <div className="flex flex-wrap gap-4 mb-4">
               <Link to="/register" className="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-2xl text-lg font-semibold transition-all duration-300 shadow-xl shadow-blue-600/25 hover:shadow-blue-500/40 hover:-translate-y-0.5">
                 Get Your Score <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </Link>
               <a href="#how-it-works" className="inline-flex items-center gap-2 px-8 py-4 border border-[#2a2a2a] hover:border-gray-600 rounded-2xl text-lg transition-all duration-300 text-gray-300 hover:text-white hover:-translate-y-0.5">
                 Learn More
               </a>
+            </div>
+            <div className="mb-8">
+              <Link to="/dashboard?demo=true" className="inline-flex items-center gap-2 text-sm text-teal-400 hover:text-teal-300 transition-colors group">
+                <Eye size={14} /> Try Demo (No Login) <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
             </div>
 
             <div className="flex items-center gap-2 text-xs text-gray-600">
@@ -1030,6 +1045,8 @@ export default function LandingPage() {
               <ul className="space-y-2.5 text-sm text-gray-500">
                 <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
                 <li><a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a></li>
+                <li><Link to="/simulation" className="hover:text-white transition-colors">Score Simulator</Link></li>
+                <li><Link to="/ai" className="hover:text-white transition-colors">How AI Works</Link></li>
                 <li><a href="#faq" className="hover:text-white transition-colors">FAQ</a></li>
                 <li><Link to="/register" className="hover:text-white transition-colors">Get Started</Link></li>
               </ul>

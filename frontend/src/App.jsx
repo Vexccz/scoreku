@@ -6,6 +6,8 @@ import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import ScoreFormPage from './pages/ScoreFormPage'
 import DashboardPage from './pages/DashboardPage'
+import SimulationPage from './pages/SimulationPage'
+import AIExplainerPage from './pages/AIExplainerPage'
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/score" element={<ScoreFormPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/simulation" element={<SimulationPage />} />
+            <Route path="/ai" element={<AIExplainerPage />} />
           </Routes>
           <Toaster position="top-right" toastOptions={{ style: { background: '#1f1f1f', color: '#fff' } }} />
         </div>
