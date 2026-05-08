@@ -5,7 +5,7 @@ import {
   Zap, ArrowLeft, Brain, Database, Cpu, BarChart3, Eye,
   ChevronDown, ChevronRight, Sparkles, Shield, Target,
   CheckCircle2, LayoutDashboard, FileText, Settings,
-  SlidersHorizontal
+  SlidersHorizontal, Building2
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import ThemeToggle from '../components/ThemeToggle'
@@ -13,6 +13,7 @@ import ThemeToggle from '../components/ThemeToggle'
 const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard', active: false },
   { label: 'Score Form', icon: FileText, path: '/score', active: false },
+  { label: 'Connect Bank', icon: Building2, path: '/connect-bank', active: false },
   { label: 'Simulator', icon: Zap, path: '/simulation', active: false },
   { label: 'AI Model', icon: Brain, path: '/ai', active: true },
   { label: 'Settings', icon: Settings, path: null, disabled: true },

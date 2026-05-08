@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   Zap, ArrowLeft, TrendingUp, Clock, Smartphone, ShoppingBag,
   Phone, CreditCard, Sparkles, ChevronRight, Shield,
-  LayoutDashboard, FileText, Brain, Settings, BarChart3
+  LayoutDashboard, FileText, Brain, Settings, BarChart3, Building2
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import ThemeToggle from '../components/ThemeToggle'
@@ -12,6 +12,7 @@ import ThemeToggle from '../components/ThemeToggle'
 const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard', active: false },
   { label: 'Score Form', icon: FileText, path: '/score', active: false },
+  { label: 'Connect Bank', icon: Building2, path: '/connect-bank', active: false },
   { label: 'Simulator', icon: Zap, path: '/simulation', active: true },
   { label: 'AI Model', icon: Brain, path: '/ai', active: false },
   { label: 'Settings', icon: Settings, path: null, disabled: true },

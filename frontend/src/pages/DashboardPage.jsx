@@ -9,7 +9,7 @@ import {
   ArrowUpRight, ArrowDownRight, CreditCard, Banknote, GraduationCap,
   PiggyBank, Wallet, Receipt, Smartphone, BarChart3, Zap, Target,
   LayoutDashboard, FileText, Sparkles, Brain, Settings, Share2,
-  Clock, ChevronRight, Award, Users, Calendar
+  Clock, ChevronRight, Award, Users, Calendar, Building2
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import ThemeToggle from '../components/ThemeToggle'
@@ -70,6 +70,7 @@ const iconMap = { Receipt, Smartphone, Wallet, Target, Lightbulb, Zap }
 const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard', active: true },
   { label: 'Score Form', icon: FileText, path: '/score', active: false },
+  { label: 'Connect Bank', icon: Building2, path: '/connect-bank', active: false },
   { label: 'Simulator', icon: Sparkles, path: '/simulation', active: false },
   { label: 'How AI Works', icon: Brain, path: '/ai', active: false },
   { label: 'Settings', icon: Settings, path: null, disabled: true },
@@ -616,6 +617,29 @@ export default function DashboardPage() {
               </div>
             </div>
           </motion.div>
+
+          {/* Bank Connection CTA */}
+          {!localStorage.getItem('scoreku_bank_connected') && (
+            <motion.div variants={item} className={`border rounded-2xl p-6 mb-6 ${cardBg} relative overflow-hidden`}>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-teal-500/5" />
+              <div className="relative flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-teal-500/20 flex items-center justify-center flex-shrink-0">
+                  <Building2 size={24} className="text-blue-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className={`font-semibold text-sm mb-1 ${textPrimary}`}>Connect your bank for automatic scoring</h3>
+                  <p className={`text-xs ${textSecondary}`}>Link your bank account to get real-time credit scoring based on actual transactions</p>
+                </div>
+                <Link
+                  to="/connect-bank"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-teal-600 hover:opacity-90 transition-all flex-shrink-0"
+                >
+                  Connect Now
+                  <ChevronRight size={14} />
+                </Link>
+              </div>
+            </motion.div>
+          )}
 
           {/* Score Factors */}
           <motion.div variants={item} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">

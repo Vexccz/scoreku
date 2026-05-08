@@ -7,7 +7,7 @@ import {
   ChevronRight, ChevronLeft, Wallet, CreditCard, Receipt, ShoppingBag,
   Loader2, CheckCircle2, Sparkles, Brain, BarChart3, Shield, Lock,
   LayoutDashboard, FileText, Settings, Menu, X, Info, Zap,
-  ArrowRight, HelpCircle, Eye, Database, Cpu, Award
+  ArrowRight, HelpCircle, Eye, Database, Cpu, Award, Building2
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import ThemeToggle from '../components/ThemeToggle'
@@ -17,6 +17,7 @@ import ThemeToggle from '../components/ThemeToggle'
 const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard', active: false },
   { label: 'Score Form', icon: FileText, path: '/score', active: true },
+  { label: 'Connect Bank', icon: Building2, path: '/connect-bank', active: false },
   { label: 'Simulator', icon: Sparkles, path: '/simulation', active: false },
   { label: 'How AI Works', icon: Brain, path: '/ai', active: false },
   { label: 'Settings', icon: Settings, path: null, disabled: true },
