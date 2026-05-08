@@ -18,14 +18,14 @@ import BrandLogo from '../components/BrandLogo'
 // ─── Bank Data ───────────────────────────────────────────────────────────────
 
 const banks = [
-  { id: 'maybank', name: 'Maybank', color: '#FDB813', textColor: '#000', shortName: 'MBB', logo: 'https://logo.clearbit.com/maybank.com' },
-  { id: 'cimb', name: 'CIMB', color: '#EC1C24', textColor: '#fff', shortName: 'CIMB', logo: 'https://logo.clearbit.com/cimb.com' },
-  { id: 'bankislam', name: 'Bank Islam', color: '#00A651', textColor: '#fff', shortName: 'BI', logo: 'https://logo.clearbit.com/bankislam.com' },
-  { id: 'rhb', name: 'RHB', color: '#003DA5', textColor: '#fff', shortName: 'RHB', logo: 'https://logo.clearbit.com/rhbgroup.com' },
-  { id: 'publicbank', name: 'Public Bank', color: '#0033A0', textColor: '#fff', shortName: 'PBB', logo: 'https://logo.clearbit.com/publicbank.com.my' },
-  { id: 'hongleong', name: 'Hong Leong', color: '#CC0000', textColor: '#fff', shortName: 'HLB', logo: 'https://logo.clearbit.com/hlb.com.my' },
-  { id: 'ambank', name: 'AmBank', color: '#00843D', textColor: '#fff', shortName: 'AMB', logo: 'https://logo.clearbit.com/ambank.com.my' },
-  { id: 'bankrakyat', name: 'Bank Rakyat', color: '#6B2D8B', textColor: '#fff', shortName: 'BR', logo: 'https://logo.clearbit.com/bankrakyat.com.my' },
+  { id: 'maybank', name: 'Maybank', color: '#FDB813', textColor: '#000', shortName: 'MBB', logo: 'https://img.logo.dev/maybank.com?token=pk_free' },
+  { id: 'cimb', name: 'CIMB', color: '#EC1C24', textColor: '#fff', shortName: 'CIMB', logo: 'https://img.logo.dev/cimb.com?token=pk_free' },
+  { id: 'bankislam', name: 'Bank Islam', color: '#00A651', textColor: '#fff', shortName: 'BI', logo: 'https://img.logo.dev/bankislam.com?token=pk_free' },
+  { id: 'rhb', name: 'RHB', color: '#003DA5', textColor: '#fff', shortName: 'RHB', logo: 'https://img.logo.dev/rhbgroup.com?token=pk_free' },
+  { id: 'publicbank', name: 'Public Bank', color: '#0033A0', textColor: '#fff', shortName: 'PBB', logo: 'https://img.logo.dev/publicbank.com.my?token=pk_free' },
+  { id: 'hongleong', name: 'Hong Leong', color: '#CC0000', textColor: '#fff', shortName: 'HLB', logo: 'https://img.logo.dev/hlb.com.my?token=pk_free' },
+  { id: 'ambank', name: 'AmBank', color: '#00843D', textColor: '#fff', shortName: 'AMB', logo: 'https://img.logo.dev/ambank.com.my?token=pk_free' },
+  { id: 'bankrakyat', name: 'Bank Rakyat', color: '#6B2D8B', textColor: '#fff', shortName: 'BR', logo: 'https://img.logo.dev/bankrakyat.com.my?token=pk_free' },
 ]
 
 const permissions = [

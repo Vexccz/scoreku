@@ -22,10 +22,10 @@ const navLinks = [
 const typingWords = ['Gig Workers', 'Fresh Graduates', 'Small Traders', 'Rural Communities']
 
 const poweredBy = [
-  { name: 'DuitNow', logo: 'https://logo.clearbit.com/paynet.my', color: '#1a3c6e' },
-  { name: "Touch 'n Go", logo: 'https://logo.clearbit.com/touchngo.com.my', color: '#005baa' },
-  { name: 'Shopee', logo: 'https://logo.clearbit.com/shopee.com.my', color: '#ee4d2d' },
-  { name: 'GrabPay', logo: 'https://logo.clearbit.com/grab.com', color: '#00b14f' },
+  { name: 'DuitNow', logo: 'https://img.logo.dev/paynet.my?token=pk_free', color: '#1a3c6e' },
+  { name: "Touch 'n Go", logo: 'https://img.logo.dev/touchngo.com.my?token=pk_free', color: '#005baa' },
+  { name: 'Shopee', logo: 'https://img.logo.dev/shopee.com.my?token=pk_free', color: '#ee4d2d' },
+  { name: 'GrabPay', logo: 'https://img.logo.dev/grab.com?token=pk_free', color: '#00b14f' },
 ]
 
 const stats = [
