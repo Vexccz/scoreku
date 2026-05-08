@@ -5,9 +5,10 @@ import {
   Shield, TrendingUp, Smartphone, BarChart3, Zap, Users, ArrowRight,
   CheckCircle2, X, Sparkles, Globe, Lock, ChevronDown, Menu, XIcon,
   Wallet, Brain, Clock, Target, Lightbulb, Eye, Car, GraduationCap,
-  Store, MapPin, Plus, Minus
+  Store, MapPin, Plus, Minus, Languages
 } from 'lucide-react'
 import BrandLogo from '../components/BrandLogo'
+import { useLanguage } from '../context/LanguageContext'
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -548,6 +549,15 @@ function PipelineDemo() {
 export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [openFaq, setOpenFaq] = useState(null)
+  const { language, toggleLanguage, t } = useLanguage()
+
+  const localizedNavLinks = [
+    { label: t('landingNavFeatures'), href: '/features', isRoute: true },
+    { label: t('landingNavHowItWorks'), href: '/how-it-works', isRoute: true },
+    { label: t('landingNavSimulator'), href: '/simulation', isRoute: true },
+    { label: t('landingNavAI'), href: '/ai', isRoute: true },
+    { label: 'FAQ', href: '#faq' },
+  ]
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white relative overflow-hidden">
@@ -566,21 +576,30 @@ export default function LandingPage() {
           </div>
 
           <div className="hidden md:flex items-center gap-8 text-sm text-gray-400">
-            {navLinks.map((link) => (
+            {localizedNavLinks.map((link) => (
               link.isRoute ? (
-                <Link key={link.label} to={link.href} className="hover:text-white transition-colors duration-200">{link.label}</Link>
+                <Link key={link.href} to={link.href} className="hover:text-white transition-colors duration-200">{link.label}</Link>
               ) : (
-                <a key={link.label} href={link.href} className="hover:text-white transition-colors duration-200">{link.label}</a>
+                <a key={link.href} href={link.href} className="hover:text-white transition-colors duration-200">{link.label}</a>
               )
             ))}
           </div>
 
           <div className="hidden md:flex items-center gap-3">
+            <button
+              onClick={toggleLanguage}
+              className="px-3 py-1.5 rounded-lg text-xs font-medium border border-[#2a2a2a] hover:border-gray-600 transition-all duration-200 flex items-center gap-1.5"
+            >
+              <Languages size={14} className="text-gray-400" />
+              <span className={language === 'en' ? 'text-white' : 'text-gray-500'}>EN</span>
+              <span className="text-gray-600">|</span>
+              <span className={language === 'bm' ? 'text-white' : 'text-gray-500'}>BM</span>
+            </button>
             <Link to="/login" className="px-4 py-2.5 rounded-xl text-sm text-gray-300 hover:text-white border border-[#2a2a2a] hover:border-gray-600 transition-all duration-200">
-              Log In
+              {t('landingLogin')}
             </Link>
             <Link to="/register" className="px-5 py-2.5 rounded-xl text-sm bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 transition-all duration-200 font-medium shadow-lg shadow-blue-600/20">
-              Get Started
+              {t('landingSignUp')}
             </Link>
           </div>
 
@@ -602,16 +621,25 @@ export default function LandingPage() {
               className="md:hidden border-t border-[#1f1f1f] bg-[#0a0a0a]/95 backdrop-blur-xl"
             >
               <div className="px-6 py-4 space-y-3">
-                {navLinks.map((link) => (
+                {localizedNavLinks.map((link) => (
                   link.isRoute ? (
-                    <Link key={link.label} to={link.href} className="block text-gray-300 hover:text-white py-2" onClick={() => setMobileMenuOpen(false)}>{link.label}</Link>
+                    <Link key={link.href} to={link.href} className="block text-gray-300 hover:text-white py-2" onClick={() => setMobileMenuOpen(false)}>{link.label}</Link>
                   ) : (
-                    <a key={link.label} href={link.href} className="block text-gray-300 hover:text-white py-2" onClick={() => setMobileMenuOpen(false)}>{link.label}</a>
+                    <a key={link.href} href={link.href} className="block text-gray-300 hover:text-white py-2" onClick={() => setMobileMenuOpen(false)}>{link.label}</a>
                   )
                 ))}
-                <div className="flex gap-3 pt-3 border-t border-[#1f1f1f]">
-                  <Link to="/login" className="flex-1 text-center px-4 py-2.5 rounded-xl text-sm border border-[#2a2a2a]">Log In</Link>
-                  <Link to="/register" className="flex-1 text-center px-4 py-2.5 rounded-xl text-sm bg-blue-600 font-medium">Get Started</Link>
+                <div className="flex items-center gap-3 pt-3 border-t border-[#1f1f1f]">
+                  <button
+                    onClick={toggleLanguage}
+                    className="px-3 py-2.5 rounded-xl text-xs font-medium border border-[#2a2a2a] flex items-center gap-1.5"
+                  >
+                    <Languages size={14} className="text-gray-400" />
+                    <span className={language === 'en' ? 'text-white' : 'text-gray-500'}>EN</span>
+                    <span className="text-gray-600">|</span>
+                    <span className={language === 'bm' ? 'text-white' : 'text-gray-500'}>BM</span>
+                  </button>
+                  <Link to="/login" className="flex-1 text-center px-4 py-2.5 rounded-xl text-sm border border-[#2a2a2a]">{t('landingLogin')}</Link>
+                  <Link to="/register" className="flex-1 text-center px-4 py-2.5 rounded-xl text-sm bg-blue-600 font-medium">{t('landingSignUp')}</Link>
                 </div>
               </div>
             </motion.div>
@@ -638,8 +666,11 @@ export default function LandingPage() {
             </motion.div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] mb-6 tracking-tight">
-              Your Financial Identity,{' '}
-              <span className="bg-gradient-to-r from-blue-400 via-teal-400 to-blue-400 bg-clip-text text-transparent">Reimagined</span>
+              {language === 'en' ? (
+                <>Your Financial Identity,{' '}<span className="bg-gradient-to-r from-blue-400 via-teal-400 to-blue-400 bg-clip-text text-transparent">Reimagined</span></>
+              ) : (
+                <>Identiti Kewangan Anda,{' '}<span className="bg-gradient-to-r from-blue-400 via-teal-400 to-blue-400 bg-clip-text text-transparent">Dicipta Semula</span></>
+              )}
             </h1>
 
             <p className="text-xl text-gray-300 mb-2">
@@ -647,15 +678,15 @@ export default function LandingPage() {
             </p>
 
             <p className="text-base text-gray-500 max-w-lg mb-8 leading-relaxed">
-              No bank history? No problem. ScoreKu uses your digital footprint — e-wallet transactions, bill payments, and online activity — to generate a fair credit score in seconds.
+              {t('landingHeroSubtitle')}
             </p>
 
             <div className="flex flex-wrap gap-4 mb-4">
               <Link to="/register" className="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-2xl text-lg font-semibold transition-all duration-300 shadow-xl shadow-blue-600/25 hover:shadow-blue-500/40 hover:-translate-y-0.5">
-                Get Your Score <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                {t('landingGetStarted')} <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </Link>
               <a href="#how-it-works" className="inline-flex items-center gap-2 px-8 py-4 border border-[#2a2a2a] hover:border-gray-600 rounded-2xl text-lg transition-all duration-300 text-gray-300 hover:text-white hover:-translate-y-0.5">
-                Learn More
+                {t('landingLearnMore')}
               </a>
             </div>
             <div className="mb-8">
@@ -665,7 +696,7 @@ export default function LandingPage() {
             </div>
 
             <div className="flex items-center gap-2 text-xs text-gray-600">
-              <span>Powered by</span>
+              <span>{t('landingPoweredBy')}</span>
               <div className="flex gap-3 items-center">
                 {poweredBy.map((item) => (
                   <span key={item.name} className="px-2.5 py-1.5 bg-[#111] border border-[#1f1f1f] rounded-lg text-gray-400 flex items-center gap-2">
@@ -735,13 +766,13 @@ export default function LandingPage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <span className="inline-block px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium mb-6">The Problem</span>
+          <span className="inline-block px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium mb-6">{language === 'en' ? 'The Problem' : 'Masalah'}</span>
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            <AnimatedCounter target={3500000} prefix="" suffix="" /> Malaysians are{' '}
-            <span className="text-red-400">financially invisible</span>
+            <AnimatedCounter target={3500000} prefix="" suffix="" /> {language === 'en' ? 'Malaysians are' : 'Rakyat Malaysia'}{' '}
+            <span className="text-red-400">{language === 'en' ? 'financially invisible' : 'tidak kelihatan dari segi kewangan'}</span>
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            No credit history means no loans, no financing, no opportunities. Traditional scoring systems were never built for the digital economy.
+            {t('landingProblemDesc')}
           </p>
         </motion.div>
 
@@ -800,7 +831,9 @@ export default function LandingPage() {
                 {stat.display === '89%' && <><AnimatedCounter target={89} />%</>}
                 {stat.display === '10K+' && <><AnimatedCounter target={10000} />+</>}
               </div>
-              <div className="text-sm text-gray-400">{stat.label}</div>
+              <div className="text-sm text-gray-400">
+                {stat.display === '3.5M' ? t('landingStatsUnbanked') : stat.display === '89%' ? t('landingStatsAccuracy') : t('landingStatsProfiles')}
+              </div>
             </motion.div>
           ))}
         </motion.div>
@@ -842,8 +875,8 @@ export default function LandingPage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Built for Financial Inclusion</h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">Everything you need to build, understand, and improve your credit identity</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('landingFeaturesTitle')}</h2>
+          <p className="text-gray-400 max-w-2xl mx-auto">{t('landingFeaturesSubtitle')}</p>
           <Link to="/features" className="inline-flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 mt-3 transition-colors">See all features <ArrowRight size={14} /></Link>
         </motion.div>
 
@@ -880,8 +913,8 @@ export default function LandingPage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
-          <p className="text-gray-400">Three simple steps to your alternative credit score</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('landingHowItWorksTitle')}</h2>
+          <p className="text-gray-400">{t('landingHowItWorksSubtitle')}</p>
           <Link to="/how-it-works" className="inline-flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 mt-3 transition-colors">See all steps <ArrowRight size={14} /></Link>
         </motion.div>
 
@@ -923,8 +956,8 @@ export default function LandingPage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Traditional Credit Scoring vs ScoreKu</h2>
-          <p className="text-gray-400">See why alternative scoring is the future of financial inclusion</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('landingComparisonTitle')}</h2>
+          <p className="text-gray-400">{language === 'en' ? 'See why alternative scoring is the future of financial inclusion' : 'Lihat mengapa pemarkahan alternatif adalah masa depan rangkuman kewangan'}</p>
         </motion.div>
 
         <motion.div
@@ -998,8 +1031,8 @@ export default function LandingPage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Who Benefits?</h2>
-          <p className="text-gray-400">Built for Malaysians left behind by traditional finance</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('landingUseCasesTitle')}</h2>
+          <p className="text-gray-400">{language === 'en' ? 'Built for Malaysians left behind by traditional finance' : 'Dibina untuk rakyat Malaysia yang ditinggalkan oleh kewangan tradisional'}</p>
         </motion.div>
 
         <motion.div
@@ -1119,8 +1152,8 @@ export default function LandingPage() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
-          <p className="text-gray-400">Everything you need to know about ScoreKu</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('landingFaqTitle')}</h2>
+          <p className="text-gray-400">{language === 'en' ? 'Everything you need to know about ScoreKu' : 'Semua yang anda perlu tahu tentang ScoreKu'}</p>
         </motion.div>
 
         <motion.div
@@ -1161,10 +1194,10 @@ export default function LandingPage() {
               viewport={{ once: true }}
               className="text-3xl md:text-4xl font-bold mb-4"
             >
-              Start building your financial identity today
+              {t('landingCtaTitle')}
             </motion.h2>
             <p className="text-gray-400 max-w-lg mx-auto mb-8">
-              No bank account needed. No credit history required.
+              {t('landingCtaSubtitle')}
             </p>
             <Link
               to="/register"
@@ -1172,7 +1205,7 @@ export default function LandingPage() {
             >
               {/* Shimmer effect */}
               <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-              <span className="relative">Get Your Score</span>
+              <span className="relative">{t('landingCtaButton')}</span>
               <ArrowRight size={18} className="relative group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>

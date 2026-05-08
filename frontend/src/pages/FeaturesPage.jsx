@@ -12,6 +12,7 @@ import {
 } from 'recharts'
 import AppSidebar from '../components/AppSidebar'
 import { useTheme } from '../context/ThemeContext'
+import { useLanguage } from '../context/LanguageContext'
 
 // ─── Animation Variants ──────────────────────────────────────────────────────
 
@@ -517,6 +518,7 @@ function FeatureSection({ index, icon: Icon, title, description, demo, color }) 
 
 export default function FeaturesPage() {
   const { theme } = useTheme()
+  const { t } = useLanguage()
   const [mobileOpen, setMobileOpen] = useState(false)
 
   const features = [
@@ -586,10 +588,10 @@ export default function FeaturesPage() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
-              Platform Features
+              {t('featuresPageTitle')}
             </h1>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Everything you need to build, understand, and improve your alternative credit score — powered by AI and designed for financial inclusion.
+              {t('featuresPageSubtitle')}
             </p>
           </motion.div>
         </section>
@@ -610,8 +612,8 @@ export default function FeaturesPage() {
             variants={fadeInUp}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-3xl font-bold mb-4">Ready to get your score?</h2>
-            <p className="text-gray-400 mb-8">Takes less than 2 minutes. No bank account required.</p>
+            <h2 className="text-3xl font-bold mb-4">{t('featuresCtaTitle')}</h2>
+            <p className="text-gray-400 mb-8">{t('featuresCtaSubtitle')}</p>
             <Link
               to="/score"
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-teal-600 rounded-xl text-white font-medium hover:opacity-90 transition-opacity"

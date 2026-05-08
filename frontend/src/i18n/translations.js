@@ -70,6 +70,46 @@ const translations = {
 
     // Months
     monthHistory: '6-month history',
+
+    // Landing Page
+    landingHeroTitle: 'Your Financial Identity, Reimagined',
+    landingHeroSubtitle: 'No bank history? No problem. ScoreKu uses your digital footprint to generate a fair credit score.',
+    landingGetStarted: 'Get Your Score',
+    landingLearnMore: 'Learn More',
+    landingPoweredBy: 'Powered by',
+    landingProblemTitle: '3.5 Million Malaysians are financially invisible',
+    landingProblemDesc: 'No credit history means no loans, no financing, no opportunities. Traditional scoring systems were never built for the digital economy.',
+    landingStatsUnbanked: 'Unbanked Malaysians',
+    landingStatsAccuracy: 'AI Model Accuracy',
+    landingStatsProfiles: 'Profiles Analyzed',
+    landingFeaturesTitle: 'Built for Financial Inclusion',
+    landingFeaturesSubtitle: 'Everything you need to build, understand, and improve your credit identity',
+    landingHowItWorksTitle: 'How It Works',
+    landingHowItWorksSubtitle: 'Three simple steps to your alternative credit score',
+    landingComparisonTitle: 'Traditional Credit Scoring vs ScoreKu',
+    landingUseCasesTitle: 'Who Benefits?',
+    landingFaqTitle: 'Frequently Asked Questions',
+    landingCtaTitle: 'Start building your financial identity today',
+    landingCtaSubtitle: 'No bank account needed. No credit history required.',
+    landingCtaButton: 'Get Your Score',
+    landingNavFeatures: 'Features',
+    landingNavHowItWorks: 'How it Works',
+    landingNavSimulator: 'Simulator',
+    landingNavAI: 'AI Model',
+    landingLogin: 'Log In',
+    landingSignUp: 'Get Started',
+
+    // Features Page
+    featuresPageTitle: 'Platform Features',
+    featuresPageSubtitle: 'Everything you need to build, understand, and improve your alternative credit score — powered by AI and designed for financial inclusion.',
+    featuresCtaTitle: 'Ready to get your score?',
+    featuresCtaSubtitle: 'Takes less than 2 minutes. No bank account required.',
+
+    // How It Works Page
+    howItWorksPageTitle: 'How ScoreKu Works',
+    howItWorksPageSubtitle: 'From data collection to credit score in under 2 minutes',
+    howItWorksCtaTitle: 'Try it yourself',
+    howItWorksCtaSubtitle: 'See your score in under 2 minutes. No bank account required.',
   },
   bm: {
     // Dashboard
@@ -142,6 +182,46 @@ const translations = {
 
     // Months
     monthHistory: 'Sejarah 6 bulan',
+
+    // Landing Page
+    landingHeroTitle: 'Identiti Kewangan Anda, Dicipta Semula',
+    landingHeroSubtitle: 'Tiada sejarah bank? Tiada masalah. ScoreKu menggunakan jejak digital anda untuk menjana skor kredit yang adil.',
+    landingGetStarted: 'Dapatkan Skor Anda',
+    landingLearnMore: 'Ketahui Lagi',
+    landingPoweredBy: 'Dikuasakan oleh',
+    landingProblemTitle: '3.5 Juta Rakyat Malaysia Tidak Kelihatan Dari Segi Kewangan',
+    landingProblemDesc: 'Tiada sejarah kredit bermakna tiada pinjaman, tiada pembiayaan, tiada peluang. Sistem pemarkahan tradisional tidak dibina untuk ekonomi digital.',
+    landingStatsUnbanked: 'Rakyat Malaysia Tanpa Bank',
+    landingStatsAccuracy: 'Ketepatan Model AI',
+    landingStatsProfiles: 'Profil Dianalisis',
+    landingFeaturesTitle: 'Dibina untuk Rangkuman Kewangan',
+    landingFeaturesSubtitle: 'Semua yang anda perlukan untuk membina, memahami, dan meningkatkan identiti kredit anda',
+    landingHowItWorksTitle: 'Cara Berfungsi',
+    landingHowItWorksSubtitle: 'Tiga langkah mudah ke skor kredit alternatif anda',
+    landingComparisonTitle: 'Pemarkahan Kredit Tradisional vs ScoreKu',
+    landingUseCasesTitle: 'Siapa yang Mendapat Manfaat?',
+    landingFaqTitle: 'Soalan Lazim',
+    landingCtaTitle: 'Mula bina identiti kewangan anda hari ini',
+    landingCtaSubtitle: 'Tiada akaun bank diperlukan. Tiada sejarah kredit diperlukan.',
+    landingCtaButton: 'Dapatkan Skor Percuma',
+    landingNavFeatures: 'Ciri-ciri',
+    landingNavHowItWorks: 'Cara Berfungsi',
+    landingNavSimulator: 'Simulator',
+    landingNavAI: 'Model AI',
+    landingLogin: 'Log Masuk',
+    landingSignUp: 'Mula',
+
+    // Features Page
+    featuresPageTitle: 'Ciri-ciri Platform',
+    featuresPageSubtitle: 'Semua yang anda perlukan untuk membina, memahami, dan meningkatkan skor kredit alternatif anda — dikuasakan oleh AI dan direka untuk rangkuman kewangan.',
+    featuresCtaTitle: 'Sedia untuk dapatkan skor anda?',
+    featuresCtaSubtitle: 'Kurang dari 2 minit. Tiada akaun bank diperlukan.',
+
+    // How It Works Page
+    howItWorksPageTitle: 'Cara ScoreKu Berfungsi',
+    howItWorksPageSubtitle: 'Dari pengumpulan data ke skor kredit dalam masa 2 minit',
+    howItWorksCtaTitle: 'Cuba sendiri',
+    howItWorksCtaSubtitle: 'Lihat skor anda dalam masa 2 minit. Tiada akaun bank diperlukan.',
   },
 }
 

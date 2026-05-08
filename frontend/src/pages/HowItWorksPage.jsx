@@ -11,6 +11,7 @@ import {
 } from 'recharts'
 import AppSidebar from '../components/AppSidebar'
 import { useTheme } from '../context/ThemeContext'
+import { useLanguage } from '../context/LanguageContext'
 
 // ─── Animation Variants ──────────────────────────────────────────────────────
 
@@ -576,6 +577,7 @@ function StepSection({ step, title, description, demo, icon: Icon, isLast }) {
 
 export default function HowItWorksPage() {
   const { theme } = useTheme()
+  const { t } = useLanguage()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [elapsed, setElapsed] = useState(0)
 
@@ -679,10 +681,10 @@ export default function HowItWorksPage() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
-              How ScoreKu Works
+              {t('howItWorksPageTitle')}
             </h1>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              From data collection to credit score in under 2 minutes
+              {t('howItWorksPageSubtitle')}
             </p>
           </motion.div>
 
@@ -716,8 +718,8 @@ export default function HowItWorksPage() {
             transition={{ duration: 0.6 }}
             className="bg-[#111] border border-[#1f1f1f] rounded-2xl p-12"
           >
-            <h2 className="text-3xl font-bold mb-4">Try it yourself</h2>
-            <p className="text-gray-400 mb-8">See your score in under 2 minutes. No bank account required.</p>
+            <h2 className="text-3xl font-bold mb-4">{t('howItWorksCtaTitle')}</h2>
+            <p className="text-gray-400 mb-8">{t('howItWorksCtaSubtitle')}</p>
             <Link
               to="/score"
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-teal-600 rounded-xl text-white font-medium hover:opacity-90 transition-opacity"
