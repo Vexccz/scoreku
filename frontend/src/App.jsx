@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './context/AuthContext'
 import LandingPage from './pages/LandingPage'
@@ -8,6 +8,13 @@ import ScoreFormPage from './pages/ScoreFormPage'
 import DashboardPage from './pages/DashboardPage'
 import SimulationPage from './pages/SimulationPage'
 import AIExplainerPage from './pages/AIExplainerPage'
+import OnboardingPage from './pages/OnboardingPage'
+
+function OnboardingGuard({ children }) {
+  const onboarded = localStorage.getItem('scoreku_onboarded')
+  if (!onboarded) return <Navigate to="/welcome" replace />
+  return children
+}
 
 function App() {
   return (
@@ -15,7 +22,8 @@ function App() {
       <Router>
         <div className="min-h-screen bg-[#0f0f0f] text-white">
           <Routes>
-            <Route path="/" element={<LandingPage />} />
+            <Route path="/welcome" element={<OnboardingPage />} />
+            <Route path="/" element={<OnboardingGuard><LandingPage /></OnboardingGuard>} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/score" element={<ScoreFormPage />} />
