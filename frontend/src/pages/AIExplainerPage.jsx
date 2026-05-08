@@ -174,6 +174,7 @@ function computeShapValues(values) {
 
 function InteractiveSHAPDemo() {
   const { theme } = useTheme()
+  const { t } = useLanguage()
   const [values, setValues] = useState(() => {
     const initial = {}
     interactiveFeatures.forEach(f => { initial[f.key] = f.default })
