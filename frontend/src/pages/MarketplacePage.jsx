@@ -8,6 +8,7 @@ import {
   Briefcase, CreditCard, Wallet
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
+import { useLanguage } from '../context/LanguageContext'
 import ThemeToggle from '../components/ThemeToggle'
 import AppSidebar from '../components/AppSidebar'
 import BrandLogo from '../components/BrandLogo'
@@ -119,6 +120,7 @@ function ProductCard({ product, theme }) {
 
 export default function MarketplacePage() {
   const { theme } = useTheme()
+  const { t } = useLanguage()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [selectedType, setSelectedType] = useState('All')
   const [maxAmount, setMaxAmount] = useState(500000)
@@ -164,15 +166,15 @@ export default function MarketplacePage() {
         >
           {/* Hero */}
           <motion.div variants={item} className="mb-6 pt-12 lg:pt-0">
-            <h1 className={`text-2xl font-bold ${textPrimary}`}>Financial Products</h1>
-            <p className={`text-sm mt-1 ${textSecondary}`}>Discover financing options matched to your ScoreKu rating</p>
+            <h1 className={`text-2xl font-bold ${textPrimary}`}>{t('financialProducts')}</h1>
+            <p className={`text-sm mt-1 ${textSecondary}`}>{t('marketplaceSubtitle')}</p>
           </motion.div>
 
           {/* Filter Bar */}
           <motion.div variants={item} className={`border rounded-2xl p-5 mb-6 ${cardBg}`}>
             <div className="flex items-center gap-2 mb-4">
               <SlidersHorizontal size={16} className={textSecondary} />
-              <span className={`text-sm font-medium ${textPrimary}`}>Filters</span>
+              <span className={`text-sm font-medium ${textPrimary}`}>{t('filters')}</span>
             </div>
             <div className="flex flex-col sm:flex-row gap-4">
               {/* Type filter */}
@@ -209,7 +211,7 @@ export default function MarketplacePage() {
 
           {/* Results count */}
           <motion.div variants={item} className="flex items-center justify-between mb-4">
-            <p className={`text-xs ${textSecondary}`}>{filteredProducts.length} products found</p>
+            <p className={`text-xs ${textSecondary}`}>{filteredProducts.length} {t('productsFound')}</p>
             <p className={`text-xs ${textSecondary}`}>Your score: <span className="text-blue-400 font-bold">{userScore}</span></p>
           </motion.div>
 
@@ -223,12 +225,12 @@ export default function MarketplacePage() {
           {filteredProducts.length === 0 && (
             <motion.div variants={item} className={`border rounded-2xl p-12 text-center ${cardBg}`}>
               <Search size={32} className={`mx-auto mb-3 ${textSecondary}`} />
-              <p className={`text-sm ${textSecondary}`}>No products match your filters</p>
+              <p className={`text-sm ${textSecondary}`}>{t('noProductsMatch')}</p>
               <button
                 onClick={() => { setSelectedType('All'); setMaxAmount(500000) }}
                 className="mt-3 text-xs text-blue-400 hover:underline"
               >
-                Reset filters
+                {t('resetFilters')}
               </button>
             </motion.div>
           )}

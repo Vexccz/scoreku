@@ -6,6 +6,7 @@ import {
   Building2, Users, BarChart3, TrendingUp, ChevronRight, GitCompare
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
+import { useLanguage } from '../context/LanguageContext'
 import ThemeToggle from '../components/ThemeToggle'
 import AppSidebar from '../components/AppSidebar'
 
@@ -122,6 +123,7 @@ function RadarChart({ dimensions }) {
 
 export default function ComparisonPage() {
   const { theme } = useTheme()
+  const { t } = useLanguage()
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const pageBg = theme === 'dark' ? 'bg-[#0a0a0a]' : 'bg-gray-50'
@@ -160,8 +162,8 @@ export default function ComparisonPage() {
         >
           {/* Hero */}
           <motion.div variants={item} className="mb-8 pt-12 lg:pt-0">
-            <h1 className={`text-2xl font-bold ${textPrimary}`}>How You Compare</h1>
-            <p className={`text-sm mt-1 ${textSecondary}`}>See how your score stacks up against others</p>
+            <h1 className={`text-2xl font-bold ${textPrimary}`}>{t('howYouCompare')}</h1>
+            <p className={`text-sm mt-1 ${textSecondary}`}>{t('howYouCompareSubtitle')}</p>
           </motion.div>
 
           {/* Percentile Banner */}
@@ -179,7 +181,7 @@ export default function ComparisonPage() {
                 <div className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
                   {userScore}
                 </div>
-                <p className={`text-xs text-center ${textSecondary}`}>Your Score</p>
+                <p className={`text-xs text-center ${textSecondary}`}>{t('yourScore')}</p>
               </div>
             </div>
           </motion.div>
@@ -190,7 +192,7 @@ export default function ComparisonPage() {
               <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
                 <BarChart3 size={16} className="text-blue-400" />
               </div>
-              <h3 className="font-semibold text-sm">Score Comparison</h3>
+              <h3 className="font-semibold text-sm">{t('scoreComparison')}</h3>
             </div>
             <div className="space-y-6">
               {comparisons.map((comp, i) => {
@@ -249,12 +251,12 @@ export default function ComparisonPage() {
               <div className="w-8 h-8 rounded-lg bg-teal-500/10 flex items-center justify-center">
                 <GitCompare size={16} className="text-teal-400" />
               </div>
-              <h3 className="font-semibold text-sm">Dimension Comparison</h3>
+              <h3 className="font-semibold text-sm">{t('dimensionComparison')}</h3>
             </div>
             <RadarChart dimensions={dimensions} />
             <div className="flex items-center justify-center gap-6 mt-4">
               <span className="text-xs text-blue-400 flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-blue-500 inline-block" /> Your Score
+                <span className="w-3 h-3 rounded-full bg-blue-500 inline-block" /> {t('yourScore')}
               </span>
               <span className="text-xs text-gray-500 flex items-center gap-2">
                 <span className="w-3 h-3 rounded-full bg-gray-500 inline-block" /> Average
@@ -268,7 +270,7 @@ export default function ComparisonPage() {
               <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center">
                 <Users size={16} className="text-purple-400" />
               </div>
-              <h3 className="font-semibold text-sm">Percentile Breakdown</h3>
+              <h3 className="font-semibold text-sm">{t('percentileBreakdown')}</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {[

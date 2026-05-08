@@ -7,6 +7,7 @@ import {
   LayoutDashboard, FileText, Brain, Settings, BarChart3, Building2
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
+import { useLanguage } from '../context/LanguageContext'
 import ThemeToggle from '../components/ThemeToggle'
 import AppSidebar from '../components/AppSidebar'
 
@@ -56,6 +57,7 @@ const actions = [
 ]
 
 function ScoreGauge({ score, maxScore = 850, size = 220 }) {
+  const { t } = useLanguage()
   const radius = (size - 30) / 2
   const circumference = 2 * Math.PI * radius
   const progress = ((score - 300) / (maxScore - 300)) * circumference
@@ -92,7 +94,7 @@ function ScoreGauge({ score, maxScore = 850, size = 220 }) {
         >
           {score}
         </motion.span>
-        <span className="text-xs text-gray-500 mt-1 uppercase tracking-wider">out of 850</span>
+        <span className="text-xs text-gray-500 mt-1 uppercase tracking-wider">{t('outOf850')}</span>
         <span className="text-xs mt-0.5" style={{ color }}>{label}</span>
       </div>
     </div>
@@ -100,6 +102,7 @@ function ScoreGauge({ score, maxScore = 850, size = 220 }) {
 }
 
 export default function SimulationPage() {
+  const { t } = useLanguage()
   const baseScore = 640
   const [activeActions, setActiveActions] = useState({})
   const [animatingScore, setAnimatingScore] = useState(baseScore)
@@ -159,10 +162,10 @@ export default function SimulationPage() {
           className="text-center mb-12 pt-12 lg:pt-0"
         >
           <h1 className="text-3xl md:text-4xl font-bold mb-3">
-            Score <span className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">Simulator</span>
+            {t('scoreSimulator').split(' ')[0]} <span className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">{t('scoreSimulator').split(' ').slice(1).join(' ')}</span>
           </h1>
           <p className="text-gray-400 max-w-lg mx-auto">
-            See how small behavior changes can boost your credit score over time
+            {t('simulatorSubtitle')}
           </p>
         </motion.div>
 
@@ -178,11 +181,11 @@ export default function SimulationPage() {
               <div className="bg-[#111] border border-[#1f1f1f] rounded-3xl p-8">
                 <div className="flex items-center justify-between mb-6">
                   <div>
-                    <p className="text-xs text-gray-500 uppercase tracking-wider">Current Score</p>
+                    <p className="text-xs text-gray-500 uppercase tracking-wider">{t('currentScore')}</p>
                     <p className="text-2xl font-bold text-gray-400">{baseScore}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-xs text-gray-500 uppercase tracking-wider">Projected</p>
+                    <p className="text-xs text-gray-500 uppercase tracking-wider">{t('projected')}</p>
                     <p className="text-2xl font-bold text-teal-400">{projectedScore}</p>
                   </div>
                 </div>
@@ -204,7 +207,7 @@ export default function SimulationPage() {
                           +{totalGain} points from {activeCount} action{activeCount !== 1 ? 's' : ''}
                         </p>
                         <p className="text-xs text-gray-500 mt-1">
-                          Achievable within 3-6 months
+                          {t('achievableIn')}
                         </p>
                       </div>
                     </motion.div>
@@ -216,7 +219,7 @@ export default function SimulationPage() {
                     to="/score"
                     className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-500 hover:to-teal-500 rounded-xl text-sm font-medium transition-all duration-300 shadow-lg shadow-blue-600/20"
                   >
-                    Get Your Real Score <ChevronRight size={16} />
+                    {t('getYourRealScore')} <ChevronRight size={16} />
                   </Link>
                 </div>
               </div>
@@ -227,7 +230,7 @@ export default function SimulationPage() {
           <div className="lg:col-span-3 space-y-4">
             <div className="flex items-center gap-2 mb-2">
               <Clock size={16} className="text-gray-500" />
-              <p className="text-sm text-gray-500">Toggle actions to see projected score changes</p>
+              <p className="text-sm text-gray-500">{t('toggleActions')}</p>
             </div>
 
             {actions.map((action, i) => (
@@ -318,7 +321,7 @@ export default function SimulationPage() {
               transition={{ delay: 0.6 }}
               className="bg-[#111] border border-[#1f1f1f] rounded-2xl p-6 mt-6"
             >
-              <h3 className="text-sm font-semibold text-gray-300 mb-3">How simulation works</h3>
+              <h3 className="text-sm font-semibold text-gray-300 mb-3">{t('howSimWorks')}</h3>
               <ul className="space-y-2 text-xs text-gray-500">
                 <li className="flex items-start gap-2">
                   <span className="text-teal-400 mt-0.5">•</span>

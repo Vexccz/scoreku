@@ -10,6 +10,7 @@ import {
   ArrowRight, HelpCircle, Eye, Database, Cpu, Award, Building2
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
+import { useLanguage } from '../context/LanguageContext'
 import ThemeToggle from '../components/ThemeToggle'
 import AppSidebar from '../components/AppSidebar'
 
@@ -20,10 +21,10 @@ import AppSidebar from '../components/AppSidebar'
 // ─── Steps Config ────────────────────────────────────────────────────────────
 
 const steps = [
-  { title: 'Income & Employment', subtitle: 'Tell us about your earnings', fields: ['monthlyIncome', 'employmentType'], icon: Wallet, color: 'from-blue-500 to-blue-600', label: 'Income' },
-  { title: 'Digital Payments', subtitle: 'Your e-wallet activity', fields: ['ewalletUsage', 'duitnowTransactions'], icon: CreditCard, color: 'from-teal-500 to-teal-600', label: 'Payments' },
-  { title: 'Bills & Rent', subtitle: 'Payment consistency matters', fields: ['billsPaid', 'billsTotal', 'rentOnTime'], icon: Receipt, color: 'from-purple-500 to-purple-600', label: 'Bills' },
-  { title: 'Online Activity', subtitle: 'Your digital footprint', fields: ['ecommerceOrders', 'mobileRecharges'], icon: ShoppingBag, color: 'from-amber-500 to-amber-600', label: 'Activity' },
+  { titleKey: 'stepIncomeTitle', subtitleKey: 'stepIncomeSubtitle', fields: ['monthlyIncome', 'employmentType'], icon: Wallet, color: 'from-blue-500 to-blue-600', labelKey: 'stepIncomeLabel' },
+  { titleKey: 'stepPaymentsTitle', subtitleKey: 'stepPaymentsSubtitle', fields: ['ewalletUsage', 'duitnowTransactions'], icon: CreditCard, color: 'from-teal-500 to-teal-600', labelKey: 'stepPaymentsLabel' },
+  { titleKey: 'stepBillsTitle', subtitleKey: 'stepBillsSubtitle', fields: ['billsPaid', 'billsTotal', 'rentOnTime'], icon: Receipt, color: 'from-purple-500 to-purple-600', labelKey: 'stepBillsLabel' },
+  { titleKey: 'stepActivityTitle', subtitleKey: 'stepActivitySubtitle', fields: ['ecommerceOrders', 'mobileRecharges'], icon: ShoppingBag, color: 'from-amber-500 to-amber-600', labelKey: 'stepActivityLabel' },
 ]
 
 const employmentTypes = ['salaried', 'self-employed', 'daily-wage', 'freelance', 'gig']
@@ -77,6 +78,7 @@ const analysisSteps = [
 
 export default function ScoreFormPage() {
   const navigate = useNavigate()
+  const { t } = useLanguage()
   const [step, setStep] = useState(0)
   const [direction, setDirection] = useState(1)
   const [loading, setLoading] = useState(false)
@@ -175,8 +177,8 @@ export default function ScoreFormPage() {
           <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-blue-500/20 to-teal-500/20 flex items-center justify-center">
             <Loader2 className="w-8 h-8 text-blue-400 animate-spin" />
           </div>
-          <h3 className="text-2xl font-bold mb-2 text-white">Analyzing Your Profile</h3>
-          <p className="text-sm text-gray-400 mb-10">Our AI pipeline is processing your financial data...</p>
+          <h3 className="text-2xl font-bold mb-2 text-white">{t('analyzingProfile')}</h3>
+          <p className="text-sm text-gray-400 mb-10">{t('analyzingDesc')}</p>
 
           <div className="space-y-4 text-left">
             {analysisSteps.map((s, i) => (
@@ -262,8 +264,8 @@ export default function ScoreFormPage() {
             animate={{ opacity: 1, y: 0 }}
             className="mb-8"
           >
-            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Calculate Your Score</h1>
-            <p className="text-sm sm:text-base text-gray-400">Fill in your financial data to get your AI-powered credit score</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">{t('scoreFormTitle')}</h1>
+            <p className="text-sm sm:text-base text-gray-400">{t('scoreFormSubtitle')}</p>
           </motion.div>
 
           {/* Progress Indicator */}
@@ -295,7 +297,7 @@ export default function ScoreFormPage() {
                     <span className={`text-[10px] sm:text-xs font-medium mt-2 ${
                       i < step ? 'text-teal-400' : i === step ? 'text-blue-400' : 'text-gray-600'
                     }`}>
-                      {s.label}
+                      {t(s.labelKey)}
                     </span>
                   </div>
                   {i < steps.length - 1 && (
@@ -333,8 +335,8 @@ export default function ScoreFormPage() {
                         <StepIcon size={22} className="text-white" />
                       </div>
                       <div>
-                        <h2 className="text-xl sm:text-2xl font-bold">{steps[step].title}</h2>
-                        <p className="text-sm text-gray-400">{steps[step].subtitle}</p>
+                        <h2 className="text-xl sm:text-2xl font-bold">{t(steps[step].titleKey)}</h2>
+                        <p className="text-sm text-gray-400">{t(steps[step].subtitleKey)}</p>
                       </div>
                     </div>
                   </motion.div>
@@ -354,9 +356,9 @@ export default function ScoreFormPage() {
                   >
                     {step === 0 && (
                       <>
-                        <InputField label="Monthly Income" prefix="RM" value={form.monthlyIncome} onChange={(v) => update('monthlyIncome', v)} type="number" placeholder="3500" helper={fieldHelpers.monthlyIncome} icon="💰" />
+                        <InputField label={t('monthlyIncomeLabel')} prefix="RM" value={form.monthlyIncome} onChange={(v) => update('monthlyIncome', v)} type="number" placeholder="3500" helper={t('helperIncome')} icon="💰" />
                         <div>
-                          <label className="block text-sm text-gray-300 mb-2 font-medium">Employment Type</label>
+                          <label className="block text-sm text-gray-300 mb-2 font-medium">{t('employmentTypeLabel')}</label>
                           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                             {employmentTypes.map(t => (
                               <button
@@ -378,21 +380,21 @@ export default function ScoreFormPage() {
                     )}
                     {step === 1 && (
                       <>
-                        <InputField label="E-wallet Transactions/Month" value={form.ewalletUsage} onChange={(v) => update('ewalletUsage', v)} type="number" placeholder="25" helper={fieldHelpers.ewalletUsage} icon="📱" />
-                        <InputField label="DuitNow Transactions/Month" value={form.duitnowTransactions} onChange={(v) => update('duitnowTransactions', v)} type="number" placeholder="15" helper={fieldHelpers.duitnowTransactions} icon="🏦" />
+                        <InputField label={t('ewalletTransLabel')} value={form.ewalletUsage} onChange={(v) => update('ewalletUsage', v)} type="number" placeholder="25" helper={t('helperEwallet')} icon="📱" />
+                        <InputField label={t('duitnowTransLabel')} value={form.duitnowTransactions} onChange={(v) => update('duitnowTransactions', v)} type="number" placeholder="15" helper={t('helperDuitnow')} icon="🏦" />
                       </>
                     )}
                     {step === 2 && (
                       <>
-                        <InputField label="Utility Bills Paid (last 12 months)" value={form.billsPaid} onChange={(v) => update('billsPaid', v)} type="number" placeholder="11" helper={fieldHelpers.billsPaid} icon="💡" />
-                        <InputField label="Total Utility Bills (last 12 months)" value={form.billsTotal} onChange={(v) => update('billsTotal', v)} type="number" placeholder="12" helper={fieldHelpers.billsTotal} icon="📋" />
-                        <InputField label="Rent Paid On Time (months)" value={form.rentOnTime} onChange={(v) => update('rentOnTime', v)} type="number" placeholder="10" helper={fieldHelpers.rentOnTime} icon="🏠" />
+                        <InputField label={t('billsPaidLabel')} value={form.billsPaid} onChange={(v) => update('billsPaid', v)} type="number" placeholder="11" helper={t('helperBillsPaid')} icon="💡" />
+                        <InputField label={t('billsTotalLabel')} value={form.billsTotal} onChange={(v) => update('billsTotal', v)} type="number" placeholder="12" helper={t('helperBillsTotal')} icon="📋" />
+                        <InputField label={t('rentOnTimeLabel')} value={form.rentOnTime} onChange={(v) => update('rentOnTime', v)} type="number" placeholder="10" helper={t('helperRent')} icon="🏠" />
                       </>
                     )}
                     {step === 3 && (
                       <>
-                        <InputField label="E-commerce Orders/Month" value={form.ecommerceOrders} onChange={(v) => update('ecommerceOrders', v)} type="number" placeholder="5" helper={fieldHelpers.ecommerceOrders} icon="🛒" />
-                        <InputField label="Mobile Recharges/Month" value={form.mobileRecharges} onChange={(v) => update('mobileRecharges', v)} type="number" placeholder="2" helper={fieldHelpers.mobileRecharges} icon="📶" />
+                        <InputField label={t('ecommerceOrdersLabel')} value={form.ecommerceOrders} onChange={(v) => update('ecommerceOrders', v)} type="number" placeholder="5" helper={t('helperEcommerce')} icon="🛒" />
+                        <InputField label={t('mobileRechargesLabel')} value={form.mobileRecharges} onChange={(v) => update('mobileRecharges', v)} type="number" placeholder="2" helper={t('helperMobile')} icon="📶" />
                       </>
                     )}
                   </motion.div>
@@ -405,7 +407,7 @@ export default function ScoreFormPage() {
                     disabled={step === 0}
                     className="flex items-center gap-1.5 px-5 py-2.5 text-sm text-gray-400 hover:text-white disabled:opacity-0 disabled:pointer-events-none transition rounded-xl hover:bg-white/5"
                   >
-                    <ChevronLeft size={16} /> Back
+                    <ChevronLeft size={16} /> {t('back')}
                   </button>
                   {step === steps.length - 1 ? (
                     <button
@@ -414,7 +416,7 @@ export default function ScoreFormPage() {
                       className="relative flex items-center gap-2 px-7 py-3 bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-500 hover:to-teal-500 rounded-xl font-semibold transition disabled:opacity-50 shadow-lg shadow-blue-600/20 overflow-hidden"
                     >
                       <span className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-                      <Sparkles size={16} /> Get My Score
+                      <Sparkles size={16} /> {t('getMyScore')}
                     </button>
                   ) : (
                     <button
@@ -422,7 +424,7 @@ export default function ScoreFormPage() {
                       disabled={loading}
                       className="flex items-center gap-2 px-7 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-xl font-semibold transition disabled:opacity-50 shadow-lg shadow-blue-600/20"
                     >
-                      Next <ChevronRight size={16} />
+                      {t('next')} <ChevronRight size={16} />
                     </button>
                   )}
                 </div>
@@ -445,7 +447,7 @@ export default function ScoreFormPage() {
                     <div className="w-9 h-9 rounded-lg bg-blue-500/10 flex items-center justify-center">
                       <Info size={16} className="text-blue-400" />
                     </div>
-                    <h3 className="text-sm font-semibold text-gray-200">Why we need this</h3>
+                    <h3 className="text-sm font-semibold text-gray-200">{t('whyWeNeedThis')}</h3>
                   </div>
                   <p className="text-sm text-gray-400 leading-relaxed">{currentInfo.why}</p>
                   <div className="mt-4 flex items-center gap-2 text-xs text-gray-600">
@@ -466,9 +468,9 @@ export default function ScoreFormPage() {
                   <div className="w-9 h-9 rounded-lg bg-teal-500/10 flex items-center justify-center">
                     <Lock size={16} className="text-teal-400" />
                   </div>
-                  <h3 className="text-sm font-semibold text-gray-200">Data Security</h3>
+                  <h3 className="text-sm font-semibold text-gray-200">{t('dataSecurity')}</h3>
                 </div>
-                <p className="text-sm text-gray-400 leading-relaxed">Your data is encrypted end-to-end and never shared with third parties. We only use it to calculate your score.</p>
+                <p className="text-sm text-gray-400 leading-relaxed">{t('dataSecurityDesc')}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   <span className="text-[10px] px-2.5 py-1 rounded-full bg-teal-500/10 text-teal-400 border border-teal-500/20">🔒 Encrypted</span>
                   <span className="text-[10px] px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">🛡️ PDPA</span>
@@ -487,7 +489,7 @@ export default function ScoreFormPage() {
                   <div className="w-9 h-9 rounded-lg bg-purple-500/10 flex items-center justify-center">
                     <Zap size={16} className="text-purple-400" />
                   </div>
-                  <h3 className="text-sm font-semibold text-gray-200">What happens next</h3>
+                  <h3 className="text-sm font-semibold text-gray-200">{t('whatHappensNext')}</h3>
                 </div>
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
@@ -533,17 +535,17 @@ export default function ScoreFormPage() {
           >
             <div className="flex items-center gap-2 text-xs text-gray-500">
               <Lock size={12} className="text-teal-500" />
-              <span>256-bit Encryption</span>
+              <span>256-bit {t('encrypted')}</span>
             </div>
             <div className="w-px h-3 bg-[#2a2a2a] hidden sm:block" />
             <div className="flex items-center gap-2 text-xs text-gray-500">
               <Shield size={12} className="text-blue-500" />
-              <span>PDPA Compliant</span>
+              <span>{t('pdpa')}</span>
             </div>
             <div className="w-px h-3 bg-[#2a2a2a] hidden sm:block" />
             <div className="flex items-center gap-2 text-xs text-gray-500">
               <Eye size={12} className="text-purple-500" />
-              <span>No Data Sharing</span>
+              <span>{t('noSharing')}</span>
             </div>
           </motion.div>
         </div>

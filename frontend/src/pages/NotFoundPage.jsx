@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Home, LayoutDashboard, LinkIcon } from 'lucide-react'
+import { useLanguage } from '../context/LanguageContext'
 
 export default function NotFoundPage() {
+  const { t } = useLanguage()
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center px-6">
       <div className="text-center max-w-md">
@@ -38,7 +40,7 @@ export default function NotFoundPage() {
           transition={{ delay: 0.3 }}
           className="text-xl text-gray-400 mb-2"
         >
-          Page not found
+          {t('pageNotFound')}
         </motion.p>
 
         <motion.p
@@ -47,7 +49,7 @@ export default function NotFoundPage() {
           transition={{ delay: 0.4 }}
           className="text-sm text-gray-600 mb-10"
         >
-          The page you're looking for doesn't exist or has been moved.
+          {t('pageNotFoundDesc')}
         </motion.p>
 
         {/* Buttons */}
@@ -62,14 +64,14 @@ export default function NotFoundPage() {
             className="flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-500 hover:to-teal-500 rounded-xl text-sm font-medium transition-all duration-300 shadow-lg shadow-blue-600/20"
           >
             <Home size={16} />
-            Go Home
+            {t('goHome')}
           </Link>
           <Link
             to="/dashboard?demo=true"
             className="flex items-center gap-2 px-6 py-3.5 bg-[#111] border border-[#1f1f1f] hover:border-blue-500/50 rounded-xl text-sm font-medium text-gray-300 hover:text-white transition-all"
           >
             <LayoutDashboard size={16} />
-            Try Dashboard
+            {t('tryDashboard')}
           </Link>
         </motion.div>
       </div>

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Shield, CreditCard, HelpCircle, UserX, Briefcase, GraduationCap, Store, Tractor, ArrowRight, CheckCircle2, Sparkles, TrendingUp, Lock, Home, Clock, Users, Globe, Laptop, BookOpen, Search } from 'lucide-react'
+import { useLanguage } from '../context/LanguageContext'
 
 const creditOptions = [
   { id: 'no', label: "No, I don't have credit history", desc: 'Never applied for loan or credit card', icon: UserX, color: 'from-blue-500 to-blue-600' },
@@ -46,6 +47,7 @@ const Particles = () => (
 
 export default function OnboardingPage() {
   const navigate = useNavigate()
+  const { t } = useLanguage()
   const [step, setStep] = useState(-1) // -1 = welcome splash
   const [creditStatus, setCreditStatus] = useState(null)
   const [profile, setProfile] = useState(null)
@@ -145,7 +147,7 @@ export default function OnboardingPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.7 }}
               >
-                Welcome to{' '}
+                {t('welcomeTo')}{' '}
                 <span className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
                   ScoreKu
                 </span>
@@ -160,7 +162,7 @@ export default function OnboardingPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                   >
-                    Your alternative credit score, powered by AI
+                    {t('onboardingTagline')}
                   </motion.p>
                 )}
               </AnimatePresence>
@@ -175,9 +177,9 @@ export default function OnboardingPage() {
                     transition={{ duration: 0.6 }}
                   >
                     {[
-                      { icon: Sparkles, label: 'AI-Powered', color: 'text-blue-400' },
-                      { icon: TrendingUp, label: 'Instant Score', color: 'text-teal-400' },
-                      { icon: Lock, label: 'Secure & Private', color: 'text-purple-400' },
+                      { icon: Sparkles, label: t('aiPowered'), color: 'text-blue-400' },
+                      { icon: TrendingUp, label: t('instantScore'), color: 'text-teal-400' },
+                      { icon: Lock, label: t('securePrivate'), color: 'text-purple-400' },
                     ].map((f, i) => (
                       <motion.div
                         key={f.label}
@@ -215,7 +217,7 @@ export default function OnboardingPage() {
                         transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', repeatDelay: 1 }}
                       />
                       <span className="relative flex items-center justify-center gap-2">
-                        Let's Get Started <ArrowRight size={20} />
+                        {t('letsGetStarted')} <ArrowRight size={20} />
                       </span>
                     </motion.button>
 
@@ -225,7 +227,7 @@ export default function OnboardingPage() {
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.5 }}
                     >
-                      Takes less than 2 minutes • No bank account needed
+                      {t('takesLessThan2Min')}
                     </motion.p>
                   </motion.div>
                 )}
@@ -255,9 +257,9 @@ export default function OnboardingPage() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                 >
-                  Do you have credit history?
+                  {t('doYouHaveCreditHistory')}
                 </motion.h2>
-                <p className="text-gray-400 text-sm">This helps us understand how ScoreKu can help you</p>
+                <p className="text-gray-400 text-sm">{t('creditHistoryHelp')}</p>
               </div>
 
               <div className="space-y-3">
@@ -314,9 +316,9 @@ export default function OnboardingPage() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                 >
-                  What best describes you?
+                  {t('whatDescribesYou')}
                 </motion.h2>
-                <p className="text-gray-400 text-sm">We'll tailor your experience based on your profile</p>
+                <p className="text-gray-400 text-sm">{t('tailorExperience')}</p>
               </div>
 
               <div className="grid grid-cols-3 gap-2.5 max-h-[400px] overflow-y-auto pr-1 scrollbar-hide">
@@ -385,7 +387,7 @@ export default function OnboardingPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
                 >
-                  You're a perfect fit!
+                  {t('perfectFit')}
                 </motion.h2>
                 <motion.p
                   className="text-gray-400 text-sm"
@@ -393,7 +395,7 @@ export default function OnboardingPage() {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.5 }}
                 >
-                  ScoreKu is designed exactly for people like you
+                  {t('designedForYou')}
                 </motion.p>
               </div>
 
@@ -404,9 +406,9 @@ export default function OnboardingPage() {
                 transition={{ delay: 0.6 }}
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-400">Credit History</span>
+                  <span className="text-sm text-gray-400">{t('creditHistoryLabel')}</span>
                   <span className="text-sm font-medium text-white">
-                    {creditStatus === 'no' ? 'None' : creditStatus === 'yes' ? 'Existing' : 'Unknown'}
+                    {creditStatus === 'no' ? t('none') : creditStatus === 'yes' ? t('existing') : t('unknown')}
                   </span>
                 </div>
                 <div className="border-t border-[#1f1f1f]" />
@@ -418,8 +420,8 @@ export default function OnboardingPage() {
                 </div>
                 <div className="border-t border-[#1f1f1f]" />
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-400">ScoreKu can help?</span>
-                  <span className="text-sm font-medium text-teal-400">Absolutely ✓</span>
+                  <span className="text-sm text-gray-400">{t('canScoreKuHelp')}</span>
+                  <span className="text-sm font-medium text-teal-400">{t('absolutely')}</span>
                 </div>
               </motion.div>
 
@@ -449,7 +451,7 @@ export default function OnboardingPage() {
                   transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', repeatDelay: 1 }}
                 />
                 <span className="relative flex items-center justify-center gap-2">
-                  Continue to ScoreKu <ArrowRight size={20} />
+                  {t('continueToScoreKu')} <ArrowRight size={20} />
                 </span>
               </motion.button>
             </motion.div>

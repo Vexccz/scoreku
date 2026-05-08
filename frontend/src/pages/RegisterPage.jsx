@@ -6,6 +6,7 @@ import toast from 'react-hot-toast'
 import { motion } from 'framer-motion'
 import { Shield, Mail, Lock, User, ArrowRight, Users, UserPlus, Check } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
+import { useLanguage } from '../context/LanguageContext'
 
 function FloatingParticles() {
   const particles = useMemo(() =>
@@ -160,6 +161,7 @@ export default function RegisterPage() {
   const { login } = useAuth()
   const navigate = useNavigate()
   const { theme } = useTheme()
+  const { t } = useLanguage()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -232,12 +234,12 @@ export default function RegisterPage() {
 
           {/* Card */}
           <div className={`border rounded-2xl p-8 shadow-2xl ${cardBg}`}>
-            <h2 className={`text-2xl font-bold mb-1 text-center ${textPrimary}`}>Create your account</h2>
-            <p className={`text-sm mb-8 text-center ${textSecondary}`}>Start building your financial identity</p>
+            <h2 className={`text-2xl font-bold mb-1 text-center ${textPrimary}`}>{t('createAccount')}</h2>
+            <p className={`text-sm mb-8 text-center ${textSecondary}`}>{t('registerSubtitle')}</p>
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className={`block text-sm mb-2 font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>Full Name</label>
+                <label className={`block text-sm mb-2 font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>{t('fullName')}</label>
                 <div className="relative">
                   <User size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
                   <input
@@ -251,7 +253,7 @@ export default function RegisterPage() {
                 </div>
               </div>
               <div>
-                <label className={`block text-sm mb-2 font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>Email</label>
+                <label className={`block text-sm mb-2 font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>{t('emailLabel')}</label>
                 <div className="relative">
                   <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
                   <input
@@ -265,7 +267,7 @@ export default function RegisterPage() {
                 </div>
               </div>
               <div>
-                <label className={`block text-sm mb-2 font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>Password</label>
+                <label className={`block text-sm mb-2 font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>{t('passwordLabel')}</label>
                 <div className="relative">
                   <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
                   <input
@@ -280,7 +282,7 @@ export default function RegisterPage() {
                 </div>
               </div>
               <div>
-                <label className={`block text-sm mb-2 font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>Confirm Password</label>
+                <label className={`block text-sm mb-2 font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>{t('confirmPassword')}</label>
                 <div className="relative">
                   <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
                   <input
@@ -304,24 +306,24 @@ export default function RegisterPage() {
                 {loading ? (
                   <span className="flex items-center gap-2">
                     <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Creating...
+                    {t('creating')}
                   </span>
                 ) : (
-                  <>Get Started <ArrowRight size={16} /></>
+                  <>{t('getStarted')} <ArrowRight size={16} /></>
                 )}
               </motion.button>
             </form>
 
             <div className="mt-6 space-y-3">
               <p className={`text-center text-sm ${textSecondary}`}>
-                Already have an account?{' '}
-                <Link to="/login" className="text-blue-400 hover:text-blue-300 font-medium transition">Log in</Link>
+                {t('alreadyHaveAccount')}{' '}
+                <Link to="/login" className="text-blue-400 hover:text-blue-300 font-medium transition">{t('logIn')}</Link>
               </p>
               <p className={`text-center text-xs ${theme === 'dark' ? 'text-gray-500' : 'text-gray-400'}`}>
-                By signing up, you agree to our{' '}
-                <span className={`cursor-pointer transition ${theme === 'dark' ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'}`}>Terms</span>
+                {t('termsAgree')}{' '}
+                <span className={`cursor-pointer transition ${theme === 'dark' ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'}`}>{t('terms')}</span>
                 {' & '}
-                <span className={`cursor-pointer transition ${theme === 'dark' ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'}`}>Privacy Policy</span>
+                <span className={`cursor-pointer transition ${theme === 'dark' ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'}`}>{t('privacyPolicy')}</span>
               </p>
             </div>
           </div>
@@ -334,7 +336,7 @@ export default function RegisterPage() {
             className={`flex items-center justify-center gap-2 mt-6 text-sm ${textSecondary}`}
           >
             <Users size={14} />
-            <span>Join 10,000+ Malaysians building their financial identity</span>
+            <span>{t('socialProof')}</span>
           </motion.div>
         </div>
       </motion.div>

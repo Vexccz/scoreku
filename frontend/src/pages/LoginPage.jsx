@@ -6,6 +6,7 @@ import toast from 'react-hot-toast'
 import { motion } from 'framer-motion'
 import { Shield, Mail, Lock, ArrowRight, Users } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
+import { useLanguage } from '../context/LanguageContext'
 
 function FloatingParticles() {
   const particles = useMemo(() =>
@@ -162,6 +163,7 @@ export default function LoginPage() {
   const { login } = useAuth()
   const navigate = useNavigate()
   const { theme } = useTheme()
+  const { t } = useLanguage()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -230,12 +232,12 @@ export default function LoginPage() {
 
           {/* Card */}
           <div className={`border rounded-2xl p-8 shadow-2xl ${cardBg}`}>
-            <h2 className={`text-2xl font-bold mb-1 text-center ${textPrimary}`}>Welcome back</h2>
-            <p className={`text-sm mb-8 text-center ${textSecondary}`}>Sign in to view your credit score</p>
+            <h2 className={`text-2xl font-bold mb-1 text-center ${textPrimary}`}>{t('welcomeBack')}</h2>
+            <p className={`text-sm mb-8 text-center ${textSecondary}`}>{t('signInSubtitle')}</p>
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className={`block text-sm mb-2 font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>Email</label>
+                <label className={`block text-sm mb-2 font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>{t('emailLabel')}</label>
                 <div className="relative">
                   <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
                   <input
@@ -250,8 +252,8 @@ export default function LoginPage() {
               </div>
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className={`block text-sm font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>Password</label>
-                  <span className={`text-xs cursor-not-allowed ${textSecondary}`}>Forgot password?</span>
+                  <label className={`block text-sm font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>{t('passwordLabel')}</label>
+                  <span className={`text-xs cursor-not-allowed ${textSecondary}`}>{t('forgotPassword')}</span>
                 </div>
                 <div className="relative">
                   <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
@@ -275,22 +277,22 @@ export default function LoginPage() {
                 {loading ? (
                   <span className="flex items-center gap-2">
                     <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Signing in...
+                    {t('signingIn')}
                   </span>
                 ) : (
-                  <>Sign In <ArrowRight size={16} /></>
+                  <>{t('signIn')} <ArrowRight size={16} /></>
                 )}
               </motion.button>
             </form>
 
             <div className="mt-6 space-y-3">
               <p className={`text-center text-sm ${textSecondary}`}>
-                Don&apos;t have an account?{' '}
-                <Link to="/register" className="text-blue-400 hover:text-blue-300 font-medium transition">Sign up</Link>
+                {t('noAccount')}{' '}
+                <Link to="/register" className="text-blue-400 hover:text-blue-300 font-medium transition">{t('signUp')}</Link>
               </p>
               <p className="text-center">
                 <Link to="/dashboard?demo=true" className={`text-xs transition ${theme === 'dark' ? 'text-gray-500 hover:text-gray-400' : 'text-gray-400 hover:text-gray-600'}`}>
-                  Try Demo →
+                  {t('tryDemo')}
                 </Link>
               </p>
             </div>
@@ -304,7 +306,7 @@ export default function LoginPage() {
             className={`flex items-center justify-center gap-2 mt-6 text-sm ${textSecondary}`}
           >
             <Users size={14} />
-            <span>Join 10,000+ Malaysians building their financial identity</span>
+            <span>{t('socialProof')}</span>
           </motion.div>
         </div>
       </motion.div>

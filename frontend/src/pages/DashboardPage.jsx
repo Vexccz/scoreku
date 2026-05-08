@@ -237,6 +237,7 @@ function AnimatedScore({ target }) {
 // ─── Score Gauge ─────────────────────────────────────────────────────────────
 
 function ScoreGauge({ score, category }) {
+  const { t } = useLanguage()
   const circumference = 2 * Math.PI * 54
   const progress = ((score - 300) / 550) * circumference
 
@@ -268,7 +269,7 @@ function ScoreGauge({ score, category }) {
         <span className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
           <AnimatedScore target={score} />
         </span>
-        <span className="text-[10px] text-gray-500 mt-1">out of 850</span>
+        <span className="text-[10px] text-gray-500 mt-1">{t('outOf850')}</span>
       </div>
     </div>
   )
@@ -476,7 +477,7 @@ export default function DashboardPage() {
                 }`}
               >
                 <Clock size={11} />
-                <span>Last updated: {getRelativeTime(lastUpdated)}</span>
+                <span>{t('lastUpdated')}: {getRelativeTime(lastUpdated)}</span>
               </motion.div>
             </div>
 
@@ -505,7 +506,7 @@ export default function DashboardPage() {
                   </LineChart>
                 </ResponsiveContainer>
               </div>
-              <p className={`text-[11px] mt-2 ${textMuted}`}>6-month history</p>
+              <p className={`text-[11px] mt-2 ${textMuted}`}>{t('monthHistory')}</p>
             </div>
 
             {/* Percentile Card */}
@@ -550,14 +551,14 @@ export default function DashboardPage() {
                   <Building2 size={24} className="text-blue-400" />
                 </div>
                 <div className="flex-1">
-                  <h3 className={`font-semibold text-sm mb-1 ${textPrimary}`}>Connect your bank for automatic scoring</h3>
-                  <p className={`text-xs ${textSecondary}`}>Link your bank account to get real-time credit scoring based on actual transactions</p>
+                  <h3 className={`font-semibold text-sm mb-1 ${textPrimary}`}>{t('connectBank')}</h3>
+                  <p className={`text-xs ${textSecondary}`}>{t('connectBankDesc')}</p>
                 </div>
                 <Link
                   to="/connect-bank"
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-teal-600 hover:opacity-90 transition-all flex-shrink-0"
                 >
-                  Connect Now
+                  {t('connectNow')}
                   <ChevronRight size={14} />
                 </Link>
               </div>
@@ -919,7 +920,7 @@ export default function DashboardPage() {
                   onClick={() => setGoalModalOpen(true)}
                   className="px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-all"
                 >
-                  Set New Goal
+                  {t('setNewGoal')}
                 </button>
               </div>
               <div className="mb-2">
@@ -994,7 +995,7 @@ export default function DashboardPage() {
                 </div>
                 <h3 className="font-semibold text-sm">{t('recentAlerts')}</h3>
               </div>
-              <button className={`text-xs ${textSecondary} hover:text-blue-400 transition-colors`}>View All</button>
+              <button className={`text-xs ${textSecondary} hover:text-blue-400 transition-colors`}>{t('viewAll')}</button>
             </div>
             <div className="space-y-3">
               {demoAlerts.map((alert, i) => (
@@ -1073,10 +1074,10 @@ export default function DashboardPage() {
               <table className="w-full text-sm min-w-[500px]">
                 <thead>
                   <tr className={`border-b ${tableBorder}`}>
-                    <th className={`text-left py-3 px-4 text-xs font-medium uppercase tracking-wider ${textSecondary}`}>Date</th>
-                    <th className={`text-left py-3 px-4 text-xs font-medium uppercase tracking-wider ${textSecondary}`}>Score</th>
-                    <th className={`text-left py-3 px-4 text-xs font-medium uppercase tracking-wider ${textSecondary}`}>Change</th>
-                    <th className={`text-left py-3 px-4 text-xs font-medium uppercase tracking-wider ${textSecondary}`}>Risk Category</th>
+                    <th className={`text-left py-3 px-4 text-xs font-medium uppercase tracking-wider ${textSecondary}`}>{t('date')}</th>
+                    <th className={`text-left py-3 px-4 text-xs font-medium uppercase tracking-wider ${textSecondary}`}>{t('score')}</th>
+                    <th className={`text-left py-3 px-4 text-xs font-medium uppercase tracking-wider ${textSecondary}`}>{t('change')}</th>
+                    <th className={`text-left py-3 px-4 text-xs font-medium uppercase tracking-wider ${textSecondary}`}>{t('riskCategory')}</th>
                   </tr>
                 </thead>
                 <tbody>

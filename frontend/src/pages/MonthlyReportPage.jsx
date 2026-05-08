@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { FileBarChart, TrendingUp, TrendingDown, Calendar, Download, ArrowUp, ArrowDown, Minus } from 'lucide-react'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { useTheme } from '../context/ThemeContext'
+import { useLanguage } from '../context/LanguageContext'
 import AppSidebar from '../components/AppSidebar'
 import toast from 'react-hot-toast'
 
@@ -34,6 +35,7 @@ const comparisonData = [
 
 export default function MonthlyReportPage() {
   const { theme } = useTheme()
+  const { t } = useLanguage()
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const pageBg = theme === 'dark' ? 'bg-[#0a0a0a]' : 'bg-gray-50'
@@ -61,7 +63,7 @@ export default function MonthlyReportPage() {
           {/* Header */}
           <motion.div variants={item} className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4 pt-12 lg:pt-0">
             <div>
-              <h1 className={`text-2xl font-bold ${textPrimary}`}>Monthly Score Report</h1>
+              <h1 className={`text-2xl font-bold ${textPrimary}`}>{t('monthlyScoreReport')}</h1>
               <p className={`text-sm mt-1 ${textSecondary}`}>May 2026</p>
             </div>
             <button
@@ -69,7 +71,7 @@ export default function MonthlyReportPage() {
               className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-teal-600 rounded-xl text-sm font-medium text-white hover:opacity-90 transition-opacity"
             >
               <Download size={14} />
-              Download PDF
+              {t('downloadPdf')}
             </button>
           </motion.div>
 
@@ -77,7 +79,7 @@ export default function MonthlyReportPage() {
           <motion.div variants={item} className={`border rounded-2xl p-6 mb-6 ${cardBg}`}>
             <div className="flex items-center justify-between">
               <div>
-                <p className={`text-sm ${textSecondary}`}>Score Change This Month</p>
+                <p className={`text-sm ${textSecondary}`}>{t('scoreChangeThisMonth')}</p>
                 <div className="flex items-baseline gap-3 mt-2">
                   <span className={`text-3xl font-bold ${textPrimary}`}>645</span>
                   <span className={textSecondary}>→</span>
@@ -97,7 +99,7 @@ export default function MonthlyReportPage() {
               <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center">
                 <Calendar size={16} className="text-purple-400" />
               </div>
-              <h3 className="font-semibold text-sm">Key Events</h3>
+              <h3 className="font-semibold text-sm">{t('keyEvents')}</h3>
             </div>
             <div className="space-y-4">
               {timeline.map((event, i) => (
@@ -130,7 +132,7 @@ export default function MonthlyReportPage() {
               <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
                 <FileBarChart size={16} className="text-blue-400" />
               </div>
-              <h3 className="font-semibold text-sm">Category Breakdown</h3>
+              <h3 className="font-semibold text-sm">{t('categoryBreakdown')}</h3>
             </div>
             <div className="space-y-4">
               {categoryBreakdown.map((cat, i) => (
@@ -161,7 +163,7 @@ export default function MonthlyReportPage() {
               <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center">
                 <TrendingUp size={16} className="text-amber-400" />
               </div>
-              <h3 className="font-semibold text-sm">vs Last Month</h3>
+              <h3 className="font-semibold text-sm">{t('vsLastMonth')}</h3>
             </div>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">

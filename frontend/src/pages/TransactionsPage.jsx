@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Search, Receipt, TrendingUp, TrendingDown, Minus, DollarSign, ShoppingBag, Smartphone, Utensils, ArrowLeftRight, Briefcase, Zap } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
+import { useLanguage } from '../context/LanguageContext'
 import AppSidebar from '../components/AppSidebar'
 
 const categories = ['All', 'Bills', 'Salary', 'E-wallet', 'Shopping', 'Transfer', 'Food']
@@ -61,6 +62,7 @@ const monthlySummary = {
 
 export default function TransactionsPage() {
   const { theme } = useTheme()
+  const { t } = useLanguage()
   const [filter, setFilter] = useState('All')
   const [search, setSearch] = useState('')
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -96,8 +98,8 @@ export default function TransactionsPage() {
         <motion.div variants={container} initial="hidden" animate="show" className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {/* Header */}
           <motion.div variants={item} className="mb-6 pt-12 lg:pt-0">
-            <h1 className={`text-2xl font-bold ${textPrimary}`}>Transaction History</h1>
-            <p className={`text-sm mt-1 ${textSecondary}`}>Track your financial activity and score impact</p>
+            <h1 className={`text-2xl font-bold ${textPrimary}`}>{t('transactionHistory')}</h1>
+            <p className={`text-sm mt-1 ${textSecondary}`}>{t('transactionsSubtitle')}</p>
           </motion.div>
 
           {/* Monthly Summary */}
@@ -121,7 +123,7 @@ export default function TransactionsPage() {
               <Search size={16} className={`absolute left-3 top-1/2 -translate-y-1/2 ${textSecondary}`} />
               <input
                 type="text"
-                placeholder="Search transactions..."
+                placeholder={t('searchTransactions')}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className={`w-full pl-10 pr-4 py-2.5 rounded-xl border text-sm ${inputBg} focus:outline-none focus:border-blue-500`}
@@ -183,7 +185,7 @@ export default function TransactionsPage() {
             </div>
             {filtered.length === 0 && (
               <div className="py-12 text-center">
-                <p className={textSecondary}>No transactions found</p>
+                <p className={textSecondary}>{t('noTransactions')}</p>
               </div>
             )}
           </motion.div>

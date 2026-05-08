@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Gift, Copy, Share2, Users, Trophy, Award, Star } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
+import { useLanguage } from '../context/LanguageContext'
 import AppSidebar from '../components/AppSidebar'
 import toast from 'react-hot-toast'
 
@@ -29,6 +30,7 @@ const leaderboard = [
 
 export default function ReferralPage() {
   const { theme } = useTheme()
+  const { t } = useLanguage()
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const pageBg = theme === 'dark' ? 'bg-[#0a0a0a]' : 'bg-gray-50'
@@ -67,15 +69,15 @@ export default function ReferralPage() {
         <motion.div variants={container} initial="hidden" animate="show" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {/* Header */}
           <motion.div variants={item} className="mb-6 pt-12 lg:pt-0">
-            <h1 className={`text-2xl font-bold ${textPrimary}`}>Invite Friends, Earn Rewards</h1>
-            <p className={`text-sm mt-1 ${textSecondary}`}>Share ScoreKu and earn bonus points</p>
+            <h1 className={`text-2xl font-bold ${textPrimary}`}>{t('inviteFriends')}</h1>
+            <p className={`text-sm mt-1 ${textSecondary}`}>{t('referralSubtitle')}</p>
           </motion.div>
 
           {/* Referral Code Card */}
           <motion.div variants={item} className={`border rounded-2xl p-6 mb-6 ${cardBg} relative overflow-hidden`}>
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-teal-500/5" />
             <div className="relative">
-              <p className={`text-sm ${textSecondary} mb-2`}>Your Referral Code</p>
+              <p className={`text-sm ${textSecondary} mb-2`}>{t('yourReferralCode')}</p>
               <div className="flex items-center gap-3 mb-5">
                 <div className={`flex-1 px-5 py-3 rounded-xl border-2 border-dashed text-center ${theme === 'dark' ? 'border-blue-500/30 bg-blue-500/5' : 'border-blue-300 bg-blue-50'}`}>
                   <span className="text-xl font-bold tracking-wider bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
@@ -88,7 +90,7 @@ export default function ReferralPage() {
                   onClick={copyCode}
                   className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium bg-gradient-to-r from-blue-600 to-teal-600 text-white hover:opacity-90"
                 >
-                  <Copy size={14} /> Copy Code
+                  <Copy size={14} /> {t('copyCode')}
                 </button>
                 <button
                   onClick={shareWhatsApp}
@@ -127,7 +129,7 @@ export default function ReferralPage() {
               <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center">
                 <Trophy size={16} className="text-amber-400" />
               </div>
-              <h3 className="font-semibold text-sm">Reward Tiers</h3>
+              <h3 className="font-semibold text-sm">{t('rewardTiers')}</h3>
             </div>
             <div className="space-y-3">
               {rewardTiers.map((tier, i) => {
@@ -154,7 +156,7 @@ export default function ReferralPage() {
                         </p>
                       </div>
                     </div>
-                    {achieved && <span className="text-xs text-emerald-400 font-medium">✓ Achieved</span>}
+                    {achieved && <span className="text-xs text-emerald-400 font-medium">✓ {t('achieved')}</span>}
                   </div>
                 )
               })}
@@ -167,7 +169,7 @@ export default function ReferralPage() {
               <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center">
                 <Trophy size={16} className="text-purple-400" />
               </div>
-              <h3 className="font-semibold text-sm">Top Referrers</h3>
+              <h3 className="font-semibold text-sm">{t('topReferrers')}</h3>
             </div>
             <div className="space-y-3">
               {leaderboard.map((entry, i) => (

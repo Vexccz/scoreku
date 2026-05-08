@@ -7,6 +7,7 @@ import {
   ChevronRight, X, Menu
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
+import { useLanguage } from '../context/LanguageContext'
 import ThemeToggle from '../components/ThemeToggle'
 import AppSidebar from '../components/AppSidebar'
 import BrandLogo from '../components/BrandLogo'
@@ -110,6 +111,7 @@ function Confetti({ trigger }) {
 // ─── Step 1: Select Bank ─────────────────────────────────────────────────────
 
 function SelectBankStep({ onSelect, theme }) {
+  const { t } = useLanguage()
   const cardBg = theme === 'dark' ? 'bg-[#111] border-[#1f1f1f]' : 'bg-white border-gray-200'
   const textPrimary = theme === 'dark' ? 'text-white' : 'text-gray-900'
   const textSecondary = theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
@@ -130,8 +132,8 @@ function SelectBankStep({ onSelect, theme }) {
         >
           <Building2 size={28} className="text-blue-400" />
         </motion.div>
-        <h2 className={`text-2xl font-bold mb-2 ${textPrimary}`}>Connect Your Bank</h2>
-        <p className={`text-sm ${textSecondary}`}>Select your bank to link your account for automatic scoring</p>
+        <h2 className={`text-2xl font-bold mb-2 ${textPrimary}`}>{t('connectYourBank')}</h2>
+        <p className={`text-sm ${textSecondary}`}>{t('connectBankSubtitle')}</p>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -175,7 +177,7 @@ function SelectBankStep({ onSelect, theme }) {
         className={`flex items-center justify-center gap-2 mt-8 text-xs ${textSecondary}`}
       >
         <Lock size={12} />
-        <span>Bank-grade encryption · Read-only access · Revoke anytime</span>
+        <span>{t('bankGradeEncryption')}</span>
       </motion.div>
     </motion.div>
   )
@@ -184,6 +186,7 @@ function SelectBankStep({ onSelect, theme }) {
 // ─── Step 2: Authorization ───────────────────────────────────────────────────
 
 function AuthorizationStep({ bank, onAuthorize, onCancel, theme }) {
+  const { t } = useLanguage()
   const [connecting, setConnecting] = useState(false)
   const cardBg = theme === 'dark' ? 'bg-[#111] border-[#1f1f1f]' : 'bg-white border-gray-200'
   const textPrimary = theme === 'dark' ? 'text-white' : 'text-gray-900'
@@ -228,14 +231,14 @@ function AuthorizationStep({ bank, onAuthorize, onCancel, theme }) {
               <Shield size={16} className="text-white" />
             </div>
             <div>
-              <h4 className={`font-semibold text-sm ${textPrimary}`}>Authorize ScoreKu</h4>
-              <p className={`text-xs ${textSecondary}`}>Read-only access request</p>
+              <h4 className={`font-semibold text-sm ${textPrimary}`}>{t('authorizeScoreKu')}</h4>
+              <p className={`text-xs ${textSecondary}`}>{t('readOnlyAccess')}</p>
             </div>
           </div>
 
           {/* Permissions */}
           <div className={`rounded-xl p-4 mb-5 ${surfaceBg}`}>
-            <p className={`text-xs font-medium mb-3 ${textSecondary}`}>ScoreKu wants to access your:</p>
+            <p className={`text-xs font-medium mb-3 ${textSecondary}`}>{t('wantsToAccess')}</p>
             <div className="space-y-2.5">
               {permissions.map((perm, i) => (
                 <motion.div
@@ -269,7 +272,7 @@ function AuthorizationStep({ bank, onAuthorize, onCancel, theme }) {
                   : 'border-gray-200 text-gray-500 hover:bg-gray-50'
               } ${connecting ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
-              Cancel
+              {t('cancel')}
             </button>
             <button
               onClick={handleAuthorize}
@@ -279,12 +282,12 @@ function AuthorizationStep({ bank, onAuthorize, onCancel, theme }) {
               {connecting ? (
                 <>
                   <Loader2 size={16} className="animate-spin" />
-                  Connecting securely...
+                  {t('connectingSecurely')}
                 </>
               ) : (
                 <>
                   <Lock size={14} />
-                  Authorize
+                  {t('authorize')}
                 </>
               )}
             </button>
@@ -298,6 +301,7 @@ function AuthorizationStep({ bank, onAuthorize, onCancel, theme }) {
 // ─── Step 3: Importing Data ──────────────────────────────────────────────────
 
 function ImportingStep({ bank, onComplete, theme }) {
+  const { t } = useLanguage()
   const [completedSteps, setCompletedSteps] = useState([])
   const [currentStep, setCurrentStep] = useState(0)
   const textPrimary = theme === 'dark' ? 'text-white' : 'text-gray-900'
@@ -341,8 +345,8 @@ function ImportingStep({ bank, onComplete, theme }) {
         >
           <Loader2 size={28} style={{ color: bank.color }} />
         </motion.div>
-        <h2 className={`text-xl font-bold mb-2 ${textPrimary}`}>Importing Your Data</h2>
-        <p className={`text-sm ${textSecondary}`}>Securely fetching data from {bank.name}</p>
+        <h2 className={`text-xl font-bold mb-2 ${textPrimary}`}>{t('importingData')}</h2>
+        <p className={`text-sm ${textSecondary}`}>{t('importingFrom')} {bank.name}</p>
       </div>
 
       {/* Progress Bar */}
@@ -410,6 +414,7 @@ function ImportingStep({ bank, onComplete, theme }) {
 // ─── Step 4: Results Summary ─────────────────────────────────────────────────
 
 function ResultsStep({ bank, theme }) {
+  const { t } = useLanguage()
   const navigate = useNavigate()
   const textPrimary = theme === 'dark' ? 'text-white' : 'text-gray-900'
   const textSecondary = theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
@@ -446,7 +451,7 @@ function ResultsStep({ bank, theme }) {
           transition={{ delay: 0.4 }}
           className={`text-2xl font-bold mb-2 ${textPrimary}`}
         >
-          Bank Connected Successfully!
+          {t('bankConnectedSuccess')}
         </motion.h2>
         <motion.p
           initial={{ opacity: 0 }}
@@ -454,7 +459,7 @@ function ResultsStep({ bank, theme }) {
           transition={{ delay: 0.5 }}
           className={`text-sm ${textSecondary}`}
         >
-          {bank.name} has been linked to your ScoreKu account
+          {bank.name} {t('bankLinked')}
         </motion.p>
       </div>
 
@@ -509,7 +514,7 @@ function ResultsStep({ bank, theme }) {
         className="flex items-center justify-center gap-2 mb-6 px-4 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20"
       >
         <Sparkles size={16} className="text-emerald-400" />
-        <span className="text-sm font-medium text-emerald-400">Your score has been updated!</span>
+        <span className="text-sm font-medium text-emerald-400">{t('scoreUpdated')}</span>
       </motion.div>
 
       {/* Action Buttons */}
@@ -523,7 +528,7 @@ function ResultsStep({ bank, theme }) {
           onClick={() => navigate('/dashboard?demo=true')}
           className="flex-1 px-6 py-3 rounded-xl text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-teal-600 hover:opacity-90 transition-all flex items-center justify-center gap-2"
         >
-          View Dashboard
+          {t('viewDashboard')}
           <ChevronRight size={16} />
         </button>
         <button
@@ -539,7 +544,7 @@ function ResultsStep({ bank, theme }) {
           }`}
         >
           <Building2 size={16} />
-          Connect Another Bank
+          {t('connectAnotherBank')}
         </button>
       </motion.div>
     </motion.div>
@@ -550,6 +555,7 @@ function ResultsStep({ bank, theme }) {
 
 export default function BankConnectionPage() {
   const { theme } = useTheme()
+  const { t } = useLanguage()
   const [step, setStep] = useState(1) // 1=select, 2=auth, 3=import, 4=results
   const [selectedBank, setSelectedBank] = useState(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -639,7 +645,7 @@ export default function BankConnectionPage() {
               }`}
             >
               <ArrowLeft size={16} />
-              Back to bank selection
+              {t('backToBankSelection')}
             </motion.button>
           )}
 

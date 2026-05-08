@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { User, Mail, Phone, MapPin, Bell, Shield, Download, Trash2, Bug, MessageCircle, X } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
+import { useLanguage } from '../context/LanguageContext'
 import AppSidebar from '../components/AppSidebar'
 import toast from 'react-hot-toast'
 
@@ -14,6 +15,7 @@ const defaultProfile = {
 
 export default function ProfilePage() {
   const { theme } = useTheme()
+  const { t } = useLanguage()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [profile, setProfile] = useState(() => {
     const saved = localStorage.getItem('scoreku_profile')
@@ -68,8 +70,8 @@ export default function ProfilePage() {
       <main className="lg:ml-[260px] min-h-screen pb-8">
         <motion.div variants={container} initial="hidden" animate="show" className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <motion.div variants={item} className="mb-6 pt-12 lg:pt-0">
-            <h1 className={`text-2xl font-bold ${textPrimary}`}>Profile & Settings</h1>
-            <p className={`text-sm mt-1 ${textSecondary}`}>Manage your account and preferences</p>
+            <h1 className={`text-2xl font-bold ${textPrimary}`}>{t('profileSettings')}</h1>
+            <p className={`text-sm mt-1 ${textSecondary}`}>{t('profileSubtitle')}</p>
           </motion.div>
 
           {/* Personal Info */}
@@ -78,7 +80,7 @@ export default function ProfilePage() {
               <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
                 <User size={16} className="text-blue-400" />
               </div>
-              <h3 className="font-semibold text-sm">Personal Information</h3>
+              <h3 className="font-semibold text-sm">{t('personalInfo')}</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {[
@@ -102,7 +104,7 @@ export default function ProfilePage() {
               onClick={saveProfile}
               className="mt-5 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-teal-600 rounded-xl text-sm font-medium text-white hover:opacity-90 transition-opacity"
             >
-              Save Changes
+              {t('saveChanges')}
             </button>
           </motion.div>
 
@@ -112,14 +114,14 @@ export default function ProfilePage() {
               <div className="w-8 h-8 rounded-lg bg-teal-500/10 flex items-center justify-center">
                 <Shield size={16} className="text-teal-400" />
               </div>
-              <h3 className="font-semibold text-sm">Connected Accounts</h3>
+              <h3 className="font-semibold text-sm">{t('connectedAccounts')}</h3>
             </div>
             <div className={`flex items-center justify-between p-4 rounded-xl border ${theme === 'dark' ? 'border-[#2a2a2a]' : 'border-gray-200'}`}>
               <div className="flex items-center gap-3">
                 <div className={`w-3 h-3 rounded-full ${bankConnected ? 'bg-emerald-500' : 'bg-gray-500'}`} />
                 <div>
-                  <p className={`text-sm font-medium ${textPrimary}`}>Bank Account</p>
-                  <p className={`text-xs ${textSecondary}`}>{bankConnected ? 'Connected via Open Banking' : 'Not connected'}</p>
+                  <p className={`text-sm font-medium ${textPrimary}`}>{t('bankAccount')}</p>
+                  <p className={`text-xs ${textSecondary}`}>{bankConnected ? t('connectedViaOpenBanking') : t('notConnected')}</p>
                 </div>
               </div>
               <button
@@ -138,7 +140,7 @@ export default function ProfilePage() {
                     : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
                 }`}
               >
-                {bankConnected ? 'Disconnect' : 'Connect'}
+                {bankConnected ? t('disconnect') : t('connect')}
               </button>
             </div>
           </motion.div>
@@ -149,7 +151,7 @@ export default function ProfilePage() {
               <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center">
                 <Bell size={16} className="text-amber-400" />
               </div>
-              <h3 className="font-semibold text-sm">Notification Preferences</h3>
+              <h3 className="font-semibold text-sm">{t('notificationPreferences')}</h3>
             </div>
             <div className="space-y-4">
               {[
@@ -179,7 +181,7 @@ export default function ProfilePage() {
               <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center">
                 <Shield size={16} className="text-red-400" />
               </div>
-              <h3 className="font-semibold text-sm">Data & Privacy</h3>
+              <h3 className="font-semibold text-sm">{t('dataPrivacy')}</h3>
             </div>
             <div className="flex flex-wrap gap-3">
               <button
@@ -187,14 +189,14 @@ export default function ProfilePage() {
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm border ${theme === 'dark' ? 'border-[#2a2a2a] text-gray-300 hover:border-blue-500/30' : 'border-gray-200 text-gray-700 hover:border-blue-300'}`}
               >
                 <Download size={14} />
-                Download My Data
+                {t('downloadMyData')}
               </button>
               <button
                 onClick={() => setDeleteModal(true)}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm border border-red-500/30 text-red-400 hover:bg-red-500/10"
               >
                 <Trash2 size={14} />
-                Delete Account
+                {t('deleteAccount')}
               </button>
             </div>
           </motion.div>
@@ -241,22 +243,22 @@ export default function ProfilePage() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-4">
-              <h3 className={`font-semibold text-red-400`}>Delete Account?</h3>
+              <h3 className={`font-semibold text-red-400`}>{t('deleteAccountConfirm')}</h3>
               <button onClick={() => setDeleteModal(false)} className={textSecondary}><X size={18} /></button>
             </div>
-            <p className={`text-sm mb-5 ${textSecondary}`}>This will permanently delete all your data. This action cannot be undone.</p>
+            <p className={`text-sm mb-5 ${textSecondary}`}>{t('deleteAccountDesc')}</p>
             <div className="flex gap-3">
               <button
                 onClick={() => setDeleteModal(false)}
                 className={`flex-1 py-2.5 rounded-xl text-sm font-medium border ${theme === 'dark' ? 'border-[#2a2a2a] text-gray-300' : 'border-gray-200 text-gray-700'}`}
               >
-                Cancel
+                {t('cancel')}
               </button>
               <button
                 onClick={handleDeleteAccount}
                 className="flex-1 py-2.5 rounded-xl text-sm font-medium bg-red-500 text-white hover:bg-red-600"
               >
-                Delete
+                {t('delete')}
               </button>
             </div>
           </motion.div>

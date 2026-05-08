@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { BookOpen, Clock, Award, ChevronDown, ChevronUp, CheckCircle2 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
+import { useLanguage } from '../context/LanguageContext'
 import AppSidebar from '../components/AppSidebar'
 
 const articles = [
@@ -73,6 +74,7 @@ const articles = [
 
 export default function LearningPage() {
   const { theme } = useTheme()
+  const { t } = useLanguage()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [expanded, setExpanded] = useState(null)
   const [completed, setCompleted] = useState(() => {
@@ -116,15 +118,15 @@ export default function LearningPage() {
         <motion.div variants={container} initial="hidden" animate="show" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {/* Header */}
           <motion.div variants={item} className="mb-6 pt-12 lg:pt-0">
-            <h1 className={`text-2xl font-bold ${textPrimary}`}>Financial Literacy Hub</h1>
-            <p className={`text-sm mt-1 ${textSecondary}`}>Learn how to build and maintain a strong credit profile</p>
+            <h1 className={`text-2xl font-bold ${textPrimary}`}>{t('financialLiteracyHub')}</h1>
+            <p className={`text-sm mt-1 ${textSecondary}`}>{t('learningSubtitle')}</p>
           </motion.div>
 
           {/* Progress Bar */}
           <motion.div variants={item} className={`border rounded-2xl p-5 mb-6 ${cardBg}`}>
             <div className="flex items-center justify-between mb-2">
-              <span className={`text-sm font-medium ${textPrimary}`}>Progress</span>
-              <span className={`text-sm font-medium ${textSecondary}`}>{progress}/{articles.length} completed</span>
+              <span className={`text-sm font-medium ${textPrimary}`}>{t('progress')}</span>
+              <span className={`text-sm font-medium ${textSecondary}`}>{progress}/{articles.length} {t('completed')}</span>
             </div>
             <div className={`h-3 rounded-full overflow-hidden ${barBg}`}>
               <motion.div
@@ -200,7 +202,7 @@ export default function LearningPage() {
                             }`}
                           >
                             <CheckCircle2 size={14} />
-                            {isCompleted ? 'Completed ✓' : 'Mark as Complete'}
+                            {isCompleted ? t('completedCheck') : t('markAsComplete')}
                           </button>
                         </div>
                       </motion.div>

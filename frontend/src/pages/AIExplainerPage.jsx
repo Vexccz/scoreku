@@ -8,6 +8,7 @@ import {
   SlidersHorizontal, Building2
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
+import { useLanguage } from '../context/LanguageContext'
 import ThemeToggle from '../components/ThemeToggle'
 import AppSidebar from '../components/AppSidebar'
 
@@ -410,6 +411,7 @@ export default function AIExplainerPage() {
   const [openStep, setOpenStep] = useState(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { theme } = useTheme()
+  const { t } = useLanguage()
 
   const pageBg = theme === 'dark' ? 'bg-[#0a0a0a]' : 'bg-gray-50'
   const textPrimary = theme === 'dark' ? 'text-white' : 'text-gray-900'
@@ -447,11 +449,10 @@ export default function AIExplainerPage() {
             <Sparkles size={12} /> Transparent & Explainable AI
           </motion.div>
           <h1 className="text-3xl md:text-5xl font-bold mb-4">
-            How Our <span className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">AI</span> Works
+            {t('howOurAIWorks').replace('AI', '').trim().split(' ').slice(0, -1).join(' ')} <span className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">AI</span> {t('howOurAIWorks').split(' ').pop()}
           </h1>
           <p className={`text-lg max-w-2xl mx-auto ${textSecondary}`}>
-            No black boxes. Every prediction is explainable, fair, and transparent.
-            Here's exactly how we turn your digital footprint into a credit score.
+            {t('aiHeroDesc')}
           </p>
         </motion.div>
 
@@ -464,7 +465,7 @@ export default function AIExplainerPage() {
             className="flex items-center gap-2 mb-6"
           >
             <BarChart3 size={18} className="text-blue-400" />
-            <h2 className="text-xl font-bold">ML Pipeline</h2>
+            <h2 className="text-xl font-bold">{t('mlPipeline')}</h2>
           </motion.div>
 
           <div className="flex items-center justify-center gap-2 mb-8 overflow-x-auto pb-2">
@@ -508,8 +509,8 @@ export default function AIExplainerPage() {
             viewport={{ once: true }}
             className="text-center mb-8"
           >
-            <h2 className="text-2xl font-bold mb-2">Model Performance</h2>
-            <p className={`text-sm ${textSecondary}`}>Trained on real alternative credit data from 10,000+ profiles</p>
+            <h2 className="text-2xl font-bold mb-2">{t('modelPerformance')}</h2>
+            <p className={`text-sm ${textSecondary}`}>{t('modelPerformanceDesc')}</p>
           </motion.div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -540,8 +541,8 @@ export default function AIExplainerPage() {
             viewport={{ once: true }}
             className="mb-8"
           >
-            <h2 className="text-2xl font-bold mb-2">Feature Importance</h2>
-            <p className={`text-sm ${textSecondary}`}>Top 10 features ranked by their impact on predictions</p>
+            <h2 className="text-2xl font-bold mb-2">{t('featureImportance')}</h2>
+            <p className={`text-sm ${textSecondary}`}>{t('featureImportanceDesc')}</p>
           </motion.div>
 
           <div className={`border rounded-2xl p-6 md:p-8 ${cardBg}`}>
@@ -665,7 +666,7 @@ export default function AIExplainerPage() {
             viewport={{ once: true }}
             className="text-center"
           >
-            <h2 className="text-xl font-bold mb-6">Built With</h2>
+            <h2 className="text-xl font-bold mb-6">{t('builtWith')}</h2>
             <div className="flex flex-wrap items-center justify-center gap-3">
               {techBadges.map((badge, i) => (
                 <motion.span
@@ -697,10 +698,9 @@ export default function AIExplainerPage() {
         >
           <div className={`border rounded-3xl p-10 ${cardBg}`}>
             <Shield size={32} className="text-teal-400 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold mb-3">Responsible AI, Built for Malaysia</h2>
+            <h2 className="text-2xl font-bold mb-3">{t('responsibleAI')}</h2>
             <p className={`text-sm max-w-lg mx-auto mb-6 ${textSecondary}`}>
-              Our model is regularly audited for fairness across demographics.
-              Every prediction comes with a full explanation. No black boxes.
+              {t('responsibleAIDesc')}
             </p>
             <Link
               to="/score"
