@@ -12,8 +12,8 @@ import BrandLogo from '../components/BrandLogo'
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 const navLinks = [
-  { label: 'Features', href: '#features' },
-  { label: 'How it Works', href: '#how-it-works' },
+  { label: 'Features', href: '/features', isRoute: true },
+  { label: 'How it Works', href: '/how-it-works', isRoute: true },
   { label: 'Simulator', href: '/simulation', isRoute: true },
   { label: 'AI Model', href: '/ai', isRoute: true },
   { label: 'FAQ', href: '#faq' },

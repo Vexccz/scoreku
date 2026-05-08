@@ -21,8 +21,6 @@ const navItems = [
   { label: 'Report', icon: FileBarChart, path: '/report' },
   { label: 'Learn', icon: BookOpen, path: '/learn' },
   { label: 'Referral', icon: Gift, path: '/referral' },
-  { label: 'Features', icon: Star, path: '/features' },
-  { label: 'How It Works', icon: HelpCircle, path: '/how-it-works' },
   { label: 'Profile', icon: User, path: '/profile' },
 ]
 
