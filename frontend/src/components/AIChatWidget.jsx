@@ -52,6 +52,62 @@ const knowledgeBase = [
     patterns: ['simulator', 'simulasi', 'what if', 'what-if'],
     response: "Simulator 'What-If' membolehkan anda lihat bagaimana skor berubah jika anda mengubah tabiat kewangan. Contoh: 'Jika saya bayar semua bil tepat masa 3 bulan, skor naik +55 mata'."
   },
+  {
+    patterns: ['dashboard', 'papan pemuka', 'guna dashboard', 'how to use'],
+    response: 'Dashboard tunjukkan skor kredit, pecahan faktor (positif/negatif), unjuran skor, bil tertunggak, dan produk yang anda layak. Scroll bawah untuk lihat semua. Boleh juga set sasaran skor dan lihat pencapaian.'
+  },
+  {
+    patterns: ['score form', 'borang', 'isi borang', 'kira skor', 'calculate'],
+    response: 'Pergi "Kira Skor" di sidebar. Isi 4 langkah: 1) Pendapatan & pekerjaan, 2) Transaksi e-dompet/DuitNow, 3) Rekod bil & sewa, 4) Aktiviti online. Lepas submit, AI generate skor anda.'
+  },
+  {
+    patterns: ['sidebar', 'menu', 'navigation', 'nav', 'hamburger'],
+    response: 'Sidebar (menu kiri) ada semua halaman: Dashboard, Kira Skor, Sambung Bank, Bandingkan, Pasaran, Simulator, Transaksi, Laporan, Belajar, Rujukan, Profil. Kat mobile, tekan butang ☰ atas kiri.'
+  },
+  {
+    patterns: ['comparison', 'bandingkan', 'compare'],
+    response: 'Halaman "Bandingkan" tunjukkan skor anda vs purata nasional, kumpulan umur, jenis pekerjaan, dan negeri. Ada carta radar untuk bandingkan 5 dimensi kewangan.'
+  },
+  {
+    patterns: ['marketplace', 'pasaran', 'produk', 'pinjaman'],
+    response: 'Halaman "Pasaran" senaraikan produk kewangan yang anda layak. Boleh filter ikut jenis dan jumlah. Setiap produk tunjuk kadar faedah dan skor minimum.'
+  },
+  {
+    patterns: ['transaction', 'transaksi', 'history', 'sejarah'],
+    response: 'Halaman "Transaksi" tunjukkan semua transaksi yang dikesan dengan impak pada skor. Boleh filter ikut kategori (Bil, Gaji, E-dompet, Shopping) dan search.'
+  },
+  {
+    patterns: ['report', 'laporan', 'monthly'],
+    response: 'Halaman "Laporan" tunjukkan laporan bulanan: perubahan skor, peristiwa penting, dan pecahan kategori.'
+  },
+  {
+    patterns: ['referral', 'rujukan', 'invite', 'jemput kawan'],
+    response: 'Halaman "Rujukan" - kongsi kod rujukan dengan kawan. Setiap kawan yang daftar, anda dapat bonus mata. 1 rujukan = +10 mata, 5 rujukan = +50 mata + badge.'
+  },
+  {
+    patterns: ['learn', 'belajar', 'article', 'literasi'],
+    response: 'Halaman "Belajar" ada 8 artikel literasi kewangan: cara bina kredit, amalan e-dompet, urus bil, elak hutang. Baca dan tandakan selesai untuk track progress.'
+  },
+  {
+    patterns: ['profile', 'profil', 'settings', 'tetapan'],
+    response: 'Halaman "Profil" - edit maklumat peribadi, lihat status bank, toggle notifikasi, dan urus data & privasi.'
+  },
+  {
+    patterns: ['dark mode', 'light mode', 'tema', 'theme', 'gelap', 'cerah'],
+    response: 'Tekan ikon matahari/bulan di sidebar untuk tukar mod gelap/cerah. Pilihan disimpan automatik.'
+  },
+  {
+    patterns: ['language', 'bahasa', 'tukar bahasa', 'english', 'melayu'],
+    response: 'Tekan butang "EN | BM" di sidebar atau navbar untuk tukar bahasa. Semua teks akan bertukar.'
+  },
+  {
+    patterns: ['goal', 'sasaran', 'target skor'],
+    response: 'Di dashboard, bahagian "Sasaran Skor" - set target (contoh: 720 untuk BSN Micro Loan). Sistem tunjukkan progress dan anggaran masa.'
+  },
+  {
+    patterns: ['achievement', 'pencapaian', 'badge', 'lencana'],
+    response: 'Bahagian "Pencapaian" di dashboard tunjukkan badge yang dah unlock: Skor Pertama, Skor 70+, Bank Disambung, dll. Yang belum unlock tunjukkan syarat.'
+  },
 ]
 
 const defaultResponse = 'Maaf, saya tidak pasti tentang soalan itu. Cuba tanya tentang: cara skor dikira, cara improve skor, keselamatan data, produk yang layak, atau cara sambung bank. Atau layari halaman FAQ kami!'
@@ -93,7 +149,7 @@ export default function AIChatWidget() {
   const inputRef = useRef(null)
   const location = useLocation()
 
-  const isHidden = location.pathname === '/' || location.pathname === '/welcome'
+  const isHidden = location.pathname === '/welcome'
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
