@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Shield, CreditCard, HelpCircle, UserX, Briefcase, GraduationCap, Store, Tractor, ArrowRight, CheckCircle2, Sparkles, TrendingUp, Lock } from 'lucide-react'
+import { Shield, CreditCard, HelpCircle, UserX, Briefcase, GraduationCap, Store, Tractor, ArrowRight, CheckCircle2, Sparkles, TrendingUp, Lock, Home, Clock, Users, Globe, Laptop, BookOpen, Search } from 'lucide-react'
 
 const creditOptions = [
   { id: 'no', label: "No, I don't have credit history", desc: 'Never applied for loan or credit card', icon: UserX, color: 'from-blue-500 to-blue-600' },
@@ -14,20 +14,33 @@ const profileOptions = [
   { id: 'student', label: 'Fresh Graduate', desc: 'Just finished studies', icon: GraduationCap },
   { id: 'business', label: 'Micro-Entrepreneur', desc: 'Small business, online seller', icon: Store },
   { id: 'rural', label: 'Rural Community', desc: 'Limited bank access', icon: Tractor },
+  { id: 'homemaker', label: 'Homemaker', desc: 'Stay-at-home parent', icon: Home },
+  { id: 'parttime', label: 'Part-time Worker', desc: 'Part-time or contract work', icon: Clock },
+  { id: 'foreign', label: 'Foreign Worker', desc: 'Working in Malaysia', icon: Globe },
+  { id: 'creator', label: 'Content Creator', desc: 'Online seller, influencer', icon: Laptop },
+  { id: 'studying', label: 'Student', desc: 'Currently studying', icon: BookOpen },
+  { id: 'jobseeker', label: 'Job Seeking', desc: 'Unemployed, looking for work', icon: Search },
+  { id: 'retiree', label: 'Retiree', desc: 'Senior citizen, retired', icon: Users },
+  { id: 'informal', label: 'Informal Sector', desc: 'Construction, farming, etc', icon: Users },
 ]
 
-// Floating particles
+// Floating particles + stars
 const Particles = () => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none">
-    {Array.from({ length: 20 }, (_, i) => (
+    {Array.from({ length: 35 }, (_, i) => (
       <motion.div
         key={i}
-        className="absolute w-1 h-1 rounded-full bg-blue-400/20"
+        className={`absolute rounded-full ${i % 3 === 0 ? 'w-1.5 h-1.5 bg-blue-400/30' : i % 3 === 1 ? 'w-1 h-1 bg-teal-400/25' : 'w-0.5 h-0.5 bg-purple-400/20'}`}
         style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%` }}
-        animate={{ y: [0, -30, 0], x: [0, Math.random() * 20 - 10, 0], opacity: [0.2, 0.6, 0.2] }}
-        transition={{ duration: Math.random() * 5 + 4, repeat: Infinity, delay: Math.random() * 3 }}
+        animate={{ y: [0, -40, 0], x: [0, Math.random() * 30 - 15, 0], opacity: [0.1, 0.7, 0.1], scale: [1, 1.5, 1] }}
+        transition={{ duration: Math.random() * 6 + 3, repeat: Infinity, delay: Math.random() * 4 }}
       />
     ))}
+    {/* Animated grid */}
+    <div className="absolute inset-0" style={{
+      backgroundImage: 'linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px)',
+      backgroundSize: '60px 60px',
+    }} />
   </div>
 )
 
@@ -68,22 +81,32 @@ export default function OnboardingPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center px-4 relative overflow-hidden">
-      {/* Background */}
+      {/* Background - meriah */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
-          className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-blue-600/8 rounded-full blur-[150px]"
-          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+          className="absolute top-[10%] left-[10%] w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[150px]"
+          animate={{ scale: [1, 1.3, 1], x: [0, 50, 0], opacity: [0.3, 0.6, 0.3] }}
           transition={{ duration: 8, repeat: Infinity }}
         />
         <motion.div
-          className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-teal-600/8 rounded-full blur-[130px]"
-          animate={{ scale: [1.1, 1, 1.1], opacity: [0.2, 0.4, 0.2] }}
+          className="absolute bottom-[10%] right-[10%] w-[500px] h-[500px] bg-teal-500/10 rounded-full blur-[130px]"
+          animate={{ scale: [1.1, 1, 1.1], x: [0, -40, 0], opacity: [0.3, 0.5, 0.3] }}
           transition={{ duration: 10, repeat: Infinity, delay: 2 }}
         />
         <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-purple-600/5 rounded-full blur-[120px]"
-          animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.3, 0.1] }}
+          className="absolute top-[40%] left-[60%] w-[400px] h-[400px] bg-purple-500/8 rounded-full blur-[120px]"
+          animate={{ scale: [1, 1.4, 1], opacity: [0.2, 0.4, 0.2] }}
           transition={{ duration: 12, repeat: Infinity, delay: 4 }}
+        />
+        <motion.div
+          className="absolute top-[60%] left-[20%] w-[300px] h-[300px] bg-pink-500/5 rounded-full blur-[100px]"
+          animate={{ scale: [1, 1.2, 1], y: [0, -30, 0], opacity: [0.1, 0.3, 0.1] }}
+          transition={{ duration: 9, repeat: Infinity, delay: 1 }}
+        />
+        <motion.div
+          className="absolute top-[20%] right-[30%] w-[250px] h-[250px] bg-amber-500/5 rounded-full blur-[90px]"
+          animate={{ scale: [1.1, 1, 1.1], opacity: [0.1, 0.25, 0.1] }}
+          transition={{ duration: 7, repeat: Infinity, delay: 3 }}
         />
       </div>
       <Particles />
@@ -296,7 +319,7 @@ export default function OnboardingPage() {
                 <p className="text-gray-400 text-sm">We'll tailor your experience based on your profile</p>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-2.5 max-h-[400px] overflow-y-auto pr-1 scrollbar-hide">
                 {profileOptions.map((opt, i) => {
                   const Icon = opt.icon
                   return (
@@ -305,26 +328,26 @@ export default function OnboardingPage() {
                       onClick={() => handleProfileSelect(opt.id)}
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.1 + i * 0.08 }}
-                      className={`flex flex-col items-center gap-3 p-5 rounded-2xl border transition-all text-center ${
+                      transition={{ delay: 0.05 + i * 0.04 }}
+                      className={`flex flex-col items-center gap-2 p-3.5 rounded-xl border transition-all text-center ${
                         profile === opt.id
-                          ? 'bg-blue-500/10 border-blue-500/50'
+                          ? 'bg-blue-500/10 border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.15)]'
                           : 'bg-[#111] border-[#1f1f1f] hover:border-[#333] hover:bg-[#151515]'
                       }`}
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.97 }}
+                      whileHover={{ scale: 1.04 }}
+                      whileTap={{ scale: 0.96 }}
                     >
                       <motion.div
-                        className="w-12 h-12 rounded-xl bg-[#1a1a1a] border border-[#2a2a2a] flex items-center justify-center"
-                        animate={profile === opt.id ? { borderColor: '#3b82f6' } : {}}
+                        className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                          profile === opt.id ? 'bg-blue-500/20 border-blue-500/40' : 'bg-[#1a1a1a] border-[#2a2a2a]'
+                        } border`}
                       >
-                        <Icon size={22} className="text-teal-400" />
+                        <Icon size={18} className={profile === opt.id ? 'text-blue-400' : 'text-teal-400'} />
                       </motion.div>
                       <div>
-                        <p className="font-medium text-white text-sm">{opt.label}</p>
-                        <p className="text-[11px] text-gray-500 mt-0.5">{opt.desc}</p>
+                        <p className="font-medium text-white text-xs">{opt.label}</p>
+                        <p className="text-[10px] text-gray-500 mt-0.5 leading-tight">{opt.desc}</p>
                       </div>
-                      {profile === opt.id && <CheckCircle2 size={16} className="text-blue-400" />}
                     </motion.button>
                   )
                 })}
