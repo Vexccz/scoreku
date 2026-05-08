@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import {
   Shield, LayoutDashboard, FileText, Building2, GitCompare, BarChart3,
   Sparkles, Brain, Settings, RefreshCw, Receipt, User, FileBarChart,
-  BookOpen, Gift
+  BookOpen, Gift, Star, HelpCircle
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import { useLanguage } from '../context/LanguageContext'
@@ -21,6 +21,8 @@ const navItems = [
   { label: 'Report', icon: FileBarChart, path: '/report' },
   { label: 'Learn', icon: BookOpen, path: '/learn' },
   { label: 'Referral', icon: Gift, path: '/referral' },
+  { label: 'Features', icon: Star, path: '/features' },
+  { label: 'How It Works', icon: HelpCircle, path: '/how-it-works' },
   { label: 'Profile', icon: User, path: '/profile' },
 ]
 

@@ -844,6 +844,7 @@ export default function LandingPage() {
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Built for Financial Inclusion</h2>
           <p className="text-gray-400 max-w-2xl mx-auto">Everything you need to build, understand, and improve your credit identity</p>
+          <Link to="/features" className="inline-flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 mt-3 transition-colors">See all features <ArrowRight size={14} /></Link>
         </motion.div>
 
         <motion.div
@@ -881,6 +882,7 @@ export default function LandingPage() {
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
           <p className="text-gray-400">Three simple steps to your alternative credit score</p>
+          <Link to="/how-it-works" className="inline-flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 mt-3 transition-colors">See all steps <ArrowRight size={14} /></Link>
         </motion.div>
 
         <motion.div

@@ -21,6 +21,8 @@ import ProfilePage from './pages/ProfilePage'
 import MonthlyReportPage from './pages/MonthlyReportPage'
 import ReferralPage from './pages/ReferralPage'
 import LearningPage from './pages/LearningPage'
+import FeaturesPage from './pages/FeaturesPage'
+import HowItWorksPage from './pages/HowItWorksPage'
 
 function OnboardingGuard({ children }) {
   const onboarded = localStorage.getItem('scoreku_onboarded')
@@ -64,6 +66,8 @@ function AnimatedRoutes() {
           <Route path="/report" element={<MonthlyReportPage />} />
           <Route path="/referral" element={<ReferralPage />} />
           <Route path="/learn" element={<LearningPage />} />
+          <Route path="/features" element={<FeaturesPage />} />
+          <Route path="/how-it-works" element={<HowItWorksPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </motion.div>
