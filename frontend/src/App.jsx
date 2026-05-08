@@ -15,6 +15,11 @@ import NotFoundPage from './pages/NotFoundPage'
 import BankConnectionPage from './pages/BankConnectionPage'
 import ComparisonPage from './pages/ComparisonPage'
 import MarketplacePage from './pages/MarketplacePage'
+import TransactionsPage from './pages/TransactionsPage'
+import ProfilePage from './pages/ProfilePage'
+import MonthlyReportPage from './pages/MonthlyReportPage'
+import ReferralPage from './pages/ReferralPage'
+import LearningPage from './pages/LearningPage'
 
 function OnboardingGuard({ children }) {
   const onboarded = localStorage.getItem('scoreku_onboarded')
@@ -53,6 +58,11 @@ function AnimatedRoutes() {
           <Route path="/connect-bank" element={<BankConnectionPage />} />
           <Route path="/comparison" element={<ComparisonPage />} />
           <Route path="/marketplace" element={<MarketplacePage />} />
+          <Route path="/transactions" element={<TransactionsPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/report" element={<MonthlyReportPage />} />
+          <Route path="/referral" element={<ReferralPage />} />
+          <Route path="/learn" element={<LearningPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </motion.div>

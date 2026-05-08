@@ -11,17 +11,11 @@ import {
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import ThemeToggle from '../components/ThemeToggle'
+import AppSidebar from '../components/AppSidebar'
 
 // ─── Navigation Items (same as Dashboard) ────────────────────────────────────
 
-const navItems = [
-  { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard', active: false },
-  { label: 'Score Form', icon: FileText, path: '/score', active: true },
-  { label: 'Connect Bank', icon: Building2, path: '/connect-bank', active: false },
-  { label: 'Simulator', icon: Sparkles, path: '/simulation', active: false },
-  { label: 'How AI Works', icon: Brain, path: '/ai', active: false },
-  { label: 'Settings', icon: Settings, path: null, disabled: true },
-]
+
 
 // ─── Steps Config ────────────────────────────────────────────────────────────
 
@@ -77,91 +71,7 @@ const analysisSteps = [
 
 // ─── Sidebar Component ───────────────────────────────────────────────────────
 
-function Sidebar({ mobileOpen, onClose }) {
-  const { theme } = useTheme()
-  const sidebarBg = theme === 'dark' ? 'bg-[#0f0f0f] border-[#1f1f1f]' : 'bg-white border-gray-200'
-  const navActive = theme === 'dark' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : 'bg-blue-50 text-blue-600 border border-blue-200'
-  const navInactive = theme === 'dark' ? 'text-gray-400 hover:text-white hover:bg-[#1a1a1a]' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
 
-  return (
-    <>
-      {mobileOpen && (
-        <motion.div
-          className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[60]"
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-          onClick={onClose}
-        />
-      )}
-      <aside className={`flex flex-col fixed left-0 top-0 bottom-0 w-[260px] border-r z-[70] transform transition-transform duration-300 ${sidebarBg} ${mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
-        {/* Logo */}
-        <div className="flex items-center justify-between px-6 py-6">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center">
-              <Shield size={18} className="text-white" />
-            </div>
-            <span className="text-lg font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
-              ScoreKu
-            </span>
-          </div>
-          <ThemeToggle />
-        </div>
-
-        {/* Navigation */}
-        <nav className="flex-1 px-3 mt-2">
-          <div className="space-y-1">
-            {navItems.map((item) => {
-              const Icon = item.icon
-              if (item.disabled) {
-                return (
-                  <div
-                    key={item.label}
-                    className={`flex items-center gap-3 px-4 py-2.5 rounded-xl cursor-not-allowed ${theme === 'dark' ? 'text-gray-600' : 'text-gray-400'}`}
-                  >
-                    <Icon size={18} />
-                    <span className="text-sm">{item.label}</span>
-                    <span className={`ml-auto text-[10px] px-2 py-0.5 rounded-full ${theme === 'dark' ? 'bg-[#1f1f1f] text-gray-500' : 'bg-gray-100 text-gray-400'}`}>Soon</span>
-                  </div>
-                )
-              }
-              return (
-                <Link
-                  key={item.label}
-                  to={item.path}
-                  className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all ${
-                    item.active ? navActive : navInactive
-                  }`}
-                >
-                  <Icon size={18} />
-                  <span className="text-sm font-medium">{item.label}</span>
-                </Link>
-              )
-            })}
-          </div>
-        </nav>
-
-        {/* Bottom section */}
-        <div className="px-6 py-5 border-t border-[#1f1f1f]">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500/20 to-teal-500/20 flex items-center justify-center">
-              <Lock size={14} className="text-teal-400" />
-            </div>
-            <div>
-              <p className="text-xs font-medium text-gray-300">Data Protected</p>
-              <p className="text-[10px] text-gray-600">256-bit encryption</p>
-            </div>
-          </div>
-          <Link
-            to="/dashboard"
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl text-sm font-medium text-gray-300 hover:text-white hover:border-gray-600 transition"
-          >
-            <LayoutDashboard size={14} />
-            Go to Dashboard
-          </Link>
-        </div>
-      </aside>
-    </>
-  )
-}
 
 // ─── Main Component ──────────────────────────────────────────────────────────
 
@@ -321,9 +231,7 @@ export default function ScoreFormPage() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
       {/* Sidebar */}
-      <AnimatePresence>
-        <Sidebar mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      </AnimatePresence>
+      <AppSidebar activePath="/score" mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Mobile Header */}
       <div className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-[#0a0a0a]/90 backdrop-blur-md border-b border-[#1f1f1f] z-50 flex items-center px-4">
