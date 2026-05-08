@@ -80,8 +80,8 @@ const pipelineSteps = [
     color: '#10b981',
     summary: 'Final score with full breakdown',
     details: [
-      'Score range: 0-100 (normalized)',
-      'Category: Excellent / Good / Fair / Building',
+      'Score range: 300-850 (CTOS format)',
+      'Category: Excellent / Good / Fair / High Risk',
       'Top 5 contributing factors shown',
       'Personalized improvement recommendations',
       'Financial product eligibility matching',
@@ -139,7 +139,7 @@ const interactiveFeatures = [
 ]
 
 function computeShapValues(values) {
-  const baseScore = 50
+  const baseScore = 550
   const contributions = []
 
   // Income: normalized 0-1 from range, contribution -8 to +12
@@ -163,10 +163,12 @@ function computeShapValues(values) {
   const ecomOptimal = 1 - Math.abs(ecomNorm - 0.4) * 2
   contributions.push({ label: 'E-commerce', value: (ecomOptimal - 0.2) * 10, raw: values.ecommerce })
 
-  const totalContribution = contributions.reduce((sum, c) => sum + c.value, 0)
-  const finalScore = Math.max(0, Math.min(100, Math.round(baseScore + totalContribution)))
+  // Scale contributions for 300-850 range
+  const scaledContributions = contributions.map(c => ({ ...c, value: c.value * 5.5 }))
+  const totalContribution = scaledContributions.reduce((sum, c) => sum + c.value, 0)
+  const finalScore = Math.max(300, Math.min(850, Math.round(baseScore + totalContribution)))
 
-  return { baseScore, contributions, finalScore }
+  return { baseScore, contributions: scaledContributions, finalScore }
 }
 
 function InteractiveSHAPDemo() {

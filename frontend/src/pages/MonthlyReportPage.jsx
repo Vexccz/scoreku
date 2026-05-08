@@ -7,13 +7,13 @@ import AppSidebar from '../components/AppSidebar'
 import toast from 'react-hot-toast'
 
 const timeline = [
-  { date: 'May 2', event: 'Salary detected', impact: '+2', type: 'positive', emoji: '💰' },
-  { date: 'May 5', event: 'Unifi bill paid on time', impact: '+1', type: 'positive', emoji: '✅' },
-  { date: 'May 8', event: 'All bills paid on time', impact: '+3', type: 'positive', emoji: '🎯' },
-  { date: 'May 12', event: 'DuitNow usage increased', impact: '+1', type: 'positive', emoji: '📱' },
-  { date: 'May 15', event: 'E-wallet activity boost', impact: '+1', type: 'positive', emoji: '💳' },
-  { date: 'May 20', event: 'E-commerce return processed', impact: '-2', type: 'negative', emoji: '📦' },
-  { date: 'May 25', event: 'Savings transfer detected', impact: '+1', type: 'positive', emoji: '🏦' },
+  { date: 'May 2', event: 'Salary detected', impact: '+12', type: 'positive', emoji: '💰' },
+  { date: 'May 5', event: 'Unifi bill paid on time', impact: '+8', type: 'positive', emoji: '✅' },
+  { date: 'May 8', event: 'All bills paid on time', impact: '+15', type: 'positive', emoji: '🎯' },
+  { date: 'May 12', event: 'DuitNow usage increased', impact: '+7', type: 'positive', emoji: '📱' },
+  { date: 'May 15', event: 'E-wallet activity boost', impact: '+8', type: 'positive', emoji: '💳' },
+  { date: 'May 20', event: 'E-commerce return processed', impact: '-10', type: 'negative', emoji: '📦' },
+  { date: 'May 25', event: 'Savings transfer detected', impact: '+12', type: 'positive', emoji: '🏦' },
 ]
 
 const categoryBreakdown = [
@@ -26,10 +26,10 @@ const categoryBreakdown = [
 ]
 
 const comparisonData = [
-  { week: 'W1', thisMonth: 68, lastMonth: 65 },
-  { week: 'W2', thisMonth: 69, lastMonth: 66 },
-  { week: 'W3', thisMonth: 71, lastMonth: 67 },
-  { week: 'W4', thisMonth: 72, lastMonth: 68 },
+  { week: 'W1', thisMonth: 660, lastMonth: 630 },
+  { week: 'W2', thisMonth: 672, lastMonth: 640 },
+  { week: 'W3', thisMonth: 685, lastMonth: 648 },
+  { week: 'W4', thisMonth: 697, lastMonth: 645 },
 ]
 
 export default function MonthlyReportPage() {
@@ -79,14 +79,14 @@ export default function MonthlyReportPage() {
               <div>
                 <p className={`text-sm ${textSecondary}`}>Score Change This Month</p>
                 <div className="flex items-baseline gap-3 mt-2">
-                  <span className={`text-3xl font-bold ${textPrimary}`}>68</span>
+                  <span className={`text-3xl font-bold ${textPrimary}`}>645</span>
                   <span className={textSecondary}>→</span>
-                  <span className="text-3xl font-bold text-blue-400">72</span>
+                  <span className="text-3xl font-bold text-blue-400">697</span>
                 </div>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
                 <TrendingUp size={18} className="text-emerald-400" />
-                <span className="text-lg font-bold text-emerald-400">+4</span>
+                <span className="text-lg font-bold text-emerald-400">+52</span>
               </div>
             </div>
           </motion.div>
@@ -167,7 +167,7 @@ export default function MonthlyReportPage() {
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={comparisonData}>
                   <XAxis dataKey="week" tick={{ fontSize: 11, fill: '#6b7280' }} axisLine={false} tickLine={false} />
-                  <YAxis hide domain={[60, 80]} />
+                  <YAxis hide domain={[600, 720]} />
                   <Tooltip
                     contentStyle={{ background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: '8px' }}
                     labelStyle={{ color: '#9ca3af', fontSize: 12 }}

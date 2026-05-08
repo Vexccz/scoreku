@@ -16,7 +16,7 @@ const actions = [
   {
     id: 'bills',
     label: 'Pay all bills on time for 3 months',
-    points: 12,
+    points: 55,
     icon: CreditCard,
     color: '#3b82f6',
     description: 'Consistent bill payments show financial responsibility',
@@ -24,7 +24,7 @@ const actions = [
   {
     id: 'duitnow',
     label: 'Start using DuitNow weekly',
-    points: 8,
+    points: 40,
     icon: Smartphone,
     color: '#14b8a6',
     description: 'Regular digital transactions build your financial footprint',
@@ -32,7 +32,7 @@ const actions = [
   {
     id: 'income',
     label: 'Maintain stable income for 6 months',
-    points: 15,
+    points: 70,
     icon: TrendingUp,
     color: '#8b5cf6',
     description: 'Income stability is the strongest score factor',
@@ -40,7 +40,7 @@ const actions = [
   {
     id: 'returns',
     label: 'Reduce e-commerce returns',
-    points: 5,
+    points: 25,
     icon: ShoppingBag,
     color: '#f59e0b',
     description: 'Fewer returns signal responsible purchasing behavior',
@@ -48,19 +48,19 @@ const actions = [
   {
     id: 'phone',
     label: 'Keep same phone number 2+ years',
-    points: 3,
+    points: 15,
     icon: Phone,
     color: '#ec4899',
     description: 'Number stability indicates settled lifestyle patterns',
   },
 ]
 
-function ScoreGauge({ score, maxScore = 100, size = 220 }) {
+function ScoreGauge({ score, maxScore = 850, size = 220 }) {
   const radius = (size - 30) / 2
   const circumference = 2 * Math.PI * radius
-  const progress = (score / maxScore) * circumference
-  const color = score >= 76 ? '#10b981' : score >= 56 ? '#3b82f6' : score >= 31 ? '#f59e0b' : '#ef4444'
-  const label = score >= 76 ? 'Excellent' : score >= 56 ? 'Good' : score >= 31 ? 'Fair' : 'Building'
+  const progress = ((score - 300) / (maxScore - 300)) * circumference
+  const color = score >= 720 ? '#10b981' : score >= 650 ? '#3b82f6' : score >= 530 ? '#f59e0b' : '#ef4444'
+  const label = score >= 720 ? 'Excellent' : score >= 650 ? 'Good' : score >= 530 ? 'Fair' : 'Building'
 
   return (
     <div className="relative" style={{ width: size, height: size }}>
@@ -92,7 +92,7 @@ function ScoreGauge({ score, maxScore = 100, size = 220 }) {
         >
           {score}
         </motion.span>
-        <span className="text-xs text-gray-500 mt-1 uppercase tracking-wider">out of 100</span>
+        <span className="text-xs text-gray-500 mt-1 uppercase tracking-wider">out of 850</span>
         <span className="text-xs mt-0.5" style={{ color }}>{label}</span>
       </div>
     </div>
@@ -100,7 +100,7 @@ function ScoreGauge({ score, maxScore = 100, size = 220 }) {
 }
 
 export default function SimulationPage() {
-  const baseScore = 65
+  const baseScore = 640
   const [activeActions, setActiveActions] = useState({})
   const [animatingScore, setAnimatingScore] = useState(baseScore)
   const [sidebarOpen, setSidebarOpen] = useState(false)

@@ -11,21 +11,21 @@ import AppSidebar from '../components/AppSidebar'
 
 // ─── Demo Data ───────────────────────────────────────────────────────────────
 
-const userScore = 72
+const userScore = 697
 
 const comparisons = [
-  { label: 'National Average', value: 58, icon: Users },
-  { label: 'Same Age Group (26-30)', value: 62, icon: Users },
-  { label: 'Same Employment (Gig Worker)', value: 55, icon: BarChart3 },
-  { label: 'Same State (Selangor)', value: 64, icon: Building2 },
+  { label: 'National Average', value: 580, icon: Users },
+  { label: 'Same Age Group (26-30)', value: 620, icon: Users },
+  { label: 'Same Employment (Gig Worker)', value: 545, icon: BarChart3 },
+  { label: 'Same State (Selangor)', value: 635, icon: Building2 },
 ]
 
 const dimensions = [
-  { label: 'Payment', user: 85, avg: 62 },
-  { label: 'Income', user: 78, avg: 58 },
-  { label: 'Digital', user: 72, avg: 55 },
-  { label: 'Account Age', user: 65, avg: 70 },
-  { label: 'Spending', user: 60, avg: 52 },
+  { label: 'Payment', user: 750, avg: 590 },
+  { label: 'Income', user: 710, avg: 570 },
+  { label: 'Digital', user: 680, avg: 540 },
+  { label: 'Account Age', user: 640, avg: 660 },
+  { label: 'Spending', user: 610, avg: 520 },
 ]
 
 
@@ -39,7 +39,7 @@ function RadarChart({ dimensions }) {
 
   const getPoint = (value, index) => {
     const angle = angleStep * index - Math.PI / 2
-    const dist = (value / 100) * r
+    const dist = ((value - 300) / 550) * r
     return { x: cx + dist * Math.cos(angle), y: cy + dist * Math.sin(angle) }
   }
 
@@ -49,7 +49,7 @@ function RadarChart({ dimensions }) {
   const toPath = (points) => points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ') + ' Z'
 
   // Grid lines
-  const gridLevels = [20, 40, 60, 80, 100]
+  const gridLevels = [410, 520, 630, 740, 850]
 
   return (
     <svg viewBox="0 0 300 300" className="w-full max-w-[300px] mx-auto">
@@ -195,8 +195,8 @@ export default function ComparisonPage() {
             <div className="space-y-6">
               {comparisons.map((comp, i) => {
                 const Icon = comp.icon
-                const userPct = (userScore / 100) * 100
-                const avgPct = (comp.value / 100) * 100
+                const userPct = ((userScore - 300) / 550) * 100
+                const avgPct = ((comp.value - 300) / 550) * 100
                 return (
                   <motion.div
                     key={i}
@@ -209,7 +209,7 @@ export default function ComparisonPage() {
                         <Icon size={14} className={textSecondary} />
                         <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>{comp.label}</span>
                       </div>
-                      <span className={`text-xs ${textSecondary}`}>{comp.value}/100</span>
+                      <span className={`text-xs ${textSecondary}`}>{comp.value}/850</span>
                     </div>
                     {/* User bar */}
                     <div className={`h-3 rounded-full overflow-hidden mb-1 ${barBg}`}>

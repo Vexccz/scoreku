@@ -193,10 +193,10 @@ function AnimatedCounter({ target, suffix = '', prefix = '' }) {
 }
 
 function AnimatedGauge() {
-  const [score, setScore] = useState(0)
+  const [score, setScore] = useState(300)
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true })
-  const targetScore = 78
+  const targetScore = 712
 
   useEffect(() => {
     if (!isInView) return
@@ -206,7 +206,7 @@ function AnimatedGauge() {
       const elapsed = Date.now() - startTime
       const progress = Math.min(elapsed / duration, 1)
       const eased = 1 - Math.pow(1 - progress, 4)
-      setScore(Math.round(eased * targetScore))
+      setScore(Math.round(300 + eased * (targetScore - 300)))
       if (progress < 1) requestAnimationFrame(animate)
     }
     const timer = setTimeout(animate, 500)
@@ -214,8 +214,8 @@ function AnimatedGauge() {
   }, [isInView])
 
   const circumference = 2 * Math.PI * 60
-  const strokeDasharray = `${(score / 100) * circumference} ${circumference}`
-  const color = score >= 76 ? '#10b981' : score >= 56 ? '#3b82f6' : score >= 31 ? '#f59e0b' : '#ef4444'
+  const strokeDasharray = `${((score - 300) / 550) * circumference} ${circumference}`
+  const color = score >= 720 ? '#10b981' : score >= 650 ? '#3b82f6' : score >= 530 ? '#f59e0b' : '#ef4444'
 
   return (
     <div ref={ref} className="relative w-52 h-52 mx-auto">
@@ -232,9 +232,9 @@ function AnimatedGauge() {
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className="text-5xl font-bold tracking-tight" style={{ color }}>{score}</span>
-        <span className="text-xs text-gray-500 mt-1 uppercase tracking-wider">out of 100</span>
+        <span className="text-xs text-gray-500 mt-1 uppercase tracking-wider">out of 850</span>
         <span className="text-[10px] text-gray-600 mt-0.5">
-          {score >= 76 ? 'Excellent' : score >= 56 ? 'Good' : score >= 31 ? 'Fair' : 'Building'}
+          {score >= 720 ? 'Excellent' : score >= 650 ? 'Good' : score >= 530 ? 'Fair' : 'Building'}
         </span>
       </div>
     </div>
@@ -527,10 +527,10 @@ function PipelineDemo() {
 
             {phase === 'score' && showResult && (
               <motion.div key="score" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="text-center py-2">
-                <motion.div className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 200 }}>78</motion.div>
+                <motion.div className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 200 }}>712</motion.div>
                 <p className="text-sm text-gray-400 mt-1">Credit Score Generated</p>
                 <div className="flex gap-2 justify-center mt-3">
-                  <motion.span className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-xs text-emerald-400 font-medium" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>Fair Risk</motion.span>
+                  <motion.span className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-xs text-emerald-400 font-medium" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>Good Risk</motion.span>
                   <motion.span className="px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full text-xs text-blue-400 font-medium" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>5 Tips Available</motion.span>
                   <motion.span className="px-3 py-1 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs text-teal-400 font-medium" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>3 Products Eligible</motion.span>
                 </div>

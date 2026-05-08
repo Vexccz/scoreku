@@ -21,15 +21,15 @@ import AppSidebar from '../components/AppSidebar'
 // ─── Constants ───────────────────────────────────────────────────────────────
 
 const riskCategories = [
-  { min: 0, max: 30, label: 'High Risk', color: '#ef4444', bg: 'bg-red-500/10', border: 'border-red-500/30' },
-  { min: 31, max: 55, label: 'Moderate Risk', color: '#f59e0b', bg: 'bg-amber-500/10', border: 'border-amber-500/30' },
-  { min: 56, max: 75, label: 'Fair', color: '#3b82f6', bg: 'bg-blue-500/10', border: 'border-blue-500/30' },
-  { min: 76, max: 100, label: 'Excellent', color: '#10b981', bg: 'bg-emerald-500/10', border: 'border-emerald-500/30' },
+  { min: 300, max: 529, label: 'High Risk', color: '#ef4444', bg: 'bg-red-500/10', border: 'border-red-500/30' },
+  { min: 530, max: 649, label: 'Moderate Risk', color: '#f59e0b', bg: 'bg-amber-500/10', border: 'border-amber-500/30' },
+  { min: 650, max: 719, label: 'Good', color: '#3b82f6', bg: 'bg-blue-500/10', border: 'border-blue-500/30' },
+  { min: 720, max: 850, label: 'Excellent', color: '#10b981', bg: 'bg-emerald-500/10', border: 'border-emerald-500/30' },
 ]
 
 const demoData = {
-  score: 72,
-  riskCategory: 'Fair',
+  score: 697,
+  riskCategory: 'Good',
   features: [
     { name: 'Payment Consistency', value: 0.85, helping: true },
     { name: 'Income Stability', value: 0.78, helping: true },
@@ -46,12 +46,12 @@ const demoData = {
     { title: 'Reduce Returns', description: 'Lower your e-commerce return rate to improve trustworthiness signals.', points: 5, icon: 'Target' },
   ],
   history: [
-    { date: 'Jan 2026', score: 45, change: null, category: 'Moderate Risk' },
-    { date: 'Feb 2026', score: 52, change: 7, category: 'Moderate Risk' },
-    { date: 'Mar 2026', score: 58, change: 6, category: 'Fair' },
-    { date: 'Apr 2026', score: 63, change: 5, category: 'Fair' },
-    { date: 'May 2026', score: 68, change: 5, category: 'Fair' },
-    { date: 'Jun 2026', score: 72, change: 4, category: 'Fair' },
+    { date: 'Jan 2026', score: 520, change: null, category: 'Moderate Risk' },
+    { date: 'Feb 2026', score: 565, change: 45, category: 'Moderate Risk' },
+    { date: 'Mar 2026', score: 610, change: 45, category: 'Moderate Risk' },
+    { date: 'Apr 2026', score: 645, change: 35, category: 'Moderate Risk' },
+    { date: 'May 2026', score: 675, change: 30, category: 'Good' },
+    { date: 'Jun 2026', score: 697, change: 22, category: 'Good' },
   ],
   user: {
     name: 'Zafran',
@@ -74,22 +74,22 @@ const iconMap = { Receipt, Smartphone, Wallet, Target, Lightbulb, Zap }
 // ─── Demo Alerts ─────────────────────────────────────────────────────────────
 
 const demoAlerts = [
-  { type: 'green', message: '+5 points: Consistent bill payments detected', time: '2 days ago', points: '+5', emoji: '🟢' },
-  { type: 'green', message: '+3 points: DuitNow usage increased', time: '5 days ago', points: '+3', emoji: '🟢' },
-  { type: 'red', message: '-2 points: Missed utility bill payment', time: '1 week ago', points: '-2', emoji: '🔴' },
+  { type: 'green', message: '+25 points: Consistent bill payments detected', time: '2 days ago', points: '+25', emoji: '🟢' },
+  { type: 'green', message: '+15 points: DuitNow usage increased', time: '5 days ago', points: '+15', emoji: '🟢' },
+  { type: 'red', message: '-10 points: Missed utility bill payment', time: '1 week ago', points: '-10', emoji: '🔴' },
   { type: 'yellow', message: 'Reminder: TNB bill due in 3 days', time: 'today', points: null, emoji: '🟡' },
-  { type: 'green', message: '+4 points: Salary deposit detected', time: '1 week ago', points: '+4', emoji: '🟢' },
+  { type: 'green', message: '+20 points: Salary deposit detected', time: '1 week ago', points: '+20', emoji: '🟢' },
 ]
 
 // ─── Achievement Badges ──────────────────────────────────────────────────────
 
 const achievementBadges = [
   { id: 'first-score', label: 'First Score', emoji: '🏆', earned: true, requirement: null },
-  { id: 'score-70', label: 'Score 70+', emoji: '📈', earned: true, requirement: null },
+  { id: 'score-650', label: 'Score 650+', emoji: '📈', earned: true, requirement: null },
   { id: 'bank-connected', label: 'Bank Connected', emoji: '🏦', earned: () => !!localStorage.getItem('scoreku_bank_connected'), requirement: 'Connect a bank' },
   { id: '3-months', label: '3 Months Consistent', emoji: '📅', earned: true, requirement: null },
   { id: 'goal-setter', label: 'Goal Setter', emoji: '🎯', earned: () => !!localStorage.getItem('scoreku_goal'), requirement: 'Set a goal' },
-  { id: 'score-80', label: 'Score 80+', emoji: '🌟', earned: false, requirement: 'Reach 80 to unlock' },
+  { id: 'score-720', label: 'Score 720+', emoji: '🌟', earned: false, requirement: 'Reach 720 to unlock' },
   { id: '7-day-streak', label: '7-Day Streak', emoji: '🔥', earned: true, requirement: null },
   { id: 'premium', label: 'Premium Member', emoji: '💎', earned: false, requirement: 'Upgrade to Premium' },
 ]
@@ -97,10 +97,10 @@ const achievementBadges = [
 // ─── Goal Presets ────────────────────────────────────────────────────────────
 
 const goalPresets = [
-  { score: 60, label: 'Basic Financing' },
-  { score: 70, label: 'TEKUN Eligible' },
-  { score: 75, label: 'BSN Micro Loan' },
-  { score: 80, label: 'Premium Products' },
+  { score: 530, label: 'Basic Financing' },
+  { score: 650, label: 'TEKUN Eligible' },
+  { score: 720, label: 'BSN Micro Loan' },
+  { score: 750, label: 'Premium Products' },
 ]
 
 // ─── Relative Time ───────────────────────────────────────────────────────────
@@ -217,7 +217,7 @@ function LoadingSkeleton() {
 // ─── Animated Score ──────────────────────────────────────────────────────────
 
 function AnimatedScore({ target }) {
-  const [current, setCurrent] = useState(0)
+  const [current, setCurrent] = useState(300)
   useEffect(() => {
     const duration = 1500
     const startTime = Date.now()
@@ -225,7 +225,7 @@ function AnimatedScore({ target }) {
       const elapsed = Date.now() - startTime
       const progress = Math.min(elapsed / duration, 1)
       const eased = 1 - Math.pow(1 - progress, 3)
-      setCurrent(Math.round(eased * target))
+      setCurrent(Math.round(300 + eased * (target - 300)))
       if (progress < 1) requestAnimationFrame(animate)
     }
     requestAnimationFrame(animate)
@@ -237,7 +237,7 @@ function AnimatedScore({ target }) {
 
 function ScoreGauge({ score, category }) {
   const circumference = 2 * Math.PI * 54
-  const progress = (score / 100) * circumference
+  const progress = ((score - 300) / 550) * circumference
 
   return (
     <div className="relative inline-flex items-center justify-center w-44 h-44">
@@ -267,7 +267,7 @@ function ScoreGauge({ score, category }) {
         <span className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
           <AnimatedScore target={score} />
         </span>
-        <span className="text-[10px] text-gray-500 mt-1">out of 100</span>
+        <span className="text-[10px] text-gray-500 mt-1">out of 850</span>
       </div>
     </div>
   )
@@ -335,13 +335,13 @@ export default function DashboardPage() {
   const hurtingFactors = features.filter(f => !f.helping).sort((a, b) => a.value - b.value).slice(0, 3)
 
   const trendData = history.map(h => ({ name: h.date.split(' ')[0], score: h.score }))
-  const percentile = Math.max(5, Math.min(95, 100 - score + 10))
+  const percentile = Math.max(5, Math.min(95, Math.round(100 - ((score - 300) / 550) * 80)))
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [goalModalOpen, setGoalModalOpen] = useState(false)
   const [currentGoal, setCurrentGoal] = useState(() => {
     const saved = localStorage.getItem('scoreku_goal')
-    return saved ? JSON.parse(saved) : { score: 75, label: 'BSN Micro Loan' }
+    return saved ? JSON.parse(saved) : { score: 720, label: 'BSN Micro Loan' }
   })
 
   const handleSetGoal = (goal) => {
@@ -377,7 +377,7 @@ export default function DashboardPage() {
 
   return (
     <div className={`min-h-screen ${pageBg} ${textPrimary}`}>
-      <Confetti trigger={score >= 76} />
+      <Confetti trigger={score >= 720} />
 
       {/* Background effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
@@ -482,14 +482,14 @@ export default function DashboardPage() {
               <div className="flex items-center justify-between mb-4">
                 <h3 className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>Score Trend</h3>
                 <span className="text-xs text-emerald-400 flex items-center gap-1">
-                  <TrendingUp size={12} /> +27 pts
+                  <TrendingUp size={12} /> +177 pts
                 </span>
               </div>
               <div className="h-32">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={trendData}>
                     <XAxis dataKey="name" tick={{ fontSize: 10, fill: '#6b7280' }} axisLine={false} tickLine={false} />
-                    <YAxis hide domain={[30, 100]} />
+                    <YAxis hide domain={[400, 850]} />
                     <Tooltip content={<CustomTooltip />} />
                     <Line
                       type="monotone"
