@@ -84,25 +84,29 @@ const demoAlerts = [
 
 // ─── Achievement Badges ──────────────────────────────────────────────────────
 
-const achievementBadges = [
-  { id: 'first-score', label: 'First Score', emoji: '🏆', earned: true, requirement: null },
-  { id: 'score-650', label: 'Score 650+', emoji: '📈', earned: true, requirement: null },
-  { id: 'bank-connected', label: 'Bank Connected', emoji: '🏦', earned: () => !!localStorage.getItem('scoreku_bank_connected'), requirement: 'Connect a bank' },
-  { id: '3-months', label: '3 Months Consistent', emoji: '📅', earned: true, requirement: null },
-  { id: 'goal-setter', label: 'Goal Setter', emoji: '🎯', earned: () => !!localStorage.getItem('scoreku_goal'), requirement: 'Set a goal' },
-  { id: 'score-720', label: 'Score 720+', emoji: '🌟', earned: false, requirement: 'Reach 720 to unlock' },
-  { id: '7-day-streak', label: '7-Day Streak', emoji: '🔥', earned: true, requirement: null },
-  { id: 'premium', label: 'Premium Member', emoji: '💎', earned: false, requirement: 'Upgrade to Premium' },
-]
+function getAchievementBadges(t) {
+  return [
+    { id: 'first-score', label: t('firstScore'), emoji: '🏆', earned: true, requirement: null },
+    { id: 'score-650', label: t('score650'), emoji: '📈', earned: true, requirement: null },
+    { id: 'bank-connected', label: t('bankConnected'), emoji: '🏦', earned: () => !!localStorage.getItem('scoreku_bank_connected'), requirement: t('connectABank') },
+    { id: '3-months', label: t('threeMonthsConsistent'), emoji: '📅', earned: true, requirement: null },
+    { id: 'goal-setter', label: t('goalSetter'), emoji: '🎯', earned: () => !!localStorage.getItem('scoreku_goal'), requirement: t('setAGoal') },
+    { id: 'score-720', label: t('score720'), emoji: '🌟', earned: false, requirement: t('reachToUnlock') },
+    { id: '7-day-streak', label: t('sevenDayStreak'), emoji: '🔥', earned: true, requirement: null },
+    { id: 'premium', label: t('premiumMember'), emoji: '💎', earned: false, requirement: t('upgradeToPremium') },
+  ]
+}
 
 // ─── Goal Presets ────────────────────────────────────────────────────────────
 
-const goalPresets = [
-  { score: 530, label: 'Basic Financing' },
-  { score: 650, label: 'TEKUN Eligible' },
-  { score: 720, label: 'BSN Micro Loan' },
-  { score: 750, label: 'Premium Products' },
-]
+function getGoalPresets(t) {
+  return [
+    { score: 530, label: t('basicFinancing') },
+    { score: 650, label: t('tekunEligible') },
+    { score: 720, label: t('bsnMicroLoan') },
+    { score: 750, label: t('premiumProducts') },
+  ]
+}
 
 // ─── Relative Time ───────────────────────────────────────────────────────────
 
@@ -333,6 +337,8 @@ export default function DashboardPage() {
   const lastUpdated = demoData.lastUpdated
 
   const category = riskCategories.find(c => score >= c.min && score <= c.max) || riskCategories[2]
+  const achievementBadges = getAchievementBadges(t)
+  const goalPresets = getGoalPresets(t)
 
   const helpingFactors = features.filter(f => f.helping).sort((a, b) => b.value - a.value).slice(0, 4)
   const hurtingFactors = features.filter(f => !f.helping).sort((a, b) => a.value - b.value).slice(0, 3)
@@ -652,11 +658,11 @@ export default function DashboardPage() {
             </div>
             <div className="space-y-4">
               {[
-                { category: 'Food & Dining', pct: 35, amount: 'RM1,225', insight: `${t('aboveAverage')} (${t('avg')}: 28%)`, color: '#f97316', barColor: 'from-orange-500 to-orange-400' },
-                { category: 'Transport', pct: 20, amount: 'RM700', insight: t('normalRange'), color: '#3b82f6', barColor: 'from-blue-500 to-blue-400' },
-                { category: 'Bills & Utilities', pct: 25, amount: 'RM875', insight: t('consistent'), color: '#10b981', barColor: 'from-emerald-500 to-emerald-400' },
-                { category: 'Shopping', pct: 12, amount: 'RM420', insight: t('belowAverage'), color: '#ec4899', barColor: 'from-pink-500 to-pink-400' },
-                { category: 'Others', pct: 8, amount: 'RM280', insight: '', color: '#6b7280', barColor: 'from-gray-500 to-gray-400' },
+                { category: t('foodDining'), pct: 35, amount: 'RM1,225', insight: `${t('aboveAverage')} (${t('avg')}: 28%)`, color: '#f97316', barColor: 'from-orange-500 to-orange-400' },
+                { category: t('transport'), pct: 20, amount: 'RM700', insight: t('normalRange'), color: '#3b82f6', barColor: 'from-blue-500 to-blue-400' },
+                { category: t('billsUtilities'), pct: 25, amount: 'RM875', insight: t('consistent'), color: '#10b981', barColor: 'from-emerald-500 to-emerald-400' },
+                { category: t('shopping'), pct: 12, amount: 'RM420', insight: t('belowAverage'), color: '#ec4899', barColor: 'from-pink-500 to-pink-400' },
+                { category: t('others'), pct: 8, amount: 'RM280', insight: '', color: '#6b7280', barColor: 'from-gray-500 to-gray-400' },
               ].map((entry, i) => (
                 <motion.div
                   key={i}
@@ -705,10 +711,10 @@ export default function DashboardPage() {
             </div>
             <div className="space-y-3">
               {[
-                { name: 'TNB Electricity', amount: 'RM85', daysUntil: 3, icon: Zap, urgency: 'red' },
-                { name: 'Unifi Internet', amount: 'RM149', daysUntil: 7, icon: Smartphone, urgency: 'amber' },
-                { name: 'Water (SYABAS)', amount: 'RM35', daysUntil: 12, icon: Receipt, urgency: 'green' },
-                { name: 'Phone (Celcom)', amount: 'RM68', daysUntil: 15, icon: Smartphone, urgency: 'green' },
+                { name: t('tnbElectricity'), amount: 'RM85', daysUntil: 3, icon: Zap, urgency: 'red' },
+                { name: t('unifiInternet'), amount: 'RM149', daysUntil: 7, icon: Smartphone, urgency: 'amber' },
+                { name: t('waterSyabas'), amount: 'RM35', daysUntil: 12, icon: Receipt, urgency: 'green' },
+                { name: t('phoneCelcom'), amount: 'RM68', daysUntil: 15, icon: Smartphone, urgency: 'green' },
               ].map((bill, i) => {
                 const BillIcon = bill.icon
                 const urgencyColors = {
@@ -913,8 +919,8 @@ export default function DashboardPage() {
             <div className={`border rounded-2xl p-6 ${cardBg}`}>
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <p className={`text-sm font-medium ${textPrimary}`}>Target: {currentGoal.score} ({currentGoal.label} eligible)</p>
-                  <p className={`text-xs mt-1 ${textSecondary}`}>Estimated time: {currentGoal.score <= score ? 'Already achieved!' : `${Math.ceil((currentGoal.score - score) / 2)} months based on current trend`}</p>
+                  <p className={`text-sm font-medium ${textPrimary}`}>{t('target')}: {currentGoal.score} ({currentGoal.label} {t('eligibleLabel')})</p>
+                  <p className={`text-xs mt-1 ${textSecondary}`}>{t('estimatedTime')}: {currentGoal.score <= score ? t('alreadyAchieved') : `${Math.ceil((currentGoal.score - score) / 2)} ${t('monthsBasedOnTrend')}`}</p>
                 </div>
                 <button
                   onClick={() => setGoalModalOpen(true)}
@@ -925,8 +931,8 @@ export default function DashboardPage() {
               </div>
               <div className="mb-2">
                 <div className="flex justify-between mb-1">
-                  <span className={`text-xs ${textSecondary}`}>Current: {score}</span>
-                  <span className={`text-xs ${textSecondary}`}>Target: {currentGoal.score}</span>
+                  <span className={`text-xs ${textSecondary}`}>{t('current')}: {score}</span>
+                  <span className={`text-xs ${textSecondary}`}>{t('target')}: {currentGoal.score}</span>
                 </div>
                 <div className={`h-3 rounded-full overflow-hidden ${barBg}`}>
                   <motion.div
@@ -936,7 +942,7 @@ export default function DashboardPage() {
                     className="h-full rounded-full bg-gradient-to-r from-blue-500 to-teal-500"
                   />
                 </div>
-                <p className={`text-xs mt-1 text-right ${textMuted}`}>{Math.round((score / currentGoal.score) * 100)}% there</p>
+                <p className={`text-xs mt-1 text-right ${textMuted}`}>{Math.round((score / currentGoal.score) * 100)}% {t('there')}</p>
               </div>
             </div>
 
@@ -955,7 +961,7 @@ export default function DashboardPage() {
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="flex items-center justify-between mb-5">
-                    <h3 className={`font-semibold ${textPrimary}`}>Set Score Goal</h3>
+                    <h3 className={`font-semibold ${textPrimary}`}>{t('setScoreGoal')}</h3>
                     <button onClick={() => setGoalModalOpen(false)} className={textSecondary}>
                       <XIcon size={18} />
                     </button>
@@ -976,7 +982,7 @@ export default function DashboardPage() {
                           <p className={`text-xs ${textSecondary}`}>Score: {goal.score}</p>
                         </div>
                         {score >= goal.score && (
-                          <span className="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-full">Achieved</span>
+                          <span className="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-full">{t('achieved')}</span>
                         )}
                       </button>
                     ))}
@@ -1054,7 +1060,7 @@ export default function DashboardPage() {
                       <p className={`text-[10px] mt-1 ${textMuted}`}>{badge.requirement}</p>
                     )}
                     {isEarned && (
-                      <p className="text-[10px] mt-1 text-emerald-400">Earned ✓</p>
+                      <p className="text-[10px] mt-1 text-emerald-400">{t('earned')} ✓</p>
                     )}
                   </motion.div>
                 )

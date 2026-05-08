@@ -14,20 +14,24 @@ import AppSidebar from '../components/AppSidebar'
 
 const userScore = 697
 
-const comparisons = [
-  { label: 'National Average', value: 580, icon: Users },
-  { label: 'Same Age Group (26-30)', value: 620, icon: Users },
-  { label: 'Same Employment (Gig Worker)', value: 545, icon: BarChart3 },
-  { label: 'Same State (Selangor)', value: 635, icon: Building2 },
-]
+function getComparisons(t) {
+  return [
+    { label: t('nationalAverage'), value: 580, icon: Users },
+    { label: t('sameAgeGroup'), value: 620, icon: Users },
+    { label: t('sameEmployment'), value: 545, icon: BarChart3 },
+    { label: t('sameState'), value: 635, icon: Building2 },
+  ]
+}
 
-const dimensions = [
-  { label: 'Payment', user: 750, avg: 590 },
-  { label: 'Income', user: 710, avg: 570 },
-  { label: 'Digital', user: 680, avg: 540 },
-  { label: 'Account Age', user: 640, avg: 660 },
-  { label: 'Spending', user: 610, avg: 520 },
-]
+function getDimensions(t) {
+  return [
+    { label: t('payment'), user: 750, avg: 590 },
+    { label: t('income'), user: 710, avg: 570 },
+    { label: t('digital'), user: 680, avg: 540 },
+    { label: t('accountAge'), user: 640, avg: 660 },
+    { label: t('spending'), user: 610, avg: 520 },
+  ]
+}
 
 
 
@@ -125,6 +129,8 @@ export default function ComparisonPage() {
   const { theme } = useTheme()
   const { t } = useLanguage()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const comparisons = getComparisons(t)
+  const dimensions = getDimensions(t)
 
   const pageBg = theme === 'dark' ? 'bg-[#0a0a0a]' : 'bg-gray-50'
   const cardBg = theme === 'dark' ? 'bg-[#111] border-[#1f1f1f]' : 'bg-white border-gray-200'
@@ -174,8 +180,8 @@ export default function ComparisonPage() {
                 <TrendingUp size={28} className="text-blue-400" />
               </div>
               <div className="text-center sm:text-left">
-                <p className={`text-lg font-bold ${textPrimary}`}>You're in the top 35% of all ScoreKu users</p>
-                <p className={`text-sm ${textSecondary}`}>Top 20% among gig workers</p>
+                <p className={`text-lg font-bold ${textPrimary}`}>{t('youreInTop')} 35% {t('ofAllUsers')}</p>
+                <p className={`text-sm ${textSecondary}`}>{t('topAmongGig')}</p>
               </div>
               <div className="sm:ml-auto">
                 <div className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
@@ -259,7 +265,7 @@ export default function ComparisonPage() {
                 <span className="w-3 h-3 rounded-full bg-blue-500 inline-block" /> {t('yourScore')}
               </span>
               <span className="text-xs text-gray-500 flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-gray-500 inline-block" /> Average
+                <span className="w-3 h-3 rounded-full bg-gray-500 inline-block" /> {t('average')}
               </span>
             </div>
           </motion.div>
@@ -274,10 +280,10 @@ export default function ComparisonPage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {[
-                { label: 'All Users', percentile: 35 },
-                { label: 'Gig Workers', percentile: 20 },
-                { label: 'Age 26-30', percentile: 30 },
-                { label: 'Selangor', percentile: 28 },
+                { label: t('allUsers'), percentile: 35 },
+                { label: t('gigWorkers'), percentile: 20 },
+                { label: t('age2630'), percentile: 30 },
+                { label: t('selangor'), percentile: 28 },
               ].map((p, i) => (
                 <motion.div
                   key={i}

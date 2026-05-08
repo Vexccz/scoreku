@@ -198,16 +198,16 @@ function InteractiveSHAPDemo() {
       >
         <div className="flex items-center gap-2 mb-2">
           <SlidersHorizontal size={20} className="text-teal-400" />
-          <h2 className={`text-2xl font-bold ${textPrimary}`}>Try It Yourself</h2>
+          <h2 className={`text-2xl font-bold ${textPrimary}`}>{t('tryItYourself')}</h2>
         </div>
-        <p className={`text-sm ${textSecondary}`}>Adjust the sliders to see how each feature affects the predicted score in real-time</p>
+        <p className={`text-sm ${textSecondary}`}>{t('tryItYourselfDesc')}</p>
       </motion.div>
 
       <div className={`border rounded-2xl p-6 md:p-8 ${cardBg}`}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Sliders */}
           <div className="space-y-6">
-            <h3 className={`text-sm font-semibold mb-4 ${textPrimary}`}>Input Features</h3>
+            <h3 className={`text-sm font-semibold mb-4 ${textPrimary}`}>{t('inputFeatures')}</h3>
             {interactiveFeatures.map((feat) => (
               <div key={feat.key}>
                 <div className="flex items-center justify-between mb-2">
@@ -239,11 +239,11 @@ function InteractiveSHAPDemo() {
 
           {/* SHAP Waterfall */}
           <div>
-            <h3 className={`text-sm font-semibold mb-4 ${textPrimary}`}>SHAP Waterfall</h3>
+            <h3 className={`text-sm font-semibold mb-4 ${textPrimary}`}>{t('shapWaterfall')}</h3>
 
             {/* Base score */}
             <div className={`flex items-center gap-3 mb-3 px-3 py-2 rounded-lg ${theme === 'dark' ? 'bg-[#1a1a1a]' : 'bg-gray-50'}`}>
-              <span className={`text-xs ${textSecondary}`}>Base Score</span>
+              <span className={`text-xs ${textSecondary}`}>{t('baseScore')}</span>
               <span className={`ml-auto text-sm font-mono font-medium ${textPrimary}`}>{baseScore}</span>
             </div>
 
@@ -299,7 +299,7 @@ function InteractiveSHAPDemo() {
             <div className={`flex items-center gap-3 px-3 py-3 rounded-xl border ${
               theme === 'dark' ? 'bg-[#0d0d0d] border-[#1f1f1f]' : 'bg-gray-50 border-gray-200'
             }`}>
-              <span className={`text-sm font-semibold ${textPrimary}`}>Predicted Score</span>
+              <span className={`text-sm font-semibold ${textPrimary}`}>{t('predictedScore')}</span>
               <motion.span
                 className="ml-auto text-2xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent"
                 key={finalScore}
@@ -315,11 +315,11 @@ function InteractiveSHAPDemo() {
             <div className="flex items-center gap-4 mt-4 text-xs">
               <span className={`flex items-center gap-1.5 ${textSecondary}`}>
                 <span className="w-3 h-3 rounded-sm bg-green-500/30 border border-green-500/40" />
-                Positive
+                {t('positive')}
               </span>
               <span className={`flex items-center gap-1.5 ${textSecondary}`}>
                 <span className="w-3 h-3 rounded-sm bg-red-500/30 border border-red-500/40" />
-                Negative
+                {t('negative')}
               </span>
             </div>
           </div>
@@ -446,7 +446,7 @@ export default function AIExplainerPage() {
             transition={{ delay: 0.1 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400 text-xs font-medium mb-6"
           >
-            <Sparkles size={12} /> Transparent & Explainable AI
+            <Sparkles size={12} /> {t('transparentExplainableAI')}
           </motion.div>
           <h1 className="text-3xl md:text-5xl font-bold mb-4">
             {t('howOurAIWorks').replace('AI', '').trim().split(' ').slice(0, -1).join(' ')} <span className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">AI</span> {t('howOurAIWorks').split(' ').pop()}
@@ -584,8 +584,8 @@ export default function AIExplainerPage() {
             viewport={{ once: true }}
             className="mb-8"
           >
-            <h2 className="text-2xl font-bold mb-2">SHAP Explanation</h2>
-            <p className={`text-sm ${textSecondary}`}>"Why did this user get a score of 72?" — Every prediction is explainable</p>
+            <h2 className="text-2xl font-bold mb-2">{t('shapExplanation')}</h2>
+            <p className={`text-sm ${textSecondary}`}>{t('shapExplanationDesc')}</p>
           </motion.div>
 
           <div className={`border rounded-2xl p-6 md:p-8 ${cardBg}`}>
@@ -644,11 +644,11 @@ export default function AIExplainerPage() {
               <div className={`flex items-center gap-4 text-xs ${textSecondary}`}>
                 <span className="flex items-center gap-1.5">
                   <span className="w-3 h-3 rounded-sm bg-green-500/30 border border-green-500/40" />
-                  Helping score
+                  {t('helpingScore')}
                 </span>
                 <span className="flex items-center gap-1.5">
                   <span className="w-3 h-3 rounded-sm bg-red-500/30 border border-red-500/40" />
-                  Hurting score
+                  {t('hurtingScore')}
                 </span>
               </div>
             </div>
@@ -706,7 +706,7 @@ export default function AIExplainerPage() {
               to="/score"
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-500 hover:to-teal-500 rounded-xl text-base font-medium text-white transition-all duration-300 shadow-lg shadow-blue-600/20"
             >
-              Try It Yourself <ChevronRight size={16} />
+              {t('tryItYourself')} <ChevronRight size={16} />
             </Link>
           </div>
         </motion.div>

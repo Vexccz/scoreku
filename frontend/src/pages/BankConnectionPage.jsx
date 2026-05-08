@@ -29,12 +29,14 @@ const banks = [
   { id: 'bankrakyat', name: 'Bank Rakyat', color: '#6B2D8B', textColor: '#fff', shortName: 'BR', logo: 'https://img.logo.dev/bankrakyat.com.my?token=pk_free' },
 ]
 
-const permissions = [
-  'Transaction history (12 months)',
-  'Account balance',
-  'Bill payment records',
-  'Salary/income deposits',
-]
+function getPermissions(t) {
+  return [
+    t('transactionHistory'),
+    t('accountBalance'),
+    t('billPaymentRecords'),
+    t('salaryDeposits'),
+  ]
+}
 
 const importSteps = [
   { text: 'Connecting to {bank}...', detail: null },
@@ -187,6 +189,7 @@ function SelectBankStep({ onSelect, theme }) {
 
 function AuthorizationStep({ bank, onAuthorize, onCancel, theme }) {
   const { t } = useLanguage()
+  const permissions = getPermissions(t)
   const [connecting, setConnecting] = useState(false)
   const cardBg = theme === 'dark' ? 'bg-[#111] border-[#1f1f1f]' : 'bg-white border-gray-200'
   const textPrimary = theme === 'dark' ? 'text-white' : 'text-gray-900'
@@ -220,7 +223,7 @@ function AuthorizationStep({ bank, onAuthorize, onCancel, theme }) {
           />
           <div>
             <h3 className={`font-bold text-lg ${textPrimary}`}>{bank.name}</h3>
-            <p className={`text-xs ${textSecondary}`}>Secure Authorization</p>
+            <p className={`text-xs ${textSecondary}`}>{t('secureAuthorization')}</p>
           </div>
         </div>
 
@@ -258,7 +261,7 @@ function AuthorizationStep({ bank, onAuthorize, onCancel, theme }) {
           {/* Disclaimer */}
           <div className={`flex items-start gap-2 mb-6 text-xs ${textSecondary}`}>
             <Eye size={14} className="flex-shrink-0 mt-0.5" />
-            <span>By authorizing, you agree to share read-only access to your financial data. ScoreKu cannot make transactions or modify your account.</span>
+            <span>{t('authorizeDisclaimer')}</span>
           </div>
 
           {/* Buttons */}
@@ -486,7 +489,7 @@ function ResultsStep({ bank, theme }) {
         transition={{ delay: 0.9 }}
         className={`border rounded-2xl p-6 mb-6 ${cardBg}`}
       >
-        <h3 className={`text-sm font-semibold mb-4 ${textPrimary}`}>Spending Categories</h3>
+        <h3 className={`text-sm font-semibold mb-4 ${textPrimary}`}>{t('spendingCategories')}</h3>
         <div className="space-y-3">
           {spendingData.map((item, i) => (
             <div key={i} className="flex items-center gap-3">

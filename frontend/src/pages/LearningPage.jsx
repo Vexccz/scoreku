@@ -172,7 +172,7 @@ export default function LearningPage() {
                               ? 'bg-emerald-500/10 text-emerald-400'
                               : 'bg-amber-500/10 text-amber-400'
                           }`}>
-                            {article.difficulty}
+                            {article.difficulty === 'Beginner' ? t('beginner') : t('intermediate')}
                           </span>
                         </div>
                       </div>

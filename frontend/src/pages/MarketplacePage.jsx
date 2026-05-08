@@ -35,6 +35,7 @@ const types = ['All', 'Micro-loan', 'Business', 'Personal', 'Education']
 // ─── Product Card ────────────────────────────────────────────────────────────
 
 function ProductCard({ product, theme }) {
+  const { t } = useLanguage()
   const [expanded, setExpanded] = useState(false)
   const eligible = userScore >= product.minScore
   const cardBg = theme === 'dark' ? 'bg-[#111] border-[#1f1f1f]' : 'bg-white border-gray-200'
@@ -58,22 +59,22 @@ function ProductCard({ product, theme }) {
           size="w-11 h-11"
         />
         <span className={`text-xs font-semibold px-3 py-1 rounded-full ${eligible ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
-          {eligible ? <span className="flex items-center gap-1"><Check size={10} /> Eligible</span> : <span className="flex items-center gap-1"><X size={10} /> Not Eligible</span>}
+          {eligible ? <span className="flex items-center gap-1"><Check size={10} /> {t('eligible')}</span> : <span className="flex items-center gap-1"><X size={10} /> {t('notEligible')}</span>}
         </span>
       </div>
       <h4 className={`font-semibold text-sm mb-1 ${textPrimary}`}>{product.name}</h4>
       <p className={`text-xs mb-3 ${textSecondary}`}>{product.provider}</p>
       <div className="flex items-center gap-4 mb-2">
         <div>
-          <p className={`text-[10px] ${textSecondary}`}>Max Amount</p>
+          <p className={`text-[10px] ${textSecondary}`}>{t('maxAmount')}</p>
           <p className={`text-sm font-bold ${textPrimary}`}>RM{product.maxAmount.toLocaleString()}</p>
         </div>
         <div>
-          <p className={`text-[10px] ${textSecondary}`}>Rate</p>
+          <p className={`text-[10px] ${textSecondary}`}>{t('rate')}</p>
           <p className={`text-sm font-bold ${textPrimary}`}>{product.rate}</p>
         </div>
         <div>
-          <p className={`text-[10px] ${textSecondary}`}>Min Score</p>
+          <p className={`text-[10px] ${textSecondary}`}>{t('minScore')}</p>
           <p className={`text-sm font-bold ${eligible ? 'text-emerald-400' : 'text-red-400'}`}>{product.minScore}</p>
         </div>
       </div>
@@ -90,8 +91,8 @@ function ProductCard({ product, theme }) {
             <div className={`mt-4 pt-4 border-t ${theme === 'dark' ? 'border-[#1f1f1f]' : 'border-gray-200'}`}>
               <p className={`text-xs leading-relaxed mb-3 ${textSecondary}`}>{product.description}</p>
               <div className="flex items-center gap-3">
-                <span className={`text-xs ${textSecondary}`}>Tenure: {product.tenure}</span>
-                <span className={`text-xs ${textSecondary}`}>Type: {product.type}</span>
+                <span className={`text-xs ${textSecondary}`}>{t('tenure')}: {product.tenure}</span>
+                <span className={`text-xs ${textSecondary}`}>{t('type')}: {product.type}</span>
               </div>
               <button
                 className={`mt-4 w-full py-2.5 rounded-xl text-sm font-medium transition-all ${
@@ -102,7 +103,7 @@ function ProductCard({ product, theme }) {
                 disabled={!eligible}
                 onClick={(e) => e.stopPropagation()}
               >
-                {eligible ? 'Apply Now' : `Need ${product.minScore - userScore} more points`}
+                {eligible ? t('applyNow') : t('needMorePoints').replace('{n}', product.minScore - userScore)}
               </button>
             </div>
           </motion.div>

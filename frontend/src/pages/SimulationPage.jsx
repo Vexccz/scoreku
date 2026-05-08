@@ -13,48 +13,50 @@ import AppSidebar from '../components/AppSidebar'
 
 
 
-const actions = [
-  {
-    id: 'bills',
-    label: 'Pay all bills on time for 3 months',
-    points: 55,
-    icon: CreditCard,
-    color: '#3b82f6',
-    description: 'Consistent bill payments show financial responsibility',
-  },
-  {
-    id: 'duitnow',
-    label: 'Start using DuitNow weekly',
-    points: 40,
-    icon: Smartphone,
-    color: '#14b8a6',
-    description: 'Regular digital transactions build your financial footprint',
-  },
-  {
-    id: 'income',
-    label: 'Maintain stable income for 6 months',
-    points: 70,
-    icon: TrendingUp,
-    color: '#8b5cf6',
-    description: 'Income stability is the strongest score factor',
-  },
-  {
-    id: 'returns',
-    label: 'Reduce e-commerce returns',
-    points: 25,
-    icon: ShoppingBag,
-    color: '#f59e0b',
-    description: 'Fewer returns signal responsible purchasing behavior',
-  },
-  {
-    id: 'phone',
-    label: 'Keep same phone number 2+ years',
-    points: 15,
-    icon: Phone,
-    color: '#ec4899',
-    description: 'Number stability indicates settled lifestyle patterns',
-  },
-]
+function getActions(t) {
+  return [
+    {
+      id: 'bills',
+      label: t('actionBills'),
+      points: 55,
+      icon: CreditCard,
+      color: '#3b82f6',
+      description: t('actionBillsDesc'),
+    },
+    {
+      id: 'duitnow',
+      label: t('actionDuitnow'),
+      points: 40,
+      icon: Smartphone,
+      color: '#14b8a6',
+      description: t('actionDuitnowDesc'),
+    },
+    {
+      id: 'income',
+      label: t('actionIncome'),
+      points: 70,
+      icon: TrendingUp,
+      color: '#8b5cf6',
+      description: t('actionIncomeDesc'),
+    },
+    {
+      id: 'returns',
+      label: t('actionReturns'),
+      points: 25,
+      icon: ShoppingBag,
+      color: '#f59e0b',
+      description: t('actionReturnsDesc'),
+    },
+    {
+      id: 'phone',
+      label: t('actionPhone'),
+      points: 15,
+      icon: Phone,
+      color: '#ec4899',
+      description: t('actionPhoneDesc'),
+    },
+  ]
+}
 
 function ScoreGauge({ score, maxScore = 850, size = 220 }) {
   const { t } = useLanguage()
@@ -103,6 +105,7 @@ function ScoreGauge({ score, maxScore = 850, size = 220 }) {
 
 export default function SimulationPage() {
   const { t } = useLanguage()
+  const actions = getActions(t)
   const baseScore = 640
   const [activeActions, setActiveActions] = useState({})
   const [animatingScore, setAnimatingScore] = useState(baseScore)
@@ -325,15 +328,15 @@ export default function SimulationPage() {
               <ul className="space-y-2 text-xs text-gray-500">
                 <li className="flex items-start gap-2">
                   <span className="text-teal-400 mt-0.5">•</span>
-                  Projections based on historical data from 10,000+ Malaysian profiles
+                  {t('simNote1')}
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-teal-400 mt-0.5">•</span>
-                  Actual results may vary based on individual circumstances
+                  {t('simNote2')}
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-teal-400 mt-0.5">•</span>
-                  Score improvements typically take 3-6 months of consistent behavior
+                  {t('simNote3')}
                 </li>
               </ul>
             </motion.div>

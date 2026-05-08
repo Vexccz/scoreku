@@ -7,24 +7,28 @@ import { useLanguage } from '../context/LanguageContext'
 import AppSidebar from '../components/AppSidebar'
 import toast from 'react-hot-toast'
 
-const timeline = [
-  { date: 'May 2', event: 'Salary detected', impact: '+12', type: 'positive', emoji: '💰' },
-  { date: 'May 5', event: 'Unifi bill paid on time', impact: '+8', type: 'positive', emoji: '✅' },
-  { date: 'May 8', event: 'All bills paid on time', impact: '+15', type: 'positive', emoji: '🎯' },
-  { date: 'May 12', event: 'DuitNow usage increased', impact: '+7', type: 'positive', emoji: '📱' },
-  { date: 'May 15', event: 'E-wallet activity boost', impact: '+8', type: 'positive', emoji: '💳' },
-  { date: 'May 20', event: 'E-commerce return processed', impact: '-10', type: 'negative', emoji: '📦' },
-  { date: 'May 25', event: 'Savings transfer detected', impact: '+12', type: 'positive', emoji: '🏦' },
-]
+function getTimeline(t) {
+  return [
+    { date: 'May 2', event: t('salaryDetected'), impact: '+12', type: 'positive', emoji: '💰' },
+    { date: 'May 5', event: t('unifiBillPaid'), impact: '+8', type: 'positive', emoji: '✅' },
+    { date: 'May 8', event: t('allBillsPaidOnTime'), impact: '+15', type: 'positive', emoji: '🎯' },
+    { date: 'May 12', event: t('duitnowUsageIncreased'), impact: '+7', type: 'positive', emoji: '📱' },
+    { date: 'May 15', event: t('ewalletActivityBoost'), impact: '+8', type: 'positive', emoji: '💳' },
+    { date: 'May 20', event: t('ecommerceReturnProcessed'), impact: '-10', type: 'negative', emoji: '📦' },
+    { date: 'May 25', event: t('savingsTransferDetected'), impact: '+12', type: 'positive', emoji: '🏦' },
+  ]
+}
 
-const categoryBreakdown = [
-  { name: 'Payment Consistency', prev: 78, current: 85, change: 7 },
-  { name: 'Income Stability', prev: 75, current: 78, change: 3 },
-  { name: 'E-wallet Activity', prev: 68, current: 72, change: 4 },
-  { name: 'Digital Footprint', prev: 40, current: 42, change: 2 },
-  { name: 'E-commerce Returns', prev: 38, current: 35, change: -3 },
-  { name: 'Account Maturity', prev: 62, current: 65, change: 3 },
-]
+function getCategoryBreakdown(t) {
+  return [
+    { name: t('paymentConsistencyLabel'), prev: 78, current: 85, change: 7 },
+    { name: t('incomeStabilityLabel'), prev: 75, current: 78, change: 3 },
+    { name: t('ewalletActivityLabel'), prev: 68, current: 72, change: 4 },
+    { name: t('digitalFootprint'), prev: 40, current: 42, change: 2 },
+    { name: t('ecommerceReturnsLabel'), prev: 38, current: 35, change: -3 },
+    { name: t('accountMaturity'), prev: 62, current: 65, change: 3 },
+  ]
+}
 
 const comparisonData = [
   { week: 'W1', thisMonth: 660, lastMonth: 630 },
@@ -37,6 +41,8 @@ export default function MonthlyReportPage() {
   const { theme } = useTheme()
   const { t } = useLanguage()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const timeline = getTimeline(t)
+  const categoryBreakdown = getCategoryBreakdown(t)
 
   const pageBg = theme === 'dark' ? 'bg-[#0a0a0a]' : 'bg-gray-50'
   const cardBg = theme === 'dark' ? 'bg-[#111] border-[#1f1f1f]' : 'bg-white border-gray-200'

@@ -4,26 +4,30 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Shield, CreditCard, HelpCircle, UserX, Briefcase, GraduationCap, Store, Tractor, ArrowRight, CheckCircle2, Sparkles, TrendingUp, Lock, Home, Clock, Users, Globe, Laptop, BookOpen, Search } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 
-const creditOptions = [
-  { id: 'no', label: "No, I don't have credit history", desc: 'Never applied for loan or credit card', icon: UserX, color: 'from-blue-500 to-blue-600' },
-  { id: 'yes', label: 'Yes, I have existing credit history', desc: 'Have CCRIS/CTOS records', icon: CreditCard, color: 'from-emerald-500 to-emerald-600' },
-  { id: 'unsure', label: "I'm not sure", desc: "Don't know if I have records", icon: HelpCircle, color: 'from-amber-500 to-amber-600' },
-]
+function getCreditOptions(t) {
+  return [
+    { id: 'no', label: t('noCreditHistory'), desc: t('noCreditHistoryDesc'), icon: UserX, color: 'from-blue-500 to-blue-600' },
+    { id: 'yes', label: t('yesCreditHistory'), desc: t('yesCreditHistoryDesc'), icon: CreditCard, color: 'from-emerald-500 to-emerald-600' },
+    { id: 'unsure', label: t('notSure'), desc: t('notSureDesc'), icon: HelpCircle, color: 'from-amber-500 to-amber-600' },
+  ]
+}
 
-const profileOptions = [
-  { id: 'gig', label: 'Gig Worker', desc: 'Grab, Foodpanda, freelance', icon: Briefcase },
-  { id: 'student', label: 'Fresh Graduate', desc: 'Just finished studies', icon: GraduationCap },
-  { id: 'business', label: 'Micro-Entrepreneur', desc: 'Small business, online seller', icon: Store },
-  { id: 'rural', label: 'Rural Community', desc: 'Limited bank access', icon: Tractor },
-  { id: 'homemaker', label: 'Homemaker', desc: 'Stay-at-home parent', icon: Home },
-  { id: 'parttime', label: 'Part-time Worker', desc: 'Part-time or contract work', icon: Clock },
-  { id: 'foreign', label: 'Foreign Worker', desc: 'Working in Malaysia', icon: Globe },
-  { id: 'creator', label: 'Content Creator', desc: 'Online seller, influencer', icon: Laptop },
-  { id: 'studying', label: 'Student', desc: 'Currently studying', icon: BookOpen },
-  { id: 'jobseeker', label: 'Job Seeking', desc: 'Unemployed, looking for work', icon: Search },
-  { id: 'retiree', label: 'Retiree', desc: 'Senior citizen, retired', icon: Users },
-  { id: 'informal', label: 'Informal Sector', desc: 'Construction, farming, etc', icon: Users },
-]
+function getProfileOptions(t) {
+  return [
+    { id: 'gig', label: t('gigWorker'), desc: t('gigWorkerDesc'), icon: Briefcase },
+    { id: 'student', label: t('freshGraduate'), desc: t('freshGraduateDesc'), icon: GraduationCap },
+    { id: 'business', label: t('microEntrepreneur'), desc: t('microEntrepreneurDesc'), icon: Store },
+    { id: 'rural', label: t('ruralCommunity'), desc: t('ruralCommunityDesc'), icon: Tractor },
+    { id: 'homemaker', label: t('homemaker'), desc: t('homemakerDesc'), icon: Home },
+    { id: 'parttime', label: t('partTimeWorker'), desc: t('partTimeWorkerDesc'), icon: Clock },
+    { id: 'foreign', label: t('foreignWorker'), desc: t('foreignWorkerDesc'), icon: Globe },
+    { id: 'creator', label: t('contentCreator'), desc: t('contentCreatorDesc'), icon: Laptop },
+    { id: 'studying', label: t('student'), desc: t('studentDesc'), icon: BookOpen },
+    { id: 'jobseeker', label: t('jobSeeker'), desc: t('jobSeekerDesc'), icon: Search },
+    { id: 'retiree', label: t('retiree'), desc: t('retireeDesc'), icon: Users },
+    { id: 'informal', label: t('informalSector'), desc: t('informalSectorDesc'), icon: Users },
+  ]
+}
 
 // Floating particles + stars
 const Particles = () => (
@@ -48,6 +52,8 @@ const Particles = () => (
 export default function OnboardingPage() {
   const navigate = useNavigate()
   const { t } = useLanguage()
+  const creditOptions = getCreditOptions(t)
+  const profileOptions = getProfileOptions(t)
   const [step, setStep] = useState(-1) // -1 = welcome splash
   const [creditStatus, setCreditStatus] = useState(null)
   const [profile, setProfile] = useState(null)

@@ -14,11 +14,13 @@ const stats = {
   pointsEarned: 50,
 }
 
-const rewardTiers = [
-  { referrals: 1, points: 10, badge: null, label: '1 Referral' },
-  { referrals: 5, points: 50, badge: 'Referrer', label: '5 Referrals' },
-  { referrals: 10, points: 100, badge: 'Ambassador', label: '10 Referrals' },
-]
+function getRewardTiers(t) {
+  return [
+    { referrals: 1, points: 10, badge: null, label: `1 ${t('referral')}` },
+    { referrals: 5, points: 50, badge: t('referrer'), label: `5 ${t('referrals')}` },
+    { referrals: 10, points: 100, badge: t('ambassador'), label: `10 ${t('referrals')}` },
+  ]
+}
 
 const leaderboard = [
   { rank: 1, name: 'Ahmad K.', referrals: 12, badge: '🏆' },
@@ -32,6 +34,7 @@ export default function ReferralPage() {
   const { theme } = useTheme()
   const { t } = useLanguage()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const rewardTiers = getRewardTiers(t)
 
   const pageBg = theme === 'dark' ? 'bg-[#0a0a0a]' : 'bg-gray-50'
   const cardBg = theme === 'dark' ? 'bg-[#111] border-[#1f1f1f]' : 'bg-white border-gray-200'
@@ -111,9 +114,9 @@ export default function ReferralPage() {
           {/* Stats */}
           <motion.div variants={item} className="grid grid-cols-3 gap-3 mb-6">
             {[
-              { label: 'Friends Invited', value: stats.invited, icon: Users, color: 'text-blue-400' },
-              { label: 'Signed Up', value: stats.signedUp, icon: Award, color: 'text-emerald-400' },
-              { label: 'Points Earned', value: stats.pointsEarned, icon: Star, color: 'text-amber-400' },
+              { label: t('friendsInvited'), value: stats.invited, icon: Users, color: 'text-blue-400' },
+              { label: t('signedUp'), value: stats.signedUp, icon: Award, color: 'text-emerald-400' },
+              { label: t('pointsEarned'), value: stats.pointsEarned, icon: Star, color: 'text-amber-400' },
             ].map((s, i) => (
               <div key={i} className={`border rounded-xl p-4 text-center ${cardBg}`}>
                 <s.icon size={20} className={`mx-auto mb-2 ${s.color}`} />
@@ -188,7 +191,7 @@ export default function ReferralPage() {
                   <div className="flex-1">
                     <p className={`text-sm font-medium ${textPrimary}`}>{entry.name}</p>
                   </div>
-                  <span className={`text-sm font-medium ${textSecondary}`}>{entry.referrals} referrals</span>
+                  <span className={`text-sm font-medium ${textSecondary}`}>{entry.referrals} {t('referrals')}</span>
                 </motion.div>
               ))}
             </div>

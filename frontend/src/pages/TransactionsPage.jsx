@@ -5,7 +5,7 @@ import { useTheme } from '../context/ThemeContext'
 import { useLanguage } from '../context/LanguageContext'
 import AppSidebar from '../components/AppSidebar'
 
-const categories = ['All', 'Bills', 'Salary', 'E-wallet', 'Shopping', 'Transfer', 'Food']
+const categoryKeys = ['All', 'Bills', 'Salary', 'E-wallet', 'Shopping', 'Transfer', 'Food']
 
 const categoryColors = {
   Bills: '#f59e0b',
@@ -105,10 +105,10 @@ export default function TransactionsPage() {
           {/* Monthly Summary */}
           <motion.div variants={item} className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
             {[
-              { label: 'Total Income', value: `RM ${monthlySummary.income.toLocaleString()}`, color: 'text-emerald-400' },
-              { label: 'Total Expenses', value: `RM ${monthlySummary.expenses.toLocaleString()}`, color: 'text-red-400' },
-              { label: 'Net', value: `RM ${monthlySummary.net.toLocaleString()}`, color: 'text-blue-400' },
-              { label: 'Bills Paid', value: `${monthlySummary.billsPaid} on time`, color: 'text-amber-400' },
+              { label: t('totalIncome'), value: `RM ${monthlySummary.income.toLocaleString()}`, color: 'text-emerald-400' },
+              { label: t('totalExpenses'), value: `RM ${monthlySummary.expenses.toLocaleString()}`, color: 'text-red-400' },
+              { label: t('net'), value: `RM ${monthlySummary.net.toLocaleString()}`, color: 'text-blue-400' },
+              { label: t('billsPaidSummary'), value: `${monthlySummary.billsPaid} ${t('onTime')}`, color: 'text-amber-400' },
             ].map((s, i) => (
               <div key={i} className={`border rounded-xl p-4 ${cardBg}`}>
                 <p className={`text-xs ${textSecondary}`}>{s.label}</p>
@@ -130,7 +130,7 @@ export default function TransactionsPage() {
               />
             </div>
             <div className="flex gap-2 flex-wrap">
-              {categories.map(cat => (
+              {categoryKeys.map(cat => (
                 <button
                   key={cat}
                   onClick={() => setFilter(cat)}

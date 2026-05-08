@@ -31,14 +31,15 @@ function DataCollectionDemo() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-80px' })
   const [filledFields, setFilledFields] = useState(0)
+  const { t } = useLanguage()
 
   const fields = [
-    { label: 'Monthly Income', value: 'RM 3,500', icon: '💰' },
-    { label: 'Employment Type', value: 'Gig Worker', icon: '💼' },
-    { label: 'E-wallet Usage', value: '45 txn/month', icon: '📱' },
-    { label: 'Bill Payments', value: '6 active bills', icon: '📄' },
-    { label: 'E-commerce Activity', value: '12 orders/month', icon: '🛒' },
-    { label: 'DuitNow Frequency', value: '28 transfers/month', icon: '🔄' },
+    { label: t('monthlyIncome'), value: 'RM 3,500', icon: '💰' },
+    { label: t('employmentType'), value: t('gigWorker'), icon: '💼' },
+    { label: t('ewalletUsage'), value: '45 txn/month', icon: '📱' },
+    { label: t('billPaymentsLabel'), value: '6 active bills', icon: '📄' },
+    { label: t('ecommerceActivityLabel'), value: '12 orders/month', icon: '🛒' },
+    { label: t('duitnowFrequency'), value: '28 transfers/month', icon: '🔄' },
   ]
 
   useEffect(() => {
@@ -58,8 +59,8 @@ function DataCollectionDemo() {
   return (
     <div ref={ref} className="bg-[#0a0a0a] border border-[#1f1f1f] rounded-2xl p-6">
       <div className="flex items-center justify-between mb-4">
-        <span className="text-sm text-gray-400">Data Input</span>
-        <span className="text-xs text-blue-400 font-mono">{filledFields * 7} data points collected</span>
+        <span className="text-sm text-gray-400">{t('dataInputLabel')}</span>
+        <span className="text-xs text-blue-400 font-mono">{filledFields * 7} {t('dataPointsCollected')}</span>
       </div>
       <div className="space-y-2">
         {fields.map((field, i) => (
@@ -92,7 +93,7 @@ function DataCollectionDemo() {
         className="mt-4 text-center"
       >
         <span className="text-xs text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
-          ✓ 42 data points collected
+          ✓ {t('allDataPointsCollected')}
         </span>
       </motion.div>
     </div>
@@ -407,6 +408,7 @@ function ScoreGenerationDemo() {
   const isInView = useInView(ref, { once: true, margin: '-80px' })
   const [score, setScore] = useState(300)
   const [showBadge, setShowBadge] = useState(false)
+  const { t } = useLanguage()
 
   useEffect(() => {
     if (!isInView) return
@@ -447,12 +449,12 @@ function ScoreGenerationDemo() {
       {showBadge && (
         <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="inline-block">
           <span className="px-4 py-2 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 text-sm font-medium">
-            Risk Category: Good
+            {t('riskCategoryGood')}
           </span>
         </motion.div>
       )}
 
-      <p className="text-xs text-gray-500 mt-4">Score mapped to 300-850 range (CTOS format)</p>
+      <p className="text-xs text-gray-500 mt-4">{t('scoreMappedRange')}</p>
     </div>
   )
 }
@@ -462,11 +464,12 @@ function ScoreGenerationDemo() {
 function RecommendationsDemo() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-80px' })
+  const { t } = useLanguage()
 
   const tips = [
-    { tip: 'Pay bills on time for 3 months', gain: '+55 pts', icon: '📅' },
-    { tip: 'Increase DuitNow usage to 30+/month', gain: '+25 pts', icon: '📱' },
-    { tip: 'Reduce e-commerce returns', gain: '+15 pts', icon: '📦' },
+    { tip: t('payBillsOnTime3Months'), gain: '+55 pts', icon: '📅' },
+    { tip: t('increaseDuitnowUsage'), gain: '+25 pts', icon: '📱' },
+    { tip: t('reduceEcommerceReturns'), gain: '+15 pts', icon: '📦' },
   ]
 
   const products = [
@@ -479,7 +482,7 @@ function RecommendationsDemo() {
     <div ref={ref} className="bg-[#0a0a0a] border border-[#1f1f1f] rounded-2xl p-6">
       {/* Tips */}
       <div className="mb-6">
-        <span className="text-xs text-gray-400 uppercase tracking-wider">Improvement Tips</span>
+        <span className="text-xs text-gray-400 uppercase tracking-wider">{t('improvementTipsLabel')}</span>
         <div className="space-y-2 mt-3">
           {tips.map((item, i) => (
             <motion.div
@@ -499,7 +502,7 @@ function RecommendationsDemo() {
 
       {/* Products */}
       <div>
-        <span className="text-xs text-gray-400 uppercase tracking-wider">Eligible Products</span>
+        <span className="text-xs text-gray-400 uppercase tracking-wider">{t('eligibleProductsLabel')}</span>
         <div className="space-y-2 mt-3">
           {products.map((item, i) => (
             <motion.div
@@ -512,7 +515,7 @@ function RecommendationsDemo() {
               <Building2 size={14} className="text-blue-400" />
               <span className="text-xs text-gray-300 flex-1">{item.name}</span>
               <span className={`text-[10px] px-2 py-0.5 rounded-full ${item.eligible ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
-                {item.eligible ? 'Eligible ✓' : 'Not Yet'}
+                {item.eligible ? `${t('eligible')} ✓` : t('notYet')}
               </span>
             </motion.div>
           ))}
@@ -611,50 +614,50 @@ export default function HowItWorksPage() {
     {
       step: 1,
       icon: Smartphone,
-      title: 'Data Collection',
-      description: 'User provides monthly income, employment type, e-wallet usage, bill payments, and e-commerce activity — or connects a bank account for automatic collection.',
+      title: t('hiwStep1Title'),
+      description: t('hiwStep1Desc'),
       demo: <DataCollectionDemo />,
     },
     {
       step: 2,
       icon: Shield,
-      title: 'Data Validation & Cleaning',
-      description: 'System validates income ranges, verifies transaction counts, runs anomaly detection, and ensures data quality before any processing begins.',
+      title: t('hiwStep2Title'),
+      description: t('hiwStep2Desc'),
       demo: <DataValidationDemo />,
     },
     {
       step: 3,
       icon: Database,
-      title: 'Feature Engineering',
-      description: 'Raw data is transformed into 56 engineered features — stability scores, trends, consistency metrics, and behavioral patterns that the AI model can understand.',
+      title: t('hiwStep3Title'),
+      description: t('hiwStep3Desc'),
       demo: <FeatureEngineeringDemo />,
     },
     {
       step: 4,
       icon: Cpu,
-      title: 'AI Model (XGBoost)',
-      description: '56 features are fed into a trained XGBoost ensemble model — 150 decision trees processing in parallel to produce a credit probability output.',
+      title: t('hiwStep4Title'),
+      description: t('hiwStep4Desc'),
       demo: <AIModelDemo />,
     },
     {
       step: 5,
       icon: BarChart3,
-      title: 'SHAP Explainability',
-      description: 'SHAP values are calculated for each feature, building a waterfall from the base score to show exactly how each factor contributes to the final result.',
+      title: t('hiwStep5Title'),
+      description: t('hiwStep5Desc'),
       demo: <SHAPStepDemo />,
     },
     {
       step: 6,
       icon: Target,
-      title: 'Score Generation',
-      description: 'The model probability is mapped to a 300-850 score range (CTOS format), and a risk category is assigned based on established thresholds.',
+      title: t('hiwStep6Title'),
+      description: t('hiwStep6Desc'),
       demo: <ScoreGenerationDemo />,
     },
     {
       step: 7,
       icon: Lightbulb,
-      title: 'Personalized Recommendations',
-      description: 'AI generates improvement tips based on your weakest factors, and matches you with financial products you qualify for based on your score.',
+      title: t('hiwStep7Title'),
+      description: t('hiwStep7Desc'),
       demo: <RecommendationsDemo />,
     },
   ]
@@ -669,7 +672,7 @@ export default function HowItWorksPage() {
           <button onClick={() => setMobileOpen(true)} className="p-2 rounded-lg hover:bg-[#1a1a1a]">
             <Menu size={20} />
           </button>
-          <span className="text-sm font-medium">How It Works</span>
+          <span className="text-sm font-medium">{t('howItWorks')}</span>
           <div className="w-9" />
         </div>
 
@@ -696,7 +699,7 @@ export default function HowItWorksPage() {
             className="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#111] border border-[#1f1f1f]"
           >
             <Clock size={14} className="text-blue-400" />
-            <span className="text-sm text-gray-300">Time elapsed: </span>
+            <span className="text-sm text-gray-300">{t('timeElapsed')}: </span>
             <span className="text-sm font-mono font-bold text-blue-400">{elapsed.toFixed(1)}s</span>
           </motion.div>
         </section>
@@ -724,7 +727,7 @@ export default function HowItWorksPage() {
               to="/score"
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-teal-600 rounded-xl text-white font-medium hover:opacity-90 transition-opacity"
             >
-              Get Your Score <ArrowRight size={18} />
+              {t('getYourScore')} <ArrowRight size={18} />
             </Link>
           </motion.div>
         </section>

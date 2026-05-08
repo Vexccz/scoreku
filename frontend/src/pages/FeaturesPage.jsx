@@ -42,6 +42,7 @@ function AlternativeScoringDemo() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const [showAlternative, setShowAlternative] = useState(false)
+  const { t } = useLanguage()
 
   useEffect(() => {
     if (isInView) {
@@ -51,17 +52,17 @@ function AlternativeScoringDemo() {
   }, [isInView])
 
   const traditionalData = [
-    { icon: CreditCard, label: 'Credit Cards', available: false },
-    { icon: Building2, label: 'Bank Loans', available: false },
-    { icon: Receipt, label: 'Mortgage History', available: false },
+    { icon: CreditCard, label: t('creditCards'), available: false },
+    { icon: Building2, label: t('bankLoans'), available: false },
+    { icon: Receipt, label: t('mortgageHistory'), available: false },
   ]
 
   const alternativeData = [
-    { icon: Smartphone, label: 'DuitNow Transactions', available: true },
-    { icon: Receipt, label: 'Bill Payments', available: true },
-    { icon: ShoppingCart, label: 'E-commerce Activity', available: true },
-    { icon: Wallet, label: 'E-wallet Balance', available: true },
-    { icon: TrendingUp, label: 'Income Patterns', available: true },
+    { icon: Smartphone, label: t('duitnowTransactions'), available: true },
+    { icon: Receipt, label: t('billPayments'), available: true },
+    { icon: ShoppingCart, label: t('ecommerceActivity'), available: true },
+    { icon: Wallet, label: t('ewalletBalance'), available: true },
+    { icon: TrendingUp, label: t('incomePatterns'), available: true },
   ]
 
   return (
@@ -76,7 +77,7 @@ function AlternativeScoringDemo() {
         >
           <div className="flex items-center gap-2 mb-4">
             <div className="w-3 h-3 rounded-full bg-red-500" />
-            <span className="text-sm font-medium text-red-400">Traditional Data → CTOS</span>
+            <span className="text-sm font-medium text-red-400">{t('traditionalDataLabel')} → CTOS</span>
           </div>
           <div className="space-y-3">
             {traditionalData.map((item, i) => (
@@ -89,12 +90,12 @@ function AlternativeScoringDemo() {
               >
                 <item.icon size={18} className="text-red-400/60" />
                 <span className="text-sm text-gray-400">{item.label}</span>
-                <span className="ml-auto text-xs text-red-400 bg-red-500/10 px-2 py-0.5 rounded-full">No Data</span>
+                <span className="ml-auto text-xs text-red-400 bg-red-500/10 px-2 py-0.5 rounded-full">{t('noData')}</span>
               </motion.div>
             ))}
           </div>
           <div className="mt-4 text-center">
-            <span className="text-xs text-red-400/60">Result: No Score Available ✗</span>
+            <span className="text-xs text-red-400/60">{t('resultNoScore')}</span>
           </div>
         </motion.div>
 
@@ -107,7 +108,7 @@ function AlternativeScoringDemo() {
         >
           <div className="flex items-center gap-2 mb-4">
             <div className="w-3 h-3 rounded-full bg-emerald-500" />
-            <span className="text-sm font-medium text-emerald-400">Alternative Data → ScoreKu</span>
+            <span className="text-sm font-medium text-emerald-400">{t('alternativeDataLabel')} → ScoreKu</span>
           </div>
           <div className="space-y-3">
             {alternativeData.map((item, i) => (
@@ -120,12 +121,12 @@ function AlternativeScoringDemo() {
               >
                 <item.icon size={18} className="text-emerald-400" />
                 <span className="text-sm text-gray-300">{item.label}</span>
-                <span className="ml-auto text-xs text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">✓ Active</span>
+                <span className="ml-auto text-xs text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">✓ {t('active')}</span>
               </motion.div>
             ))}
           </div>
           <div className="mt-4 text-center">
-            <span className="text-xs text-emerald-400">Result: Score 697 ✓</span>
+            <span className="text-xs text-emerald-400">{t('resultScore697')}</span>
           </div>
         </motion.div>
       </div>
@@ -139,14 +140,15 @@ function SHAPWaterfallDemo() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const [visibleBars, setVisibleBars] = useState(0)
+  const { t } = useLanguage()
 
   const shapData = [
-    { feature: 'Payment Consistency', value: 85, positive: true },
-    { feature: 'E-wallet Activity', value: 42, positive: true },
-    { feature: 'Income Stability', value: 35, positive: true },
-    { feature: 'Account Age', value: 22, positive: true },
-    { feature: 'E-commerce Returns', value: -15, positive: false },
-    { feature: 'Late Payments', value: -22, positive: false },
+    { feature: t('paymentConsistency'), value: 85, positive: true },
+    { feature: t('ewalletActivity'), value: 42, positive: true },
+    { feature: t('incomeStability'), value: 35, positive: true },
+    { feature: t('accountAge'), value: 22, positive: true },
+    { feature: t('ecommerceReturns'), value: -15, positive: false },
+    { feature: t('latePayments'), value: -22, positive: false },
   ]
 
   useEffect(() => {
@@ -167,8 +169,8 @@ function SHAPWaterfallDemo() {
   return (
     <div ref={ref} className="bg-[#0a0a0a] border border-[#1f1f1f] rounded-2xl p-6">
       <div className="flex items-center justify-between mb-6">
-        <span className="text-sm text-gray-400">Base Score: 550</span>
-        <span className="text-sm font-bold text-blue-400">Final: 697</span>
+        <span className="text-sm text-gray-400">{t('baseScoreLabel')}: 550</span>
+        <span className="text-sm font-bold text-blue-400">{t('finalLabel')}: 697</span>
       </div>
       <div className="space-y-3">
         {shapData.map((item, i) => (
@@ -196,7 +198,7 @@ function SHAPWaterfallDemo() {
         ))}
       </div>
       <div className="mt-4 pt-4 border-t border-[#1f1f1f] text-center">
-        <p className="text-xs text-gray-500">Unlike black-box models, ScoreKu shows exactly what affects your score</p>
+        <p className="text-xs text-gray-500">{t('unlikeBlackBox')}</p>
       </div>
     </div>
   )
@@ -209,13 +211,14 @@ function RealtimeScoringDemo() {
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const [events, setEvents] = useState([])
   const [score, setScore] = useState(680)
+  const { t } = useLanguage()
 
   const timelineEvents = [
-    { label: 'Bill paid on time', change: +15, icon: '✓' },
-    { label: 'DuitNow transfer', change: +8, icon: '↗' },
-    { label: 'Missed payment', change: -20, icon: '✗' },
-    { label: 'E-wallet top-up', change: +5, icon: '↗' },
-    { label: 'Consistent income', change: +12, icon: '✓' },
+    { label: t('billPaidOnTime'), change: +15, icon: '✓' },
+    { label: t('duitnowTransfer'), change: +8, icon: '↗' },
+    { label: t('missedPayment'), change: -20, icon: '✗' },
+    { label: t('ewalletTopUp'), change: +5, icon: '↗' },
+    { label: t('consistentIncome'), change: +12, icon: '✓' },
   ]
 
   useEffect(() => {
@@ -236,7 +239,7 @@ function RealtimeScoringDemo() {
     <div ref={ref} className="bg-[#0a0a0a] border border-[#1f1f1f] rounded-2xl p-6">
       {/* Score display */}
       <div className="flex items-center justify-between mb-4">
-        <span className="text-sm text-gray-400">Live Score</span>
+        <span className="text-sm text-gray-400">{t('liveScore')}</span>
         <motion.span
           key={score}
           initial={{ scale: 1.3 }}
@@ -283,11 +286,12 @@ function ProductMatchingDemo() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const [showProducts, setShowProducts] = useState(false)
+  const { t } = useLanguage()
 
   const products = [
-    { name: 'BSN Micro Loan', rate: '3.5%', amount: 'RM 5,000', badge: 'Best Match' },
-    { name: 'TEKUN Financing', rate: '4.0%', amount: 'RM 10,000', badge: 'Eligible' },
-    { name: 'Agrobank Personal', rate: '4.5%', amount: 'RM 8,000', badge: 'Eligible' },
+    { name: 'BSN Micro Loan', rate: '3.5%', amount: 'RM 5,000', badge: t('bestMatch') },
+    { name: 'TEKUN Financing', rate: '4.0%', amount: 'RM 10,000', badge: t('eligible') },
+    { name: 'Agrobank Personal', rate: '4.5%', amount: 'RM 8,000', badge: t('eligible') },
   ]
 
   useEffect(() => {
@@ -332,7 +336,7 @@ function ProductMatchingDemo() {
             <Building2 size={16} className="text-blue-400" />
             <div className="flex-1">
               <p className="text-sm text-gray-200">{product.name}</p>
-              <p className="text-xs text-gray-500">{product.rate} · Up to {product.amount}</p>
+              <p className="text-xs text-gray-500">{product.rate} · {t('upTo')} {product.amount}</p>
             </div>
             <span className={`text-[10px] px-2 py-0.5 rounded-full ${i === 0 ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'}`}>
               {product.badge} ✓
@@ -349,11 +353,12 @@ function ProductMatchingDemo() {
 function ImprovementTipsDemo() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const { t } = useLanguage()
 
   const tips = [
-    { tip: 'Pay bills on time for 3 months', gain: 55, from: 697, to: 752 },
-    { tip: 'Increase e-wallet usage frequency', gain: 25, from: 697, to: 722 },
-    { tip: 'Maintain consistent monthly income', gain: 18, from: 697, to: 715 },
+    { tip: t('payBills3Months'), gain: 55, from: 697, to: 752 },
+    { tip: t('increaseEwalletUsage'), gain: 25, from: 697, to: 722 },
+    { tip: t('maintainConsistentIncome'), gain: 18, from: 697, to: 715 },
   ]
 
   return (
@@ -371,7 +376,7 @@ function ImprovementTipsDemo() {
               <Lightbulb size={16} className="text-amber-400 mt-0.5" />
               <div className="flex-1">
                 <p className="text-sm text-gray-200">{item.tip}</p>
-                <p className="text-xs text-emerald-400 mt-1">+{item.gain} points potential</p>
+                <p className="text-xs text-emerald-400 mt-1">+{item.gain} {t('pointsPotential')}</p>
               </div>
             </div>
             {/* Progress bar */}
@@ -400,12 +405,13 @@ function BankConnectionDemo() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const [step, setStep] = useState(0)
+  const { t } = useLanguage()
 
   const steps = [
-    { label: 'Select Bank', icon: Building2 },
-    { label: 'Authorize', icon: Shield },
-    { label: 'Import Data', icon: TrendingUp },
-    { label: 'Score Updated', icon: CheckCircle2 },
+    { label: t('selectBank'), icon: Building2 },
+    { label: t('authorizeLabel'), icon: Shield },
+    { label: t('importData'), icon: TrendingUp },
+    { label: t('scoreUpdatedLabel'), icon: CheckCircle2 },
   ]
 
   useEffect(() => {
@@ -455,7 +461,7 @@ function BankConnectionDemo() {
 
       {/* Security badges */}
       <div className="flex flex-wrap gap-2 justify-center">
-        {['256-bit Encryption', 'PDPA Compliant', 'Read-only Access'].map((badge, i) => (
+        {[t('encryption256'), t('pdpaCompliant'), t('readOnlyAccessLabel')].map((badge, i) => (
           <motion.span
             key={i}
             initial={{ opacity: 0 }}
@@ -524,43 +530,43 @@ export default function FeaturesPage() {
   const features = [
     {
       icon: Wallet,
-      title: 'Alternative Credit Scoring',
-      description: 'Traditional credit scoring excludes millions who lack bank history. ScoreKu uses e-wallet transactions, bill payments, and digital footprint to build a comprehensive credit profile for the unbanked.',
+      title: t('featAltCreditTitle'),
+      description: t('featAltCreditDesc'),
       demo: <AlternativeScoringDemo />,
       color: 'from-blue-500 to-blue-600',
     },
     {
       icon: Brain,
-      title: 'Explainable AI (SHAP)',
-      description: 'Every score comes with a complete breakdown of WHY. Our SHAP-powered explainability engine shows exactly which factors help and hurt your score — no black boxes.',
+      title: t('featShapTitle'),
+      description: t('featShapDesc'),
       demo: <SHAPWaterfallDemo />,
       color: 'from-teal-500 to-teal-600',
     },
     {
       icon: Clock,
-      title: 'Real-time Scoring',
-      description: 'Your score updates as new data comes in. Pay a bill? Score goes up instantly. Miss a payment? You see the impact immediately. No waiting days for batch processing.',
+      title: t('featRealtimeTitle'),
+      description: t('featRealtimeDesc'),
       demo: <RealtimeScoringDemo />,
       color: 'from-purple-500 to-purple-600',
     },
     {
       icon: Target,
-      title: 'Financial Product Matching',
-      description: 'Based on your score, we match you with financial products you actually qualify for. No more applying blindly and getting rejected — see your eligible options upfront.',
+      title: t('featProductMatchTitle'),
+      description: t('featProductMatchDesc'),
       demo: <ProductMatchingDemo />,
       color: 'from-amber-500 to-amber-600',
     },
     {
       icon: Lightbulb,
-      title: 'Personalized Improvement Tips',
-      description: 'AI-generated recommendations tailored to your weakest factors. See exactly how many points you can gain by taking specific actions, with estimated timelines.',
+      title: t('featTipsTitle'),
+      description: t('featTipsDesc'),
       demo: <ImprovementTipsDemo />,
       color: 'from-pink-500 to-pink-600',
     },
     {
       icon: Lock,
-      title: 'Bank Connection (Open Banking)',
-      description: 'Securely connect your bank account for automatic data collection. We use read-only access with bank-grade encryption — your data never leaves our secure environment.',
+      title: t('featBankTitle'),
+      description: t('featBankDesc'),
       demo: <BankConnectionDemo />,
       color: 'from-green-500 to-green-600',
     },
@@ -576,7 +582,7 @@ export default function FeaturesPage() {
           <button onClick={() => setMobileOpen(true)} className="p-2 rounded-lg hover:bg-[#1a1a1a]">
             <Menu size={20} />
           </button>
-          <span className="text-sm font-medium">Features</span>
+          <span className="text-sm font-medium">{t('features')}</span>
           <div className="w-9" />
         </div>
 
@@ -618,7 +624,7 @@ export default function FeaturesPage() {
               to="/score"
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-teal-600 rounded-xl text-white font-medium hover:opacity-90 transition-opacity"
             >
-              Get Your Score <ArrowRight size={18} />
+              {t('getYourScore')} <ArrowRight size={18} />
             </Link>
           </motion.div>
         </section>
