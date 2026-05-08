@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.joblib
+venv/
+.venv/
+
+# Data
+data/*.csv
+
+# Build
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
