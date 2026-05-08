@@ -7,6 +7,7 @@ import {
   Wallet, Brain, Clock, Target, Lightbulb, Eye, Car, GraduationCap,
   Store, MapPin, Plus, Minus
 } from 'lucide-react'
+import BrandLogo from '../components/BrandLogo'
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -20,7 +21,12 @@ const navLinks = [
 
 const typingWords = ['Gig Workers', 'Fresh Graduates', 'Small Traders', 'Rural Communities']
 
-const poweredBy = ['DuitNow', "Touch 'n Go", 'Shopee', 'GrabPay']
+const poweredBy = [
+  { name: 'DuitNow', logo: 'https://logo.clearbit.com/paynet.my', color: '#1a3c6e' },
+  { name: "Touch 'n Go", logo: 'https://logo.clearbit.com/touchngo.com.my', color: '#005baa' },
+  { name: 'Shopee', logo: 'https://logo.clearbit.com/shopee.com.my', color: '#ee4d2d' },
+  { name: 'GrabPay', logo: 'https://logo.clearbit.com/grab.com', color: '#00b14f' },
+]
 
 const stats = [
   { value: 3800000, display: '3.8M', label: 'Unbanked Malaysians', icon: Users },
@@ -542,9 +548,12 @@ export default function LandingPage() {
 
             <div className="flex items-center gap-2 text-xs text-gray-600">
               <span>Powered by</span>
-              <div className="flex gap-3">
-                {poweredBy.map((name) => (
-                  <span key={name} className="px-2.5 py-1 bg-[#111] border border-[#1f1f1f] rounded-lg text-gray-400">{name}</span>
+              <div className="flex gap-3 items-center">
+                {poweredBy.map((item) => (
+                  <span key={item.name} className="px-2.5 py-1.5 bg-[#111] border border-[#1f1f1f] rounded-lg text-gray-400 flex items-center gap-2">
+                    <BrandLogo name={item.name} url={item.logo} fallbackColor={item.color} size="h-5 w-5" />
+                    {item.name}
+                  </span>
                 ))}
               </div>
             </div>

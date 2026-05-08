@@ -9,6 +9,7 @@ import {
 import { useTheme } from '../context/ThemeContext'
 import ThemeToggle from '../components/ThemeToggle'
 import AppSidebar from '../components/AppSidebar'
+import BrandLogo from '../components/BrandLogo'
 
 // ─── Navigation Items ────────────────────────────────────────────────────────
 
@@ -17,14 +18,14 @@ import AppSidebar from '../components/AppSidebar'
 // ─── Bank Data ───────────────────────────────────────────────────────────────
 
 const banks = [
-  { id: 'maybank', name: 'Maybank', color: '#FDB813', textColor: '#000', shortName: 'MBB' },
-  { id: 'cimb', name: 'CIMB', color: '#EC1C24', textColor: '#fff', shortName: 'CIMB' },
-  { id: 'bankislam', name: 'Bank Islam', color: '#00A651', textColor: '#fff', shortName: 'BI' },
-  { id: 'rhb', name: 'RHB', color: '#003DA5', textColor: '#fff', shortName: 'RHB' },
-  { id: 'publicbank', name: 'Public Bank', color: '#0033A0', textColor: '#fff', shortName: 'PBB' },
-  { id: 'hongleong', name: 'Hong Leong', color: '#CC0000', textColor: '#fff', shortName: 'HLB' },
-  { id: 'ambank', name: 'AmBank', color: '#00843D', textColor: '#fff', shortName: 'AMB' },
-  { id: 'bankrakyat', name: 'Bank Rakyat', color: '#6B2D8B', textColor: '#fff', shortName: 'BR' },
+  { id: 'maybank', name: 'Maybank', color: '#FDB813', textColor: '#000', shortName: 'MBB', logo: 'https://logo.clearbit.com/maybank.com' },
+  { id: 'cimb', name: 'CIMB', color: '#EC1C24', textColor: '#fff', shortName: 'CIMB', logo: 'https://logo.clearbit.com/cimb.com' },
+  { id: 'bankislam', name: 'Bank Islam', color: '#00A651', textColor: '#fff', shortName: 'BI', logo: 'https://logo.clearbit.com/bankislam.com' },
+  { id: 'rhb', name: 'RHB', color: '#003DA5', textColor: '#fff', shortName: 'RHB', logo: 'https://logo.clearbit.com/rhbgroup.com' },
+  { id: 'publicbank', name: 'Public Bank', color: '#0033A0', textColor: '#fff', shortName: 'PBB', logo: 'https://logo.clearbit.com/publicbank.com.my' },
+  { id: 'hongleong', name: 'Hong Leong', color: '#CC0000', textColor: '#fff', shortName: 'HLB', logo: 'https://logo.clearbit.com/hlb.com.my' },
+  { id: 'ambank', name: 'AmBank', color: '#00843D', textColor: '#fff', shortName: 'AMB', logo: 'https://logo.clearbit.com/ambank.com.my' },
+  { id: 'bankrakyat', name: 'Bank Rakyat', color: '#6B2D8B', textColor: '#fff', shortName: 'BR', logo: 'https://logo.clearbit.com/bankrakyat.com.my' },
 ]
 
 const permissions = [
@@ -148,13 +149,14 @@ function SelectBankStep({ onSelect, theme }) {
             onMouseEnter={(e) => { e.currentTarget.style.borderColor = bank.color }}
             onMouseLeave={(e) => { e.currentTarget.style.borderColor = `${bank.color}30` }}
           >
-            {/* Bank Logo Circle */}
-            <div
-              className="w-14 h-14 rounded-xl flex items-center justify-center text-lg font-bold transition-transform group-hover:scale-110"
-              style={{ backgroundColor: bank.color, color: bank.textColor }}
-            >
-              {bank.shortName}
-            </div>
+            {/* Bank Logo */}
+            <BrandLogo
+              name={bank.shortName}
+              url={bank.logo}
+              fallbackColor={bank.color}
+              size="w-14 h-14"
+              className="transition-transform group-hover:scale-110"
+            />
             <span className={`text-sm font-medium text-center ${textPrimary}`}>{bank.name}</span>
             <span
               className="text-[11px] font-medium px-3 py-1 rounded-full transition-all opacity-70 group-hover:opacity-100"
@@ -207,12 +209,12 @@ function AuthorizationStep({ bank, onAuthorize, onCancel, theme }) {
           className="px-6 py-5 flex items-center gap-4"
           style={{ backgroundColor: `${bank.color}15` }}
         >
-          <div
-            className="w-12 h-12 rounded-xl flex items-center justify-center text-base font-bold"
-            style={{ backgroundColor: bank.color, color: bank.textColor }}
-          >
-            {bank.shortName}
-          </div>
+          <BrandLogo
+            name={bank.shortName}
+            url={bank.logo}
+            fallbackColor={bank.color}
+            size="w-12 h-12"
+          />
           <div>
             <h3 className={`font-bold text-lg ${textPrimary}`}>{bank.name}</h3>
             <p className={`text-xs ${textSecondary}`}>Secure Authorization</p>

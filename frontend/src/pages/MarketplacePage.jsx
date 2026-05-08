@@ -10,20 +10,21 @@ import {
 import { useTheme } from '../context/ThemeContext'
 import ThemeToggle from '../components/ThemeToggle'
 import AppSidebar from '../components/AppSidebar'
+import BrandLogo from '../components/BrandLogo'
 
 // ─── Demo Data ───────────────────────────────────────────────────────────────
 
 const userScore = 72
 
 const products = [
-  { id: 1, name: 'BSN Micro Loan', provider: 'Bank Simpanan Nasional', maxAmount: 50000, rate: '4% p.a.', minScore: 75, type: 'Micro-loan', tenure: '5 years', description: 'Micro financing for small businesses and entrepreneurs. Quick approval with minimal documentation.', icon: Banknote },
-  { id: 2, name: 'TEKUN Nasional', provider: 'TEKUN Nasional', maxAmount: 100000, rate: '4% p.a.', minScore: 65, type: 'Business', tenure: '7 years', description: 'Business financing for Bumiputera entrepreneurs. Flexible repayment terms with mentoring support.', icon: Briefcase },
-  { id: 3, name: 'Amanah Ikhtiar', provider: 'Amanah Ikhtiar Malaysia', maxAmount: 20000, rate: '0% (Islamic)', minScore: 50, type: 'Micro-loan', tenure: '3 years', description: 'Interest-free Islamic microfinancing for low-income entrepreneurs. Group lending model.', icon: Wallet },
-  { id: 4, name: 'MARA Business Financing', provider: 'MARA', maxAmount: 200000, rate: '3.5% p.a.', minScore: 70, type: 'Business', tenure: '10 years', description: 'Business development financing for Bumiputera SMEs. Includes business advisory services.', icon: Briefcase },
-  { id: 5, name: 'Bank Rakyat Personal', provider: 'Bank Rakyat', maxAmount: 150000, rate: '5.5% p.a.', minScore: 80, type: 'Personal', tenure: '10 years', description: 'Personal financing with competitive rates. Available for salaried and self-employed individuals.', icon: CreditCard },
-  { id: 6, name: 'PTPTN Education', provider: 'PTPTN', maxAmount: 60000, rate: '1% p.a.', minScore: 40, type: 'Education', tenure: '15 years', description: 'Education loan for Malaysian students pursuing higher education at recognized institutions.', icon: GraduationCap },
-  { id: 7, name: 'TEKUN Usaha Niaga', provider: 'Tabung Ekonomi Kumpulan Usaha Niaga', maxAmount: 50000, rate: '4% p.a.', minScore: 60, type: 'Business', tenure: '5 years', description: 'Working capital financing for small traders and hawkers. Fast disbursement process.', icon: Banknote },
-  { id: 8, name: 'SME Bank Financing', provider: 'SME Bank', maxAmount: 500000, rate: '5% p.a.', minScore: 75, type: 'Business', tenure: '10 years', description: 'Comprehensive business financing for established SMEs. Includes trade financing and working capital.', icon: Building2 },
+  { id: 1, name: 'BSN Micro Loan', provider: 'Bank Simpanan Nasional', maxAmount: 50000, rate: '4% p.a.', minScore: 75, type: 'Micro-loan', tenure: '5 years', description: 'Micro financing for small businesses and entrepreneurs. Quick approval with minimal documentation.', icon: Banknote, logo: 'https://logo.clearbit.com/bsn.com.my', brandColor: '#003d79' },
+  { id: 2, name: 'TEKUN Nasional', provider: 'TEKUN Nasional', maxAmount: 100000, rate: '4% p.a.', minScore: 65, type: 'Business', tenure: '7 years', description: 'Business financing for Bumiputera entrepreneurs. Flexible repayment terms with mentoring support.', icon: Briefcase, logo: null, brandColor: '#1a5276' },
+  { id: 3, name: 'Amanah Ikhtiar', provider: 'Amanah Ikhtiar Malaysia', maxAmount: 20000, rate: '0% (Islamic)', minScore: 50, type: 'Micro-loan', tenure: '3 years', description: 'Interest-free Islamic microfinancing for low-income entrepreneurs. Group lending model.', icon: Wallet, logo: null, brandColor: '#2e7d32' },
+  { id: 4, name: 'MARA Business Financing', provider: 'MARA', maxAmount: 200000, rate: '3.5% p.a.', minScore: 70, type: 'Business', tenure: '10 years', description: 'Business development financing for Bumiputera SMEs. Includes business advisory services.', icon: Briefcase, logo: 'https://logo.clearbit.com/mara.gov.my', brandColor: '#1565c0' },
+  { id: 5, name: 'Bank Rakyat Personal', provider: 'Bank Rakyat', maxAmount: 150000, rate: '5.5% p.a.', minScore: 80, type: 'Personal', tenure: '10 years', description: 'Personal financing with competitive rates. Available for salaried and self-employed individuals.', icon: CreditCard, logo: 'https://logo.clearbit.com/bankrakyat.com.my', brandColor: '#6B2D8B' },
+  { id: 6, name: 'PTPTN Education', provider: 'PTPTN', maxAmount: 60000, rate: '1% p.a.', minScore: 40, type: 'Education', tenure: '15 years', description: 'Education loan for Malaysian students pursuing higher education at recognized institutions.', icon: GraduationCap, logo: 'https://logo.clearbit.com/ptptn.gov.my', brandColor: '#0d47a1' },
+  { id: 7, name: 'TEKUN Usaha Niaga', provider: 'Tabung Ekonomi Kumpulan Usaha Niaga', maxAmount: 50000, rate: '4% p.a.', minScore: 60, type: 'Business', tenure: '5 years', description: 'Working capital financing for small traders and hawkers. Fast disbursement process.', icon: Banknote, logo: null, brandColor: '#1a5276' },
+  { id: 8, name: 'SME Bank Financing', provider: 'SME Bank', maxAmount: 500000, rate: '5% p.a.', minScore: 75, type: 'Business', tenure: '10 years', description: 'Comprehensive business financing for established SMEs. Includes trade financing and working capital.', icon: Building2, logo: 'https://logo.clearbit.com/smebank.com.my', brandColor: '#00695c' },
 ]
 
 const types = ['All', 'Micro-loan', 'Business', 'Personal', 'Education']
@@ -49,9 +50,12 @@ function ProductCard({ product, theme }) {
       onClick={() => setExpanded(!expanded)}
     >
       <div className="flex items-start justify-between mb-3">
-        <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${eligible ? 'bg-gradient-to-br from-blue-500/20 to-teal-500/20' : 'bg-gray-500/10'}`}>
-          <Icon size={20} className={eligible ? 'text-blue-400' : 'text-gray-500'} />
-        </div>
+        <BrandLogo
+          name={product.provider}
+          url={product.logo}
+          fallbackColor={product.brandColor}
+          size="w-11 h-11"
+        />
         <span className={`text-xs font-semibold px-3 py-1 rounded-full ${eligible ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
           {eligible ? <span className="flex items-center gap-1"><Check size={10} /> Eligible</span> : <span className="flex items-center gap-1"><X size={10} /> Not Eligible</span>}
         </span>
