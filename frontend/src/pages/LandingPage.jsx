@@ -1043,43 +1043,7 @@ export default function LandingPage() {
         <TechMarquee />
       </section>
 
-      {/* ─── 11. Testimonials ──────────────────────────────────────────────── */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 pb-28">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">What People Say</h2>
-          <p className="text-sm text-gray-500">Feedback from project evaluation</p>
-        </motion.div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={staggerContainer}
-          className="grid md:grid-cols-3 gap-6"
-        >
-          {testimonials.map((t, i) => (
-            <motion.div
-              key={i}
-              variants={fadeInUp}
-              className="bg-[#111]/80 border border-[#1f1f1f] rounded-2xl p-7 hover:border-[#2a2a2a] transition-all duration-300"
-            >
-              <div className="text-3xl mb-4">{t.avatar}</div>
-              <p className="text-sm text-gray-300 leading-relaxed mb-5 italic">&ldquo;{t.quote}&rdquo;</p>
-              <div>
-                <p className="text-sm font-semibold">{t.name}</p>
-                <p className="text-xs text-gray-500">{t.role}</p>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
 
       {/* ─── BNM Alignment ───────────────────────────────────────────────────────── */}
       <section className="relative z-10 max-w-5xl mx-auto px-6 pb-28">
