@@ -4,8 +4,70 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   Zap, ArrowLeft, Brain, Database, Cpu, BarChart3, Eye,
   ChevronDown, ChevronRight, Sparkles, Shield, Target,
-  CheckCircle2
+  CheckCircle2, LayoutDashboard, FileText, Settings
 } from 'lucide-react'
+
+const navItems = [
+  { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard', active: false },
+  { label: 'Score Form', icon: FileText, path: '/score', active: false },
+  { label: 'Simulator', icon: Zap, path: '/simulation', active: false },
+  { label: 'AI Model', icon: Brain, path: '/ai', active: true },
+  { label: 'Settings', icon: Settings, path: null, disabled: true },
+]
+
+function Sidebar({ mobileOpen, onClose }) {
+  return (
+    <>
+      {mobileOpen && (
+        <motion.div
+          className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[60]"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          onClick={onClose}
+        />
+      )}
+      <aside className={`flex flex-col fixed left-0 top-0 bottom-0 w-[260px] bg-[#0f0f0f] border-r border-[#1f1f1f] z-[70] transform transition-transform duration-300 ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
+        <div className="flex items-center gap-3 px-6 py-6">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center">
+            <Shield size={18} className="text-white" />
+          </div>
+          <span className="text-lg font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
+            ScoreKu
+          </span>
+        </div>
+        <nav className="flex-1 px-3 mt-2">
+          <div className="space-y-1">
+            {navItems.map((item) => {
+              const Icon = item.icon
+              if (item.disabled) {
+                return (
+                  <div key={item.label} className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 cursor-not-allowed">
+                    <Icon size={18} />
+                    <span className="text-sm">{item.label}</span>
+                    <span className="ml-auto text-[10px] bg-[#1f1f1f] text-gray-500 px-2 py-0.5 rounded-full">Soon</span>
+                  </div>
+                )
+              }
+              return (
+                <Link
+                  key={item.label}
+                  to={item.path}
+                  className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all ${
+                    item.active
+                      ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                      : 'text-gray-400 hover:text-white hover:bg-[#1a1a1a]'
+                  }`}
+                >
+                  <Icon size={18} />
+                  <span className="text-sm font-medium">{item.label}</span>
+                </Link>
+              )
+            })}
+          </div>
+        </nav>
+      </aside>
+    </>
+  )
+}
 
 const pipelineSteps = [
   {
@@ -197,32 +259,23 @@ function PipelineStep({ step, isOpen, onToggle, index }) {
 
 export default function AIExplainerPage() {
   const [openStep, setOpenStep] = useState(null)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
-      {/* Header */}
-      <nav className="border-b border-[#1f1f1f]/50 backdrop-blur-xl bg-[#0a0a0a]/80 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link to="/" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
-              <ArrowLeft size={18} />
-              <span className="text-sm hidden sm:inline">Back</span>
-            </Link>
-            <div className="w-px h-6 bg-[#1f1f1f]" />
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center">
-                <Zap size={14} className="text-white" />
-              </div>
-              <span className="text-lg font-bold">Score<span className="text-teal-400">Ku</span></span>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-500/10 border border-teal-500/20">
-            <Brain size={12} className="text-teal-400" />
-            <span className="text-xs text-teal-400 font-medium">AI Explainer</span>
-          </div>
-        </div>
-      </nav>
+      {/* Mobile hamburger */}
+      <button
+        className="lg:hidden fixed top-4 left-4 z-[55] p-2.5 bg-[#111] border border-[#1f1f1f] rounded-xl"
+        onClick={() => setSidebarOpen(true)}
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
 
+      {/* Sidebar */}
+      <Sidebar mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+
+      {/* Main Content */}
+      <main className="lg:ml-[260px] min-h-screen">
       <div className="max-w-5xl mx-auto px-6 py-12">
         {/* Hero */}
         <motion.div
@@ -502,6 +555,7 @@ export default function AIExplainerPage() {
           </div>
         </motion.div>
       </div>
+      </main>
     </div>
   )
 }

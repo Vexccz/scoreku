@@ -1,6 +1,6 @@
 import { useLocation, useSearchParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import {
   LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell
 } from 'recharts'
@@ -69,6 +69,97 @@ const navItems = [
   { label: 'How AI Works', icon: Brain, path: '/ai', active: false },
   { label: 'Settings', icon: Settings, path: null, disabled: true },
 ]
+
+// ─── Confetti ────────────────────────────────────────────────────────────────
+
+const confettiColors = ['#3b82f6', '#14b8a6', '#8b5cf6', '#f59e0b', '#ec4899']
+
+function Confetti({ trigger }) {
+  const [particles, setParticles] = useState([])
+  const hasTriggered = useRef(false)
+
+  useEffect(() => {
+    if (trigger && !hasTriggered.current) {
+      hasTriggered.current = true
+      const newParticles = Array.from({ length: 35 }, (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        delay: Math.random() * 0.8,
+        rotation: Math.random() * 360,
+        color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
+        size: Math.random() * 8 + 4,
+        isCircle: Math.random() > 0.5,
+      }))
+      setParticles(newParticles)
+      setTimeout(() => setParticles([]), 3000)
+    }
+  }, [trigger])
+
+  if (particles.length === 0) return null
+
+  return (
+    <div className="fixed inset-0 pointer-events-none z-[100] overflow-hidden">
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          initial={{ y: -20, x: `${p.x}vw`, opacity: 1, rotate: 0 }}
+          animate={{ y: '110vh', opacity: 0, rotate: p.rotation + 720 }}
+          transition={{ duration: 2.5, delay: p.delay, ease: 'easeIn' }}
+          className="absolute top-0"
+          style={{
+            width: p.size,
+            height: p.size,
+            backgroundColor: p.color,
+            borderRadius: p.isCircle ? '50%' : '2px',
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
+// ─── Loading Skeleton ────────────────────────────────────────────────────────
+
+function LoadingSkeleton() {
+  return (
+    <div className="min-h-screen bg-[#0a0a0a] text-white">
+      <div className="lg:ml-[260px] min-h-screen pb-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          {/* Top bar skeleton */}
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <div className="h-7 w-32 bg-[#1f1f1f] rounded-lg animate-pulse" />
+              <div className="h-4 w-48 bg-[#1a1a1a] rounded mt-2 animate-pulse" />
+            </div>
+            <div className="h-9 w-28 bg-[#1f1f1f] rounded-xl animate-pulse" />
+          </div>
+          {/* Score cards skeleton */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div className="bg-[#111] border border-[#1f1f1f] rounded-2xl p-6 h-56 flex items-center justify-center">
+              <div className="w-36 h-36 rounded-full bg-[#1a1a1a] animate-pulse" />
+            </div>
+            <div className="bg-[#111] border border-[#1f1f1f] rounded-2xl p-6">
+              <div className="h-4 w-24 bg-[#1a1a1a] rounded animate-pulse mb-4" />
+              <div className="h-32 bg-[#1a1a1a] rounded-xl animate-pulse" />
+            </div>
+            <div className="bg-[#111] border border-[#1f1f1f] rounded-2xl p-6">
+              <div className="h-4 w-20 bg-[#1a1a1a] rounded animate-pulse mb-4" />
+              <div className="h-8 w-24 bg-[#1a1a1a] rounded animate-pulse mb-2" />
+              <div className="h-3 w-32 bg-[#1a1a1a] rounded animate-pulse" />
+            </div>
+          </div>
+          {/* Factor cards skeleton */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div className="bg-[#111] border border-[#1f1f1f] rounded-2xl p-6 h-48 animate-pulse" />
+            <div className="bg-[#111] border border-[#1f1f1f] rounded-2xl p-6 h-48 animate-pulse" />
+          </div>
+          {/* Chart skeleton */}
+          <div className="bg-[#111] border border-[#1f1f1f] rounded-2xl p-6 h-72 animate-pulse" />
+        </div>
+      </div>
+    </div>
+  )
+}
 
 // ─── Animated Score ──────────────────────────────────────────────────────────
 
@@ -262,6 +353,12 @@ export default function DashboardPage() {
   const [searchParams] = useSearchParams()
   const [copied, setCopied] = useState(false)
   const [now, setNow] = useState(new Date())
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 800)
+    return () => clearTimeout(timer)
+  }, [])
 
   useEffect(() => {
     const timer = setInterval(() => setNow(new Date()), 60000)
@@ -316,8 +413,13 @@ export default function DashboardPage() {
     show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   }
 
+  if (loading) return <LoadingSkeleton />
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
+      {/* Confetti for Excellent score */}
+      <Confetti trigger={score >= 76} />
+
       {/* Background effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/3 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[120px]" />
