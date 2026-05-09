@@ -29,7 +29,22 @@ app.post('/api/chat', chatWithAI);
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', service: 'ScoreKu API', version: '1.0.0' });
+  const fs = require('fs');
+  const path = require('path');
+  const localPyPath = path.join(__dirname, '../.local_python/python/bin/python3');
+  const mlScriptPath = path.join(__dirname, '../ml-model/predict.py');
+  
+  res.json({ 
+    status: 'ok', 
+    service: 'ScoreKu API', 
+    version: '1.0.1',
+    debug: {
+      hasLocalPy: fs.existsSync(localPyPath),
+      localPyPath: localPyPath,
+      hasMlScript: fs.existsSync(mlScriptPath),
+      mlScriptPath: mlScriptPath
+    }
+  });
 });
 
 app.listen(PORT, () => {
