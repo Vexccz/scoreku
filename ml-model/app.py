@@ -32,6 +32,36 @@ def health():
         "model_path_checked": os.path.join(os.path.abspath(os.path.dirname(__file__)), 'model.joblib')
     })
 
+@app.route('/debug-load', methods=['GET'])
+def debug_load():
+    try:
+        model_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'model.joblib')
+        model_exists = os.path.exists(model_path)
+        
+        # Test imports locally within function
+        import numpy
+        import xgboost
+        import shap
+        
+        # Try loading directly
+        from predict import load_model
+        model, feature_cols, le_dict = load_model(model_path)
+        
+        return jsonify({
+            "status": "success",
+            "model_path": model_path,
+            "model_exists": model_exists,
+            "feature_cols_count": len(feature_cols) if feature_cols else 0
+        })
+    except Exception as e:
+        return jsonify({
+            "status": "error",
+            "error_message": str(e),
+            "traceback": traceback.format_exc(),
+            "model_path": model_path,
+            "model_exists": model_exists
+        }), 500
+
 @app.route('/predict', methods=['POST'])
 def api_predict():
     try:
