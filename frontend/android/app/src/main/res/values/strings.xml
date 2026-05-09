@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">ScoreKu</string>
+    <string name="title_activity_main">ScoreKu</string>
+    <string name="package_name">com.scoreku.app</string>
+    <string name="custom_url_scheme">com.scoreku.app</string>
+</resources>

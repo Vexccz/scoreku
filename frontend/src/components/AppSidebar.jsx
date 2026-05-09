@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import {
   Shield, LayoutDashboard, FileText, Building2, GitCompare, BarChart3,
   Sparkles, Brain, Settings, RefreshCw, Receipt, User, FileBarChart,
-  BookOpen, Gift, Star, HelpCircle
+  BookOpen, Gift, Star, HelpCircle, Clock
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import { useLanguage } from '../context/LanguageContext'
@@ -12,13 +12,13 @@ import ThemeToggle from './ThemeToggle'
 const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
   { label: 'Score Form', icon: FileText, path: '/score' },
+  { label: 'Score History', icon: Clock, path: '/history' },
   { label: 'Connect Bank', icon: Building2, path: '/connect-bank' },
   { label: 'Compare', icon: GitCompare, path: '/comparison' },
   { label: 'Marketplace', icon: BarChart3, path: '/marketplace' },
   { label: 'Simulator', icon: Sparkles, path: '/simulation' },
   { label: 'Transactions', icon: Receipt, path: '/transactions' },
   { label: 'Report', icon: FileBarChart, path: '/report' },
-  { label: 'Learn', icon: BookOpen, path: '/learn' },
   { label: 'Referral', icon: Gift, path: '/referral' },
   { label: 'Profile', icon: User, path: '/profile' },
 ]
@@ -104,16 +104,16 @@ export default function AppSidebar({ activePath, mobileOpen, onClose, user = def
           <div className="flex items-center gap-3 mb-4">
             <div className="relative">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center text-white text-sm font-bold">
-                {user.name.charAt(0)}
+                {user?.name?.charAt(0) || 'U'}
               </div>
               <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-500 rounded-full border-2" style={{ borderColor: theme === 'dark' ? '#0f0f0f' : '#fff' }} />
             </div>
             <div className="flex-1 min-w-0">
-              <p className={`text-sm font-medium truncate ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{user.name}</p>
-              <p className={`text-xs truncate ${theme === 'dark' ? 'text-gray-500' : 'text-gray-400'}`}>{user.email}</p>
+              <p className={`text-sm font-medium truncate ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{user?.name || 'User'}</p>
+              <p className={`text-xs truncate ${theme === 'dark' ? 'text-gray-500' : 'text-gray-400'}`}>{user?.email || ''}</p>
             </div>
           </div>
-          <p className={`text-xs mb-4 ${theme === 'dark' ? 'text-gray-600' : 'text-gray-400'}`}>Member since {user.memberSince}</p>
+          <p className={`text-xs mb-4 ${theme === 'dark' ? 'text-gray-600' : 'text-gray-400'}`}>Member since {user?.memberSince || '2026'}</p>
           <button
             onClick={handleRecalculate}
             className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-teal-600 rounded-xl text-sm font-medium text-white hover:opacity-90 transition-opacity"

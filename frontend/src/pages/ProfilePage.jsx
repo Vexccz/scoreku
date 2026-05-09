@@ -13,6 +13,8 @@ const defaultProfile = {
   state: 'Pahang',
 }
 
+const defaultPrefs = { scoreUpdates: true, tips: true, productAlerts: false, emailAlerts: false }
+
 export default function ProfilePage() {
   const { theme } = useTheme()
   const { t } = useLanguage()
@@ -23,7 +25,7 @@ export default function ProfilePage() {
   })
   const [prefs, setPrefs] = useState(() => {
     const saved = localStorage.getItem('scoreku_prefs')
-    return saved ? JSON.parse(saved) : { scoreUpdates: true, tips: true, productAlerts: false }
+    return saved ? JSON.parse(saved) : defaultPrefs
   })
   const [deleteModal, setDeleteModal] = useState(false)
 
@@ -36,7 +38,11 @@ export default function ProfilePage() {
     const updated = { ...prefs, [key]: !prefs[key] }
     setPrefs(updated)
     localStorage.setItem('scoreku_prefs', JSON.stringify(updated))
-    toast.success('Preference updated')
+    if (key === 'emailAlerts') {
+      toast.success(updated[key] ? `Email alerts enabled for ${profile.email}` : 'Email alerts disabled')
+    } else {
+      toast.success('Preference updated')
+    }
   }
 
   const handleDeleteAccount = () => {
@@ -65,7 +71,7 @@ export default function ProfilePage() {
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
 
-      <AppSidebar activePath="/profile" mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <AppSidebar activePath="/profile" mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} user={{ name: profile?.name || 'Zafran', email: profile?.email || '', memberSince: 'March 2026' }} />
 
       <main className="lg:ml-[260px] min-h-screen pb-8">
         <motion.div variants={container} initial="hidden" animate="show" className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -158,10 +164,14 @@ export default function ProfilePage() {
                 { key: 'scoreUpdates', label: 'Score Updates', desc: 'Get notified when your score changes' },
                 { key: 'tips', label: 'Improvement Tips', desc: 'Weekly tips to improve your score' },
                 { key: 'productAlerts', label: 'Product Alerts', desc: 'New financial products you qualify for' },
+                { key: 'emailAlerts', label: 'Score Update Alerts (Email)', desc: 'Receive email when your score changes significantly', isEmail: true },
               ].map(pref => (
-                <div key={pref.key} className="flex items-center justify-between">
+                <div key={pref.key} className={`flex items-center justify-between ${pref.isEmail ? `p-3 rounded-xl border ${theme === 'dark' ? 'border-blue-500/20 bg-blue-500/5' : 'border-blue-200 bg-blue-50'}` : ''}`}>
                   <div>
-                    <p className={`text-sm font-medium ${textPrimary}`}>{pref.label}</p>
+                    <div className="flex items-center gap-2">
+                      <p className={`text-sm font-medium ${textPrimary}`}>{pref.label}</p>
+                      {pref.isEmail && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-blue-500/15 text-blue-400 border border-blue-500/25">📧 Email</span>}
+                    </div>
                     <p className={`text-xs ${textSecondary}`}>{pref.desc}</p>
                   </div>
                   <button

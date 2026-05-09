@@ -112,26 +112,49 @@ export default function ScoreFormPage() {
       })
     }, 900)
 
+    const payload = {
+      monthly_income: Number(form.monthlyIncome),
+      employment_type: form.employmentType,
+      ewallet_transactions: Number(form.ewalletUsage),
+      duitnow_transactions: Number(form.duitnowTransactions),
+      bills_paid: Number(form.billsPaid),
+      bills_total: Number(form.billsTotal),
+      rent_on_time_months: Number(form.rentOnTime),
+      ecommerce_orders: Number(form.ecommerceOrders),
+      mobile_recharges: Number(form.mobileRecharges),
+    }
+
     try {
-      const { data } = await api.post('/score/calculate', {
-        monthly_income: Number(form.monthlyIncome),
-        employment_type: form.employmentType,
-        ewallet_transactions: Number(form.ewalletUsage),
-        duitnow_transactions: Number(form.duitnowTransactions),
-        bills_paid: Number(form.billsPaid),
-        bills_total: Number(form.billsTotal),
-        rent_on_time_months: Number(form.rentOnTime),
-        ecommerce_orders: Number(form.ecommerceOrders),
-        mobile_recharges: Number(form.mobileRecharges),
-      })
+      const { data } = await api.post('/score', payload)
       clearInterval(stepInterval)
       toast.success('Score calculated!')
-      // Store result in localStorage for after login
+      // Store result in localStorage for history tracking
+      const historyEntry = {
+        date: new Date().toLocaleDateString('en-MY', { month: 'short', year: 'numeric' }),
+        score: data.score,
+        change: null,
+        category: data.riskCategory || 'Good',
+        timestamp: Date.now(),
+      }
+      const existing = JSON.parse(localStorage.getItem('scoreku_history') || '[]')
+      // Update change relative to last entry
+      if (existing.length > 0) {
+        historyEntry.change = data.score - existing[existing.length - 1].score
+      }
+      existing.push(historyEntry)
+      localStorage.setItem('scoreku_history', JSON.stringify(existing))
       localStorage.setItem('scoreku_pending_result', JSON.stringify(data))
-      navigate('/login', { state: { fromScore: true } })
+      navigate('/dashboard', { state: { result: data } })
     } catch (err) {
       clearInterval(stepInterval)
-      toast.error(err.response?.data?.message || 'Failed to calculate score')
+      // Backend down — show informative error and offer demo mode
+      const msg = err.response?.data?.message || err.message || 'Failed to connect to backend'
+      if (!err.response || err.code === 'ERR_NETWORK') {
+        toast.error('Backend offline. Redirecting to demo dashboard...')
+        setTimeout(() => navigate('/dashboard?demo=true'), 1500)
+      } else {
+        toast.error(msg)
+      }
       setLoading(false)
     }
   }

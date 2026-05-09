@@ -4,6 +4,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { AuthProvider } from './context/AuthContext'
 import { ThemeProvider, useTheme } from './context/ThemeContext'
 import { LanguageProvider } from './context/LanguageContext'
+import { OfflineProvider } from './context/OfflineContext'
+import OfflineBanner from './components/OfflineBanner'
 import LandingPage from './pages/LandingPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
@@ -21,6 +23,7 @@ import ProfilePage from './pages/ProfilePage'
 import MonthlyReportPage from './pages/MonthlyReportPage'
 import ReferralPage from './pages/ReferralPage'
 import LearningPage from './pages/LearningPage'
+import HistoryPage from './pages/HistoryPage'
 import FeaturesPage from './pages/FeaturesPage'
 import HowItWorksPage from './pages/HowItWorksPage'
 import AIChatWidget from './components/AIChatWidget'
@@ -67,6 +70,7 @@ function AnimatedRoutes() {
           <Route path="/report" element={<MonthlyReportPage />} />
           <Route path="/referral" element={<ReferralPage />} />
           <Route path="/learn" element={<LearningPage />} />
+          <Route path="/history" element={<HistoryPage />} />
           <Route path="/features" element={<FeaturesPage />} />
           <Route path="/how-it-works" element={<HowItWorksPage />} />
           <Route path="*" element={<NotFoundPage />} />
@@ -78,8 +82,14 @@ function AnimatedRoutes() {
 
 function ThemedApp() {
   const { theme } = useTheme()
+  const location = useLocation()
+  
+  // Hide bottom nav on public/landing pages
+  const hideBottomNav = ['/', '/login', '/register', '/welcome', '/features', '/how-it-works', '/simulation', '/ai', '/learn'].includes(location.pathname)
+  
   return (
     <div className={`min-h-screen transition-colors duration-300 ${theme === 'dark' ? 'bg-[#0f0f0f] text-white' : 'bg-white text-gray-900'}`}>
+      <OfflineBanner />
       <AnimatedRoutes />
       <AIChatWidget />
       <Toaster
@@ -98,11 +108,13 @@ function App() {
   return (
     <LanguageProvider>
       <ThemeProvider>
-        <AuthProvider>
-          <Router>
-            <ThemedApp />
-          </Router>
-        </AuthProvider>
+        <OfflineProvider>
+          <AuthProvider>
+            <Router>
+              <ThemedApp />
+            </Router>
+          </AuthProvider>
+        </OfflineProvider>
       </ThemeProvider>
     </LanguageProvider>
   )

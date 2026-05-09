@@ -179,7 +179,7 @@ export default function AIChatWidget() {
     }
   }
 
-  const handleSend = (text) => {
+  const handleSend = async (text) => {
     const msg = text || input.trim()
     if (!msg) return
 
@@ -188,13 +188,45 @@ export default function AIChatWidget() {
     setInput('')
     setIsTyping(true)
 
-    const delay = 800 + Math.random() * 400
-    setTimeout(() => {
-      const response = findResponse(msg)
-      const botMsg = { id: (Date.now() + 1).toString(), role: 'bot', text: response }
+    try {
+      // Map history for Groq context (last 5 messages)
+      const history = messages.slice(-5).map(m => ({
+        sender: m.role,
+        text: m.text
+      }));
+
+      // Point to backend Render URL
+      const API_URL = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE || 'https://scoreku.onrender.com/api';
+      
+      const res = await fetch(`${API_URL}/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg, history })
+      });
+
+      if (!res.ok) throw new Error('Network response was not ok');
+      const data = await res.json();
+      
+      const botMsg = { 
+        id: (Date.now() + 1).toString(), 
+        role: 'bot', 
+        text: data.response || "Maaf, sistem AI sedang sibuk. Sila cuba sebentar lagi." 
+      }
       setMessages((prev) => [...prev, botMsg])
+    } catch (error) {
+      console.error('Chat error:', error);
+      
+      // Fallback if backend is asleep/offline
+      const fallbackResponse = findResponse(msg);
+      const botMsg = { 
+        id: (Date.now() + 1).toString(), 
+        role: 'bot', 
+        text: fallbackResponse
+      }
+      setMessages((prev) => [...prev, botMsg])
+    } finally {
       setIsTyping(false)
-    }, delay)
+    }
   }
 
   const handleKeyDown = (e) => {

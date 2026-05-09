@@ -17,7 +17,7 @@ const navLinks = [
   { label: 'How it Works', href: '/how-it-works', isRoute: true },
   { label: 'Simulator', href: '/simulation', isRoute: true },
   { label: 'AI Model', href: '/ai', isRoute: true },
-  { label: 'FAQ', href: '#faq' },
+  { label: 'Learn', href: '/learn', isRoute: true },
 ]
 
 const typingWordsEn = ['Gig Workers', 'Fresh Graduates', 'Small Traders', 'Rural Communities']
@@ -99,6 +99,10 @@ const faqData = [
   { q: 'Who can use ScoreKu?', a: 'Anyone in Malaysia with a smartphone and at least one e-wallet or digital payment account. No bank account required, no minimum income, no credit history needed.' },
   { q: 'How is this different from CCRIS/CTOS?', a: 'CCRIS and CTOS only track formal banking relationships. If you have never had a bank loan or credit card, you are invisible to them. ScoreKu uses alternative digital data to score the unscored.' },
   { q: 'Is it free?', a: 'Yes, completely free for individuals. We plan to monetize through partnerships with financial institutions who want to reach underserved segments — not by charging users.' },
+  { q: 'How long does it take to calculate my score?', a: 'Your score is generated in under 5 seconds once you submit your data. Our AI model processes your information instantly and provides a full breakdown with SHAP explanations and improvement tips.' },
+  { q: 'Can gig workers like Grab or Foodpanda riders use ScoreKu?', a: 'Absolutely — ScoreKu was built with gig workers in mind. Your DuitNow earnings, e-wallet activity, and consistent digital payments all count toward your score, even without a formal payslip.' },
+  { q: 'How can I improve my score quickly?', a: 'The fastest wins are: (1) paying all bills on time for 3+ months, (2) increasing your DuitNow and e-wallet transaction frequency, and (3) maintaining a stable income flow. Most users see a 20-40 point improvement within 3 months.' },
+  { q: 'Does ScoreKu work with Islamic banking products?', a: 'Yes. ScoreKu is compatible with both conventional and Shariah-compliant financial products. Your score is used by partner institutions regardless of whether they offer conventional or Islamic financing like Murabahah or Musharakah.' },
 ]
 
 // ─── Animation Variants ──────────────────────────────────────────────────────
@@ -1170,35 +1174,114 @@ export default function LandingPage() {
       </section>
 
       {/* ─── 12. FAQ ───────────────────────────────────────────────────────── */}
-      <section id="faq" className="relative z-10 max-w-3xl mx-auto px-6 pb-28">
+      {/* ─── 12. Learn Section ─────────────────────────────────────────── */}
+      <section id="learn" className="relative z-10 max-w-6xl mx-auto px-6 pb-28">
+        {/* Header */}
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          initial="hidden" whileInView="visible" viewport={{ once: true }}
+          variants={fadeInUp} transition={{ duration: 0.6 }}
+          className="text-center mb-6"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('landingFaqTitle')}</h2>
-          <p className="text-gray-400">{t('landingFaqSubtitle')}</p>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-blue-500/20 bg-blue-500/5 text-blue-400 text-xs font-medium mb-4">
+            <span>📚</span> {t('learnHeroLabel')}
+          </div>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4">
+            {t('learnHeroTitle1')} <span className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">{t('learnHeroTitle2')}</span>
+          </h2>
+          <p className="text-gray-400 max-w-xl mx-auto text-base">{t('learnHeroDesc')}</p>
         </motion.div>
 
+        {/* Stats Row */}
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+          initial="hidden" whileInView="visible" viewport={{ once: true }}
           variants={staggerContainer}
-          className="space-y-3"
+          className="grid grid-cols-3 gap-4 mb-10"
         >
-          {[1, 2, 3, 4, 5, 6].map((n) => (
-            <motion.div key={n} variants={fadeInUp}>
-              <FAQItem
-                item={{ q: t(`landingFaq${n}Q`), a: t(`landingFaq${n}A`) }}
-                isOpen={openFaq === n}
-                onClick={() => setOpenFaq(openFaq === n ? null : n)}
-              />
+          {[
+            { value: '8', label: t('learnStat1Label'), suffix: '' },
+            { value: '5', label: t('learnStat2Label'), suffix: '' },
+            { value: '100', label: t('learnStat3Label'), suffix: '%' },
+          ].map((stat, i) => (
+            <motion.div key={i} variants={fadeInUp} className="text-center p-4 rounded-2xl border border-white/5 bg-white/[0.03]">
+              <div className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">{stat.value}{stat.suffix}</div>
+              <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
             </motion.div>
           ))}
+        </motion.div>
+
+        {/* Featured Article */}
+        <motion.a
+          href="/learn"
+          initial="hidden" whileInView="visible" viewport={{ once: true }}
+          variants={fadeInUp}
+          className="group flex flex-col md:flex-row gap-6 p-6 rounded-3xl border border-blue-500/20 bg-gradient-to-br from-blue-500/10 to-teal-500/5 hover:border-blue-500/40 transition-all mb-6 block"
+        >
+          <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500/30 to-teal-500/20 border border-blue-500/20 flex items-center justify-center text-3xl">
+            📊
+          </div>
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 font-medium">{t('learnFeaturedTag')}</span>
+              <span className="text-[11px] text-gray-500">5 min read</span>
+            </div>
+            <h3 className="text-lg font-bold mb-1 group-hover:text-blue-400 transition-colors">{t('learnA1Title')}</h3>
+            <p className="text-sm text-gray-400">{t('learnA1Sub')}</p>
+          </div>
+          <div className="flex items-center text-blue-400 text-sm font-medium gap-1 md:self-center flex-shrink-0 group-hover:gap-2 transition-all">
+            Read <span>→</span>
+          </div>
+        </motion.a>
+
+        {/* Article Grid */}
+        <motion.div
+          initial="hidden" whileInView="visible" viewport={{ once: true }}
+          variants={staggerContainer}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10"
+        >
+          {[
+            { emoji: '🏗️', title: t('learnA2Title'), desc: t('learnA2Sub'), tag: t('beginner'), time: '8 min' },
+            { emoji: '💳', title: t('learnA3Title'), desc: t('learnA3Sub'), tag: 'Tips', time: '4 min' },
+            { emoji: '🚗', title: t('learnA4Title'), desc: t('learnA4Sub'), tag: 'Tips', time: '7 min' },
+            { emoji: '⚠️', title: t('learnA5Title'), desc: t('learnA5Sub'), tag: language === 'bm' ? 'Kewangan' : 'Finance', time: '7 min' },
+            { emoji: '🕌', title: t('learnA6Title'), desc: t('learnA6Sub'), tag: language === 'bm' ? 'Kewangan' : 'Finance', time: '6 min' },
+            { emoji: '🏛️', title: t('learnA7Title'), desc: t('learnA7Sub'), tag: language === 'bm' ? 'Kewangan' : 'Finance', time: '8 min' },
+          ].map((article, i) => (
+            <motion.a
+              key={i}
+              href="/learn"
+              variants={fadeInUp}
+              className="group p-5 rounded-2xl border border-white/[0.07] bg-white/[0.03] hover:bg-white/[0.07] hover:border-blue-500/30 transition-all cursor-pointer block"
+            >
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-xl flex-shrink-0">
+                  {article.emoji}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-1.5 mb-1.5">
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/10 font-medium">{article.tag}</span>
+                    <span className="text-[10px] text-gray-600">{article.time} read</span>
+                  </div>
+                  <h3 className="text-sm font-semibold mb-1 group-hover:text-blue-400 transition-colors leading-snug">{article.title}</h3>
+                  <p className="text-xs text-gray-500 leading-relaxed">{article.desc}</p>
+                </div>
+              </div>
+            </motion.a>
+          ))}
+        </motion.div>
+
+        {/* CTA */}
+        <motion.div
+          initial="hidden" whileInView="visible" viewport={{ once: true }}
+          variants={fadeInUp}
+          className="text-center"
+        >
+          <a
+            href="/learn"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-teal-500 text-white font-semibold hover:opacity-90 transition-opacity shadow-lg shadow-blue-500/20"
+          >
+            {t('learnViewAll')} →
+          </a>
+          <p className="text-xs text-gray-600 mt-3">{t('learnFree')}</p>
         </motion.div>
       </section>
 

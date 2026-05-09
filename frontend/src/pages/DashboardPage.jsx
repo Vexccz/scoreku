@@ -377,7 +377,7 @@ export default function DashboardPage() {
       />
 
       {/* Main Content */}
-      <main className="lg:ml-[260px] min-h-screen pb-8">
+      <main className="lg:ml-[260px] min-h-screen pb-24 lg:pb-8">
         <motion.div
           variants={container}
           initial="hidden"
@@ -406,13 +406,13 @@ export default function DashboardPage() {
               <NotificationBell />
               <button
                 onClick={() => setShareModalOpen(true)}
-                className={`flex items-center gap-2 px-4 py-2 border rounded-xl text-sm transition-all ${
+                className={`flex items-center justify-center gap-2 px-4 py-3 border rounded-xl text-sm transition-all w-full sm:w-auto ${
                   theme === 'dark'
                     ? 'bg-[#111] border-[#1f1f1f] text-gray-300 hover:border-blue-500/50 hover:text-white'
                     : 'bg-white border-gray-200 text-gray-600 hover:border-blue-300 hover:text-gray-900'
                 }`}
               >
-                <Share2 size={14} />
+                <Share2 size={16} />
                 {t('shareScore')}
               </button>
             </div>
