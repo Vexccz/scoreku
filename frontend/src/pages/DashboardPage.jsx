@@ -14,10 +14,12 @@ import {
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import { useLanguage } from '../context/LanguageContext'
+import { useOffline } from '../context/OfflineContext'
 import ThemeToggle from '../components/ThemeToggle'
 import NotificationBell from '../components/NotificationBell'
 import ShareScoreModal from '../components/ShareScoreModal'
 import AppSidebar from '../components/AppSidebar'
+import ScoreGauge from '../components/ScoreGauge'
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -238,47 +240,6 @@ function AnimatedScore({ target }) {
   return current
 }
 
-// ─── Score Gauge ─────────────────────────────────────────────────────────────
-
-function ScoreGauge({ score, category }) {
-  const { t } = useLanguage()
-  const circumference = 2 * Math.PI * 54
-  const progress = ((score - 300) / 550) * circumference
-
-  return (
-    <div className="relative inline-flex items-center justify-center w-36 h-36 sm:w-44 sm:h-44">
-      <div
-        className="absolute inset-4 rounded-full blur-2xl opacity-30"
-        style={{ background: `radial-gradient(circle, ${category.color}, transparent 70%)` }}
-      />
-      <svg className="w-36 h-36 sm:w-44 sm:h-44 -rotate-90" viewBox="0 0 120 120">
-        <defs>
-          <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#2563eb" />
-            <stop offset="100%" stopColor="#14b8a6" />
-          </linearGradient>
-        </defs>
-        <circle cx="60" cy="60" r="54" fill="none" stroke="#1f1f1f" strokeWidth="8" />
-        <motion.circle
-          cx="60" cy="60" r="54" fill="none"
-          stroke="url(#scoreGradient)"
-          strokeWidth="8"
-          strokeLinecap="round"
-          initial={{ strokeDasharray: `0 ${circumference}` }}
-          animate={{ strokeDasharray: `${progress} ${circumference}` }}
-          transition={{ duration: 1.5, ease: 'easeOut' }}
-        />
-      </svg>
-      <div className="absolute flex flex-col items-center">
-        <span className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
-          <AnimatedScore target={score} />
-        </span>
-        <span className="text-[10px] text-gray-500 mt-1">{t('outOf850')}</span>
-      </div>
-    </div>
-  )
-}
-
 // ─── Sidebar ─────────────────────────────────────────────────────────────────
 
 
@@ -425,9 +386,16 @@ export default function DashboardPage() {
         >
           {/* Top Bar */}
           <motion.div variants={item} className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4 pt-12 lg:pt-0">
-            <div>
-              <h1 className={`text-2xl font-bold ${textPrimary}`}>{t('dashboard')}</h1>
-              <p className={`text-sm mt-1 ${textSecondary}`}>{t('dashboardSubtitle')}</p>
+            <div className="flex items-center gap-3">
+              <img 
+                src="/ai-assistant-icon.png" 
+                alt="AI Assistant" 
+                className="w-12 h-12 drop-shadow-lg"
+              />
+              <div>
+                <h1 className={`text-2xl font-bold ${textPrimary}`}>{t('dashboard')}</h1>
+                <p className={`text-sm mt-1 ${textSecondary}`}>{t('dashboardSubtitle')}</p>
+              </div>
             </div>
             <div className="flex items-center gap-3">
               <div className={`flex items-center gap-2 text-xs ${textSecondary}`}>
@@ -454,7 +422,7 @@ export default function DashboardPage() {
           <motion.div variants={item} className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             {/* Main Score Card */}
             <div className={`md:col-span-1 border rounded-2xl p-6 flex flex-col items-center justify-center ${cardBg}`}>
-              <ScoreGauge score={score} category={category} />
+              <ScoreGauge score={score} size={180} animate={true} />
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}

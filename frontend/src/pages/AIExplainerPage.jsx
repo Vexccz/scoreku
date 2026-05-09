@@ -442,6 +442,18 @@ export default function AIExplainerPage() {
           className="text-center mb-16 pt-12 lg:pt-0"
         >
           <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.05 }}
+            className="mb-6"
+          >
+            <img 
+              src="/ai-assistant-icon.png" 
+              alt="AI Assistant" 
+              className="w-24 h-24 mx-auto mb-4 drop-shadow-2xl"
+            />
+          </motion.div>
+          <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.1 }}
