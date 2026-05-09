@@ -61,14 +61,14 @@ Rules:
 
     const chatCompletion = await groq.chat.completions.create({
       messages: messages,
-      model: "llama3-70b-8192", // More stable model name
+      model: "llama-3.3-70b-versatile", // Latest Groq model
       temperature: 0.5,
       max_tokens: 250,
     });
 
     res.json({
       response: chatCompletion.choices[0]?.message?.content || getFallbackResponse(message),
-      model: "llama3-70b-8192"
+      model: "llama-3.3-70b-versatile"
     });
 
   } catch (error) {
