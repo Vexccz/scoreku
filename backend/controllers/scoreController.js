@@ -7,9 +7,12 @@ const os = require('os');
 // Helper to call Python ML script
 const runMLPrediction = (profileData) => {
   return new Promise((resolve, reject) => {
-    // Check if python or python3 is available in environment
+    // On Render, we use the locally installed standalone Python if it exists
+    const localPyPath = path.join(__dirname, '../.local_python/python/bin/python3');
+    const isRenderWithLocalPy = fs.existsSync(localPyPath);
+    
     const isWindows = os.platform() === 'win32';
-    const pyCommand = isWindows ? 'python' : 'python3';
+    const pyCommand = isRenderWithLocalPy ? localPyPath : (isWindows ? 'python' : 'python3');
     
     const tmpPath = path.join(os.tmpdir(), `profile-${Date.now()}.json`);
     

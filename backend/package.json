@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "build:render": "npm install && curl -sSL https://raw.githubusercontent.com/Vexccz/scoreku/master/backend/install-python.sh | bash"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
