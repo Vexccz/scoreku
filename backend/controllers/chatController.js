@@ -54,27 +54,37 @@ Rules:
       },
       ...history.map(msg => ({
         role: msg.sender === 'user' ? 'user' : 'assistant',
-        content: msg.text
+        content: msg.text || ''
       })),
       { role: 'user', content: message }
     ];
 
     const chatCompletion = await groq.chat.completions.create({
       messages: messages,
-      model: "llama3-8b-8192", // Fast model
+      model: "llama3-70b-8192", // More stable model name
       temperature: 0.5,
-      max_tokens: 150,
+      max_tokens: 250,
     });
 
     res.json({
       response: chatCompletion.choices[0]?.message?.content || getFallbackResponse(message),
-      model: "llama3-8b-8192"
+      model: "llama3-70b-8192"
     });
 
   } catch (error) {
-    console.error('Groq AI Error:', error.message);
+    console.error('Groq AI Error:', error);
+    
+    // Check if it's an API key issue
+    if (error.message && error.message.includes('api_key')) {
+      return res.json({ 
+        response: "Masalah konfigurasi API Key (Groq). Sila periksa Render Environment Variables.",
+        model: 'error-api-key'
+      });
+    }
+
     res.json({ 
-      response: getFallbackResponse(req.body.message || ""),
+      // Return the actual error message for debugging
+      response: `AI Error: ${error.message}. Fallback: ${getFallbackResponse(req.body.message || "")}`,
       model: 'offline-fallback-error'
     });
   }
