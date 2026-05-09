@@ -6,7 +6,7 @@ import joblib
 import traceback
 
 # Import functions from your existing predict.py
-from predict import load_model, predict_score
+from predict import load_model, predict
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -35,7 +35,7 @@ def predict():
         if not profile_data:
             return jsonify({"error": "No JSON payload provided"}), 400
             
-        result = predict_score(profile_data, model, feature_cols, le_dict)
+        result = predict(profile_data)
         return jsonify(result)
         
     except Exception as e:
