@@ -126,7 +126,9 @@ export default function ScoreFormPage() {
       })
       clearInterval(stepInterval)
       toast.success('Score calculated!')
-      navigate('/dashboard', { state: { result: data } })
+      // Store result in localStorage for after login
+      localStorage.setItem('scoreku_pending_result', JSON.stringify(data))
+      navigate('/login', { state: { fromScore: true } })
     } catch (err) {
       clearInterval(stepInterval)
       toast.error(err.response?.data?.message || 'Failed to calculate score')
@@ -236,7 +238,7 @@ export default function ScoreFormPage() {
       <AppSidebar activePath="/score" mobileOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Mobile Header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-[#0a0a0a]/90 backdrop-blur-md border-b border-[#1f1f1f] z-50 flex items-center px-4">
+      <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-[#0a0a0a]/90 backdrop-blur-md border-b border-[#1f1f1f] z-50 flex items-center px-4">
         <button onClick={() => setSidebarOpen(true)} className="p-2 rounded-lg hover:bg-[#1a1a1a] transition">
           <Menu size={20} className="text-gray-400" />
         </button>
@@ -358,14 +360,14 @@ export default function ScoreFormPage() {
                       <>
                         <InputField label={t('monthlyIncomeLabel')} prefix="RM" value={form.monthlyIncome} onChange={(v) => update('monthlyIncome', v)} type="number" placeholder="3500" helper={t('helperIncome')} icon="💰" />
                         <div>
-                          <label className="block text-sm text-gray-300 mb-2 font-medium">{t('employmentTypeLabel')}</label>
-                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                          <label className="block text-sm text-gray-300 mb-3 font-medium">{t('employmentTypeLabel')}</label>
+                          <div className="grid grid-cols-2 gap-3">
                             {employmentTypes.map(t => (
                               <button
                                 key={t}
                                 type="button"
                                 onClick={() => update('employmentType', t)}
-                                className={`px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                                className={`px-4 py-3.5 rounded-xl text-sm font-medium transition-all min-h-[48px] ${
                                   form.employmentType === t
                                     ? 'bg-blue-600/20 border-blue-500/50 text-blue-300 border'
                                     : 'bg-[#0a0a0a] border border-[#2a2a2a] text-gray-400 hover:border-gray-600'
@@ -405,7 +407,7 @@ export default function ScoreFormPage() {
                   <button
                     onClick={prev}
                     disabled={step === 0}
-                    className="flex items-center gap-1.5 px-5 py-2.5 text-sm text-gray-400 hover:text-white disabled:opacity-0 disabled:pointer-events-none transition rounded-xl hover:bg-white/5"
+                    className="flex items-center gap-1.5 px-6 py-3.5 text-sm text-gray-400 hover:text-white disabled:opacity-0 disabled:pointer-events-none transition rounded-xl hover:bg-white/5 min-h-[48px]"
                   >
                     <ChevronLeft size={16} /> {t('back')}
                   </button>
@@ -413,7 +415,7 @@ export default function ScoreFormPage() {
                     <button
                       onClick={next}
                       disabled={loading}
-                      className="relative flex items-center gap-2 px-7 py-3 bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-500 hover:to-teal-500 rounded-xl font-semibold transition disabled:opacity-50 shadow-lg shadow-blue-600/20 overflow-hidden"
+                      className="relative flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-500 hover:to-teal-500 rounded-xl font-semibold transition disabled:opacity-50 shadow-lg shadow-blue-600/20 overflow-hidden min-h-[48px]"
                     >
                       <span className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
                       <Sparkles size={16} /> {t('getMyScore')}
@@ -422,7 +424,7 @@ export default function ScoreFormPage() {
                     <button
                       onClick={next}
                       disabled={loading}
-                      className="flex items-center gap-2 px-7 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-xl font-semibold transition disabled:opacity-50 shadow-lg shadow-blue-600/20"
+                      className="flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-xl font-semibold transition disabled:opacity-50 shadow-lg shadow-blue-600/20 min-h-[48px]"
                     >
                       {t('next')} <ChevronRight size={16} />
                     </button>
@@ -572,7 +574,7 @@ function InputField({ label, value, onChange, type = 'text', placeholder, helper
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className={`w-full ${prefix ? 'pl-[4.5rem]' : icon ? 'pl-11' : 'pl-4'} pr-4 py-3.5 bg-[#0a0a0a] border border-[#2a2a2a] rounded-xl focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition text-white placeholder-gray-600`}
+          className={`w-full ${prefix ? 'pl-[4.5rem]' : icon ? 'pl-11' : 'pl-4'} pr-4 py-4 bg-[#0a0a0a] border border-[#2a2a2a] rounded-xl focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition text-white placeholder-gray-600 text-base min-h-[52px]`}
         />
       </div>
       {helper && <p className="text-xs text-gray-500 mt-1.5 ml-1">{helper}</p>}

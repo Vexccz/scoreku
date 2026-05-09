@@ -174,7 +174,15 @@ export default function RegisterPage() {
       const { data } = await api.post('/auth/register', { name, email, password })
       login(data.user, data.token)
       toast.success('Account created!')
-      navigate('/score')
+      
+      // Check if there's a pending score result
+      const pendingResult = localStorage.getItem('scoreku_pending_result')
+      if (pendingResult) {
+        localStorage.removeItem('scoreku_pending_result')
+        navigate('/dashboard', { state: { result: JSON.parse(pendingResult) } })
+      } else {
+        navigate('/dashboard')
+      }
     } catch (err) {
       toast.error(err.response?.data?.message || 'Registration failed')
     } finally {

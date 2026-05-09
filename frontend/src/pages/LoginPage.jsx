@@ -172,7 +172,15 @@ export default function LoginPage() {
       const { data } = await api.post('/auth/login', { email, password })
       login(data.user, data.token)
       toast.success('Logged in!')
-      navigate('/score')
+      
+      // Check if there's a pending score result
+      const pendingResult = localStorage.getItem('scoreku_pending_result')
+      if (pendingResult) {
+        localStorage.removeItem('scoreku_pending_result')
+        navigate('/dashboard', { state: { result: JSON.parse(pendingResult) } })
+      } else {
+        navigate('/dashboard')
+      }
     } catch (err) {
       toast.error(err.response?.data?.message || 'Login failed')
     } finally {
