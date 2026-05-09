@@ -1,22 +1,10 @@
 const ScoreResult = require('../models/ScoreResult');
-const { spawn } = require('child_process');
-const path = require('path');
-const fs = require('fs');
-const os = require('os');
+const axios = require('axios'); // Add this at the top
 
-// Helper to call Python ML script
-const runMLPrediction = (profileData) => {
-  return new Promise((resolve, reject) => {
-    // On Render, we use the locally installed standalone Python if it exists
-    const localPyPath = path.join(__dirname, '../.local_python/python/bin/python3');
-    const isRenderWithLocalPy = fs.existsSync(localPyPath);
-    
-    const isWindows = os.platform() === 'win32';
-    const pyCommand = isRenderWithLocalPy ? localPyPath : (isWindows ? 'python' : 'python3');
-    
-    const tmpPath = path.join(os.tmpdir(), `profile-${Date.now()}.json`);
-    
-    // Defaulting fields to match the ML script requirements
+// Helper to call Python ML microservice
+const runMLPrediction = async (profileData) => {
+  try {
+    // We map the input directly to the microservice payload
     const mlInput = {
       age: profileData.age || 25,
       borrower_type: 'individual',
@@ -54,47 +42,12 @@ const runMLPrediction = (profileData) => {
       account_maturity: 3
     };
 
-    fs.writeFileSync(tmpPath, JSON.stringify(mlInput));
-
-    const mlPath = path.join(__dirname, '../../ml-model/predict.py');
-    const pythonProcess = spawn(pyCommand, [mlPath, tmpPath]);
-
-    let outputData = '';
-    let errorData = '';
-
-    pythonProcess.stdout.on('data', (data) => {
-      outputData += data.toString();
-    });
-
-    pythonProcess.stderr.on('data', (data) => {
-      errorData += data.toString();
-    });
-
-    pythonProcess.on('close', (code) => {
-      try {
-        if (fs.existsSync(tmpPath)) fs.unlinkSync(tmpPath);
-        
-        if (code !== 0) {
-          return reject(new Error(`Python Error (${code}): ${errorData}`));
-        }
-        
-        // Find the JSON part from output (ignoring warnings/prints)
-        const jsonMatch = outputData.match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-          resolve(JSON.parse(jsonMatch[0]));
-        } else {
-          reject(new Error("Failed to parse ML output JSON: " + outputData));
-        }
-      } catch (e) {
-        reject(new Error("Failed to process ML output: " + e.message));
-      }
-    });
-
-    setTimeout(() => {
-      pythonProcess.kill();
-      reject(new Error("ML Model timeout"));
-    }, 10000);
-  });
+    const ML_URL = process.env.ML_API_URL || 'https://scoreku-ml.onrender.com/predict';
+    const response = await axios.post(ML_URL, mlInput, { timeout: 10000 });
+    return response.data;
+  } catch (error) {
+    throw new Error(`ML Microservice Error: ${error.message}`);
+  }
 };
 
 // POST /api/score - Calculate credit score from user input
