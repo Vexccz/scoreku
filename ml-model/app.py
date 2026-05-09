@@ -13,21 +13,29 @@ logging.basicConfig(level=logging.INFO)
 
 # Load model globally on startup to make requests fast
 try:
-    model_path = os.path.join(os.path.dirname(__file__), 'model.joblib')
+    # Use absolute path to ensure gunicorn finds it
+    model_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'model.joblib')
+    logging.info(f"Attempting to load model from: {model_path}")
     model, feature_cols, le_dict = load_model(model_path)
     logging.info("Model loaded successfully!")
 except Exception as e:
-    logging.error(f"Error loading model: {e}")
+    err_trace = traceback.format_exc()
+    logging.error(f"Error loading model: {e}\n{err_trace}")
     model, feature_cols, le_dict = None, None, None
 
 @app.route('/health', methods=['GET'])
 def health():
     status = "healthy" if model is not None else "model_missing"
-    return jsonify({"status": status, "service": "ScoreKu ML API"})
+    return jsonify({
+        "status": status, 
+        "service": "ScoreKu ML API",
+        "model_path_checked": os.path.join(os.path.abspath(os.path.dirname(__file__)), 'model.joblib')
+    })
 
 @app.route('/predict', methods=['POST'])
-def predict():
+def api_predict():
     try:
+        # Check if the global model loaded successfully
         if model is None:
             return jsonify({"error": "ML Model failed to load on startup"}), 500
             
@@ -35,6 +43,7 @@ def predict():
         if not profile_data:
             return jsonify({"error": "No JSON payload provided"}), 400
             
+        # Call the imported 'predict' function from predict.py
         result = predict(profile_data)
         return jsonify(result)
         
