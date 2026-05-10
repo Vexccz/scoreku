@@ -9,8 +9,6 @@ import { useTheme } from '../context/ThemeContext'
 import { useLanguage } from '../context/LanguageContext'
 import ThemeToggle from '../components/ThemeToggle'
 
-const categories = ['All', 'Beginner', 'Intermediate', 'Finance', 'Tips']
-
 const articles = [
   {
     id: 1,

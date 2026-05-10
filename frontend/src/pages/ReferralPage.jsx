@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Gift, Copy, Share2, Users, Trophy, Award, Star } from 'lucide-react'
+import { Copy, Share2, Users, Trophy, Award, Star } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import { useLanguage } from '../context/LanguageContext'
 import AppSidebar from '../components/AppSidebar'

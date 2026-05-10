@@ -29,16 +29,25 @@ function getProfileOptions(t) {
   ]
 }
 
+// Pre-generate particle positions to avoid impure Math.random() in render
+const ONBOARDING_PARTICLES = Array.from({ length: 35 }, () => ({
+  left: Math.random() * 100,
+  top: Math.random() * 100,
+  xOffset: Math.random() * 30 - 15,
+  duration: Math.random() * 6 + 3,
+  delay: Math.random() * 4,
+}))
+
 // Floating particles + stars
 const Particles = () => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none">
-    {Array.from({ length: 35 }, (_, i) => (
+    {ONBOARDING_PARTICLES.map((p, i) => (
       <motion.div
         key={i}
         className={`absolute rounded-full ${i % 3 === 0 ? 'w-1.5 h-1.5 bg-blue-400/30' : i % 3 === 1 ? 'w-1 h-1 bg-teal-400/25' : 'w-0.5 h-0.5 bg-purple-400/20'}`}
-        style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%` }}
-        animate={{ y: [0, -40, 0], x: [0, Math.random() * 30 - 15, 0], opacity: [0.1, 0.7, 0.1], scale: [1, 1.5, 1] }}
-        transition={{ duration: Math.random() * 6 + 3, repeat: Infinity, delay: Math.random() * 4 }}
+        style={{ left: `${p.left}%`, top: `${p.top}%` }}
+        animate={{ y: [0, -40, 0], x: [0, p.xOffset, 0], opacity: [0.1, 0.7, 0.1], scale: [1, 1.5, 1] }}
+        transition={{ duration: p.duration, repeat: Infinity, delay: p.delay }}
       />
     ))}
     {/* Animated grid */}

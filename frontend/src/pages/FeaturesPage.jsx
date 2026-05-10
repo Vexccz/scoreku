@@ -4,11 +4,11 @@ import { motion, useInView } from 'framer-motion'
 import {
   Wallet, Brain, Clock, Target, Lightbulb, Lock, ArrowRight,
   CreditCard, Receipt, ShoppingCart, Smartphone, TrendingUp,
-  Shield, CheckCircle2, Zap, Building2, Menu
+  Shield, CheckCircle2, Building2, Menu
 } from 'lucide-react'
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  LineChart, Line, Cell
+  ResponsiveContainer,
+  LineChart, Line
 } from 'recharts'
 import AppSidebar from '../components/AppSidebar'
 import { useTheme } from '../context/ThemeContext'
@@ -29,11 +29,6 @@ const fadeInLeft = {
 const fadeInRight = {
   hidden: { opacity: 0, x: 40 },
   visible: { opacity: 1, x: 0 },
-}
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
 }
 
 // ─── Feature 1: Alternative Credit Scoring Demo ──────────────────────────────

@@ -5,17 +5,15 @@ import {
   LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell
 } from 'recharts'
 import {
-  Shield, TrendingUp, TrendingDown, Lightbulb, RefreshCw,
-  ArrowUpRight, ArrowDownRight, CreditCard, Banknote, GraduationCap,
+  TrendingUp, TrendingDown, Lightbulb,
+  ArrowUpRight, ArrowDownRight, CreditCard, Banknote,
   PiggyBank, Wallet, Receipt, Smartphone, BarChart3, Zap, Target,
-  LayoutDashboard, FileText, Sparkles, Brain, Settings, Share2,
-  Clock, ChevronRight, Award, Users, Calendar, Building2, GitCompare,
-  Trophy, Star, Flame, Gem, Lock, Bell, AlertCircle, X as XIcon
+  Share2,
+  Clock, ChevronRight, Award, Users, Calendar, Building2,
+  Bell, X as XIcon
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import { useLanguage } from '../context/LanguageContext'
-import { useOffline } from '../context/OfflineContext'
-import ThemeToggle from '../components/ThemeToggle'
 import NotificationBell from '../components/NotificationBell'
 import ShareScoreModal from '../components/ShareScoreModal'
 import AppSidebar from '../components/AppSidebar'
@@ -223,6 +221,7 @@ function LoadingSkeleton() {
 
 // ─── Animated Score ──────────────────────────────────────────────────────────
 
+// eslint-disable-next-line no-unused-vars
 function AnimatedScore({ target }) {
   const [current, setCurrent] = useState(300)
   useEffect(() => {
@@ -283,7 +282,7 @@ export default function DashboardPage() {
     return () => clearInterval(timer)
   }, [])
 
-  const isDemo = searchParams.get('demo') === 'true'
+  void searchParams.get('demo') // reserved for future demo mode
   const result = location.state?.result
 
   const score = result?.score ?? demoData.score

@@ -14,7 +14,7 @@ const scoreResultSchema = new mongoose.Schema({
   },
   riskCategory: {
     type: String,
-    enum: ['Low', 'Medium', 'High'],
+    enum: ['Low', 'Medium', 'High', 'Excellent', 'Fair', 'Moderate Risk', 'High Risk'],
     required: true
   },
   features: {

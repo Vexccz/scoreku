@@ -5,13 +5,11 @@ import api from '../services/api'
 import toast from 'react-hot-toast'
 import {
   ChevronRight, ChevronLeft, Wallet, CreditCard, Receipt, ShoppingBag,
-  Loader2, CheckCircle2, Sparkles, Brain, BarChart3, Shield, Lock,
-  LayoutDashboard, FileText, Settings, Menu, X, Info, Zap,
-  ArrowRight, HelpCircle, Eye, Database, Cpu, Award, Building2
+  Loader2, CheckCircle2, Sparkles, BarChart3, Shield, Lock,
+  Menu, Info, Zap,
+  HelpCircle, Eye, Database, Cpu, Award
 } from 'lucide-react'
-import { useTheme } from '../context/ThemeContext'
 import { useLanguage } from '../context/LanguageContext'
-import ThemeToggle from '../components/ThemeToggle'
 import AppSidebar from '../components/AppSidebar'
 
 // ─── Navigation Items (same as Dashboard) ────────────────────────────────────
@@ -29,6 +27,7 @@ const steps = [
 
 const employmentTypes = ['salaried', 'self-employed', 'daily-wage', 'freelance', 'gig']
 
+// eslint-disable-next-line no-unused-vars
 const fieldHelpers = {
   monthlyIncome: 'Average Malaysian earns RM3,500/month',
   ewalletUsage: 'Include Touch n Go, GrabPay, Boost, etc.',

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { User, Mail, Phone, MapPin, Bell, Shield, Download, Trash2, Bug, MessageCircle, X } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'

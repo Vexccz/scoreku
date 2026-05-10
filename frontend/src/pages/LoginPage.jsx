@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import api from '../services/api'
@@ -8,17 +8,17 @@ import { Shield, Mail, Lock, ArrowRight, Users } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import { useLanguage } from '../context/LanguageContext'
 
+const PARTICLES = Array.from({ length: 8 }, (_, i) => ({
+  id: i,
+  x: Math.random() * 100,
+  y: Math.random() * 100,
+  size: Math.random() * 3 + 1,
+  duration: Math.random() * 10 + 15,
+  delay: Math.random() * 5,
+}))
+
 function FloatingParticles() {
-  const particles = useMemo(() =>
-    Array.from({ length: 8 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 3 + 1,
-      duration: Math.random() * 10 + 15,
-      delay: Math.random() * 5,
-    })), []
-  )
+  const particles = PARTICLES
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -124,13 +124,13 @@ function LoginIllustration() {
         </motion.div>
 
         {/* Sparkle particles */}
-        {[...Array(4)].map((_, i) => (
+        {[{ top: '35%', left: '55%' }, { top: '65%', left: '30%' }, { top: '45%', left: '70%' }, { top: '55%', left: '40%' }].map((pos, i) => (
           <motion.div
             key={i}
             className="absolute w-2 h-2 rounded-full bg-blue-400"
             style={{
-              top: `${20 + Math.random() * 60}%`,
-              left: `${20 + Math.random() * 60}%`,
+              top: pos.top,
+              left: pos.left,
             }}
             animate={{
               scale: [0, 1, 0],

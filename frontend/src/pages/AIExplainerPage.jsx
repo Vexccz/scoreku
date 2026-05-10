@@ -2,14 +2,13 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  Zap, ArrowLeft, Brain, Database, Cpu, BarChart3, Eye,
+  Brain, Database, Cpu, BarChart3, Eye,
   ChevronDown, ChevronRight, Sparkles, Shield, Target,
-  CheckCircle2, LayoutDashboard, FileText, Settings,
-  SlidersHorizontal, Building2
+  CheckCircle2,
+  SlidersHorizontal
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import { useLanguage } from '../context/LanguageContext'
-import ThemeToggle from '../components/ThemeToggle'
 import AppSidebar from '../components/AppSidebar'
 
 
@@ -185,7 +184,6 @@ function InteractiveSHAPDemo() {
   const maxBar = Math.max(...contributions.map(c => Math.abs(c.value)), 1)
 
   const cardBg = theme === 'dark' ? 'bg-[#111] border-[#1f1f1f]' : 'bg-white border-gray-200'
-  const sliderTrack = theme === 'dark' ? 'bg-[#1f1f1f]' : 'bg-gray-200'
   const textPrimary = theme === 'dark' ? 'text-white' : 'text-gray-900'
   const textSecondary = theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
 

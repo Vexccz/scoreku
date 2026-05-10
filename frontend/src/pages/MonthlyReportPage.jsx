@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { FileBarChart, TrendingUp, TrendingDown, Calendar, Download, ArrowUp, ArrowDown, Minus } from 'lucide-react'
+import { FileBarChart, TrendingUp, Calendar, Download, ArrowUp, ArrowDown, Minus } from 'lucide-react'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { useTheme } from '../context/ThemeContext'
 import { useLanguage } from '../context/LanguageContext'

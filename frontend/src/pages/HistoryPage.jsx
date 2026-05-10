@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import {
-  LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer,
+  XAxis, YAxis, Tooltip, ResponsiveContainer,
   CartesianGrid, ReferenceLine, Area, AreaChart
 } from 'recharts'
 import {
@@ -51,22 +51,16 @@ function CustomTooltip({ active, payload, label }) {
 export default function HistoryPage() {
   const { theme } = useTheme()
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [history, setHistory] = useState([])
-
-  useEffect(() => {
-    // Try localStorage first, fall back to demoData
+  const [history] = useState(() => {
     const stored = localStorage.getItem('scoreku_history')
     if (stored) {
       try {
         const parsed = JSON.parse(stored)
-        if (parsed.length > 0) {
-          setHistory(parsed)
-          return
-        }
-      } catch (_) {}
+        if (parsed.length > 0) return parsed
+      } catch { /* ignore parse errors */ }
     }
-    setHistory(demoHistory)
-  }, [])
+    return demoHistory
+  })
 
   const pageBg = theme === 'dark' ? 'bg-[#0a0a0a]' : 'bg-gray-50'
   const cardBg = theme === 'dark' ? 'bg-[#111] border-[#1f1f1f]' : 'bg-white border-gray-200'

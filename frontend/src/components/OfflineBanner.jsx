@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { WifiOff, X } from 'lucide-react'
+import { WifiOff } from 'lucide-react'
 import { useOffline } from '../context/OfflineContext'
 import { useTheme } from '../context/ThemeContext'
 

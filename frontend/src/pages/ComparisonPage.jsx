@@ -1,13 +1,10 @@
-import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import {
-  Shield, LayoutDashboard, FileText, Sparkles, Brain, Settings,
-  Building2, Users, BarChart3, TrendingUp, ChevronRight, GitCompare
+  Building2, Users, BarChart3, TrendingUp, GitCompare
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import { useLanguage } from '../context/LanguageContext'
-import ThemeToggle from '../components/ThemeToggle'
 import AppSidebar from '../components/AppSidebar'
 
 // ─── Demo Data ───────────────────────────────────────────────────────────────

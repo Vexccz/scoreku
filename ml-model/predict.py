@@ -64,17 +64,21 @@ def get_tips(score, risk_category, contributions):
     return tips[:5]
 
 
-def predict(user_profile):
+def predict(user_profile, model=None, feature_cols=None, le_dict=None):
     """
     Score a single user profile
     
     Args:
         user_profile: dict with user features
+        model: pre-loaded model (optional, loads from disk if None)
+        feature_cols: pre-loaded feature columns (optional)
+        le_dict: pre-loaded label encoders (optional)
         
     Returns:
         dict with score, risk_category, feature_contributions, tips
     """
-    model, feature_cols, le_dict = load_model()
+    if model is None or feature_cols is None or le_dict is None:
+        model, feature_cols, le_dict = load_model()
     
     # Prepare input
     input_data = np.zeros(len(feature_cols))

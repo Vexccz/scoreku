@@ -147,6 +147,7 @@ export default function AIChatWidget() {
   const [hasOpened, setHasOpened] = useState(false)
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
+  const msgIdRef = useRef(0)
   const location = useLocation()
 
   const isHidden = location.pathname === '/welcome'
@@ -183,7 +184,7 @@ export default function AIChatWidget() {
     const msg = text || input.trim()
     if (!msg) return
 
-    const userMsg = { id: Date.now().toString(), role: 'user', text: msg }
+    const userMsg = { id: String(++msgIdRef.current), role: 'user', text: msg }
     setMessages((prev) => [...prev, userMsg])
     setInput('')
     setIsTyping(true)
@@ -208,7 +209,7 @@ export default function AIChatWidget() {
       const data = await res.json();
       
       const botMsg = { 
-        id: (Date.now() + 1).toString(), 
+        id: String(++msgIdRef.current), 
         role: 'bot', 
         text: data.response || "Maaf, sistem AI sedang sibuk. Sila cuba sebentar lagi." 
       }
@@ -219,7 +220,7 @@ export default function AIChatWidget() {
       // Fallback if backend is asleep/offline
       const fallbackResponse = findResponse(msg);
       const botMsg = { 
-        id: (Date.now() + 1).toString(), 
+        id: String(++msgIdRef.current), 
         role: 'bot', 
         text: fallbackResponse
       }
