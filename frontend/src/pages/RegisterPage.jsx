@@ -1,24 +1,24 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import api from '../services/api'
 import toast from 'react-hot-toast'
 import { motion } from 'framer-motion'
-import { Shield, Mail, Lock, User, ArrowRight, Users, UserPlus, Check } from 'lucide-react'
+import { Shield, Mail, Lock, User, ArrowRight, Users, Check } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import { useLanguage } from '../context/LanguageContext'
 
+const REGISTER_PARTICLES = Array.from({ length: 8 }, (_, i) => ({
+  id: i,
+  x: Math.random() * 100,
+  y: Math.random() * 100,
+  size: Math.random() * 3 + 1,
+  duration: Math.random() * 10 + 15,
+  delay: Math.random() * 5,
+}))
+
 function FloatingParticles() {
-  const particles = useMemo(() =>
-    Array.from({ length: 8 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 3 + 1,
-      duration: Math.random() * 10 + 15,
-      delay: Math.random() * 5,
-    })), []
-  )
+  const particles = REGISTER_PARTICLES
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -120,13 +120,13 @@ function RegisterIllustration() {
         </motion.div>
 
         {/* Sparkle particles */}
-        {[...Array(4)].map((_, i) => (
+        {[{ top: '40%', left: '50%' }, { top: '60%', left: '35%' }, { top: '50%', left: '65%' }, { top: '30%', left: '45%' }].map((pos, i) => (
           <motion.div
             key={i}
             className="absolute w-2 h-2 rounded-full bg-teal-400"
             style={{
-              top: `${20 + Math.random() * 60}%`,
-              left: `${20 + Math.random() * 60}%`,
+              top: pos.top,
+              left: pos.left,
             }}
             animate={{
               scale: [0, 1, 0],

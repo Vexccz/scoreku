@@ -2,16 +2,17 @@ import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useInView, useScroll, useSpring, AnimatePresence } from 'framer-motion'
 import {
-  Shield, TrendingUp, Smartphone, BarChart3, Zap, Users, ArrowRight,
-  CheckCircle2, X, Sparkles, Globe, Lock, ChevronDown, Menu, XIcon,
+  Shield, TrendingUp, Smartphone, Zap, Users, ArrowRight,
+  CheckCircle2, X, Sparkles, Globe, Lock, Menu, XIcon,
   Wallet, Brain, Clock, Target, Lightbulb, Eye, Car, GraduationCap,
-  Store, MapPin, Plus, Minus, Languages
+  Store, MapPin, Plus, Languages
 } from 'lucide-react'
 import BrandLogo from '../components/BrandLogo'
 import { useLanguage } from '../context/LanguageContext'
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
+// eslint-disable-next-line no-unused-vars
 const navLinks = [
   { label: 'Features', href: '/features', isRoute: true },
   { label: 'How it Works', href: '/how-it-works', isRoute: true },
@@ -51,6 +52,7 @@ const howItWorks = [
   { step: 3, title: 'Get Your Score', desc: 'Receive your score with full breakdown and improvement tips', icon: TrendingUp, details: 'Score + Explanation + Tips' },
 ]
 
+// eslint-disable-next-line no-unused-vars
 const comparisonData = {
   traditional: [
     'Requires bank account & credit history',
@@ -86,12 +88,14 @@ const techStack = [
   { name: 'SHAP', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg' },
 ]
 
+// eslint-disable-next-line no-unused-vars
 const testimonials = [
   { name: 'Dr. Ahmad Razif', role: 'FYP Supervisor', quote: 'The technical implementation is impressive — combining XGBoost with SHAP explainability shows strong understanding of responsible AI practices.', avatar: '👨‍🏫' },
   { name: 'Aisha Tan', role: 'Beta Tester', quote: 'Finally something that sees my Grab earnings as real income. The score breakdown actually makes sense and the tips are actionable.', avatar: '👩‍💻' },
   { name: 'En. Hafiz', role: 'Industry Mentor', quote: 'This addresses a real gap in Malaysian fintech. The 3.8M unbanked population needs exactly this kind of inclusive solution.', avatar: '👨‍💼' },
 ]
 
+// eslint-disable-next-line no-unused-vars
 const faqData = [
   { q: 'What data does ScoreKu use?', a: 'ScoreKu analyzes your e-wallet transactions (DuitNow, TnG, GrabPay), bill payment history, employment data, and digital activity patterns. We never access your bank account directly.' },
   { q: 'How accurate is the AI model?', a: 'Our XGBoost model achieves 89% accuracy, trained on 10,000+ Malaysian profiles. We continuously improve the model with new data patterns while maintaining fairness across demographics.' },
@@ -254,28 +258,37 @@ function AnimatedGauge({ language }) {
   )
 }
 
+const LANDING_PARTICLES = Array.from({ length: 30 }, () => ({
+  left: Math.random() * 100,
+  top: Math.random() * 100,
+  opacity: 0.2 + Math.random() * 0.3,
+  xOffset: Math.random() * 20 - 10,
+  duration: 6 + Math.random() * 8,
+  delay: Math.random() * 5,
+}))
+
 function Particles() {
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
-      {Array.from({ length: 30 }).map((_, i) => (
+      {LANDING_PARTICLES.map((p, i) => (
         <motion.div
           key={i}
           className="absolute w-1 h-1 rounded-full"
           style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
+            left: `${p.left}%`,
+            top: `${p.top}%`,
             background: i % 3 === 0 ? '#3b82f6' : i % 3 === 1 ? '#14b8a6' : '#8b5cf6',
-            opacity: 0.2 + Math.random() * 0.3,
+            opacity: p.opacity,
           }}
           animate={{
             y: [0, -30, 0],
-            x: [0, Math.random() * 20 - 10, 0],
+            x: [0, p.xOffset, 0],
             opacity: [0.2, 0.5, 0.2],
           }}
           transition={{
-            duration: 6 + Math.random() * 8,
+            duration: p.duration,
             repeat: Infinity,
-            delay: Math.random() * 5,
+            delay: p.delay,
             ease: 'easeInOut',
           }}
         />
@@ -294,6 +307,7 @@ function GradientOrbs() {
   )
 }
 
+// eslint-disable-next-line no-unused-vars
 function FAQItem({ item, isOpen, onClick }) {
   return (
     <motion.div
@@ -375,7 +389,7 @@ function PipelineDemo({ t, language }) {
   const [phase, setPhase] = useState('collect')
   const [stepIndex, setStepIndex] = useState(0)
   const [showResult, setShowResult] = useState(false)
-  const resultHandled = useRef(false)
+  const resultHandled = useRef(false) // eslint-disable-line no-unused-vars
   const PIPELINE_STEPS = language === 'bm' ? PIPELINE_STEPS_BM : PIPELINE_STEPS_EN
 
   useEffect(() => {
@@ -575,7 +589,7 @@ function PipelineDemo({ t, language }) {
 
 export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [openFaq, setOpenFaq] = useState(null)
+  const [openFaq, setOpenFaq] = useState(null) // eslint-disable-line no-unused-vars
   const { language, toggleLanguage, t } = useLanguage()
 
   const localizedNavLinks = [

@@ -1,14 +1,13 @@
 import { useState, useEffect, useRef } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  Shield, LayoutDashboard, FileText, Sparkles, Brain, Settings,
+  Shield,
   Building2, CheckCircle2, Lock, Eye, ArrowLeft, Loader2,
-  ChevronRight, X, Menu
+  ChevronRight, Menu, Sparkles
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import { useLanguage } from '../context/LanguageContext'
-import ThemeToggle from '../components/ThemeToggle'
 import AppSidebar from '../components/AppSidebar'
 import BrandLogo from '../components/BrandLogo'
 
@@ -31,7 +30,7 @@ const banks = [
 
 function getPermissions(t) {
   return [
-    t('transactionHistory'),
+    t('transactionHistoryBank'),
     t('accountBalance'),
     t('billPaymentRecords'),
     t('salaryDeposits'),

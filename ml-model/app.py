@@ -34,10 +34,9 @@ def health():
 
 @app.route('/debug-load', methods=['GET'])
 def debug_load():
+    model_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'model.joblib')
+    model_exists = os.path.exists(model_path)
     try:
-        model_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'model.joblib')
-        model_exists = os.path.exists(model_path)
-        
         # Test imports locally within function
         import numpy
         import xgboost
@@ -45,13 +44,13 @@ def debug_load():
         
         # Try loading directly
         from predict import load_model
-        model, feature_cols, le_dict = load_model(model_path)
+        test_model, test_feature_cols, test_le_dict = load_model(model_path)
         
         return jsonify({
             "status": "success",
             "model_path": model_path,
             "model_exists": model_exists,
-            "feature_cols_count": len(feature_cols) if feature_cols else 0
+            "feature_cols_count": len(test_feature_cols) if test_feature_cols else 0
         })
     except Exception as e:
         return jsonify({
@@ -73,8 +72,8 @@ def api_predict():
         if not profile_data:
             return jsonify({"error": "No JSON payload provided"}), 400
             
-        # Call the imported 'predict' function from predict.py
-        result = predict(profile_data)
+        # Call the imported 'predict' function from predict.py with pre-loaded model
+        result = predict(profile_data, model=model, feature_cols=feature_cols, le_dict=le_dict)
         return jsonify(result)
         
     except Exception as e:

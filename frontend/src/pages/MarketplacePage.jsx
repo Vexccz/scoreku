@@ -1,15 +1,12 @@
-import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 import {
-  Shield, LayoutDashboard, FileText, Sparkles, Brain, Settings,
-  Building2, BarChart3, GitCompare, Search, SlidersHorizontal,
-  ChevronRight, ChevronDown, Check, X, Banknote, GraduationCap,
+  Building2, Search, SlidersHorizontal,
+  ChevronDown, Check, X, Banknote, GraduationCap,
   Briefcase, CreditCard, Wallet
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import { useLanguage } from '../context/LanguageContext'
-import ThemeToggle from '../components/ThemeToggle'
 import AppSidebar from '../components/AppSidebar'
 import BrandLogo from '../components/BrandLogo'
 
@@ -41,8 +38,6 @@ function ProductCard({ product, theme }) {
   const cardBg = theme === 'dark' ? 'bg-[#111] border-[#1f1f1f]' : 'bg-white border-gray-200'
   const textPrimary = theme === 'dark' ? 'text-white' : 'text-gray-900'
   const textSecondary = theme === 'dark' ? 'text-gray-500' : 'text-gray-500'
-  const Icon = product.icon
-
   return (
     <motion.div
       layout

@@ -82,10 +82,6 @@ function AnimatedRoutes() {
 
 function ThemedApp() {
   const { theme } = useTheme()
-  const location = useLocation()
-  
-  // Hide bottom nav on public/landing pages
-  const hideBottomNav = ['/', '/login', '/register', '/welcome', '/features', '/how-it-works', '/simulation', '/ai', '/learn'].includes(location.pathname)
   
   return (
     <div className={`min-h-screen transition-colors duration-300 ${theme === 'dark' ? 'bg-[#0f0f0f] text-white' : 'bg-white text-gray-900'}`}>

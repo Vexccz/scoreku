@@ -97,10 +97,10 @@ const submitScore = async (req, res) => {
         is_ai_powered: true
       };
       mlUsed = true;
-      console.log("o\" ML prediction successful!");
+      console.log("ML prediction successful!");
 
     } catch (mlErr) {
-      console.log('s ML Model failed or unavailable, falling back to heuristic algorithm:', mlErr.message);
+      console.log('ML Model failed or unavailable, falling back to heuristic algorithm:', mlErr.message);
       
       // 2. Fallback heuristic scoring algorithm
       let score = 50; 
@@ -147,10 +147,12 @@ const submitScore = async (req, res) => {
     // Try to save to DB (non-blocking)
     try {
       const saved = await ScoreResult.create({
-        ...req.body,
         score: scoreData.score,
-        risk_category: scoreData.risk_category,
-        user: req.user?.id,
+        riskCategory: scoreData.risk_category,
+        features: scoreData.feature_breakdown || {},
+        featureContributions: scoreData.feature_breakdown || {},
+        tips: scoreData.tips || [],
+        userId: req.user?.id || null,
       });
       scoreData.id = saved._id;
     } catch (dbErr) {

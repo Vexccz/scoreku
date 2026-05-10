@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Search, Receipt, TrendingUp, TrendingDown, Minus, DollarSign, ShoppingBag, Smartphone, Utensils, ArrowLeftRight, Briefcase, Zap } from 'lucide-react'
+import { Search, Receipt, ShoppingBag, Smartphone, Utensils, ArrowLeftRight, Briefcase, Zap } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import { useLanguage } from '../context/LanguageContext'
 import AppSidebar from '../components/AppSidebar'

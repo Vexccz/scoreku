@@ -1,14 +1,11 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  Zap, ArrowLeft, TrendingUp, Clock, Smartphone, ShoppingBag,
-  Phone, CreditCard, Sparkles, ChevronRight, Shield,
-  LayoutDashboard, FileText, Brain, Settings, BarChart3, Building2
+  TrendingUp, Clock, Smartphone, ShoppingBag,
+  Phone, CreditCard, ChevronRight
 } from 'lucide-react'
-import { useTheme } from '../context/ThemeContext'
 import { useLanguage } from '../context/LanguageContext'
-import ThemeToggle from '../components/ThemeToggle'
 import AppSidebar from '../components/AppSidebar'
 
 

@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
   Shield, LayoutDashboard, FileText, Building2, GitCompare, BarChart3,
-  Sparkles, Brain, Settings, RefreshCw, Receipt, User, FileBarChart,
-  BookOpen, Gift, Star, HelpCircle, Clock
+  Sparkles, Receipt, User, FileBarChart,
+  Gift, Clock, RefreshCw
 } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import { useLanguage } from '../context/LanguageContext'

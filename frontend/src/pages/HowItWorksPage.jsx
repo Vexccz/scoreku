@@ -2,13 +2,11 @@ import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useInView } from 'framer-motion'
 import {
-  Smartphone, Shield, Brain, TrendingUp, Lightbulb, CheckCircle2,
-  ArrowRight, ArrowDown, Database, Cpu, BarChart3, Target,
-  Lock, Zap, Menu, Building2, Clock
+  Smartphone, Shield, Lightbulb, CheckCircle2,
+  ArrowRight, Database, Cpu, BarChart3, Target,
+  Menu, Building2, Clock
 } from 'lucide-react'
-import {
-  ResponsiveContainer, LineChart, Line
-} from 'recharts'
+
 import AppSidebar from '../components/AppSidebar'
 import { useTheme } from '../context/ThemeContext'
 import { useLanguage } from '../context/LanguageContext'
@@ -18,11 +16,6 @@ import { useLanguage } from '../context/LanguageContext'
 const fadeInUp = {
   hidden: { opacity: 0, y: 40 },
   visible: { opacity: 1, y: 0 },
-}
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
 }
 
 // ─── Step 1: Data Collection Demo ────────────────────────────────────────────
