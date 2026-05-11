@@ -1,6 +1,6 @@
 # ScoreKu
 
-**Your Alternative Credit Score** — AI-powered credit scoring for Malaysians without traditional bank history.
+AI-powered credit scoring for Malaysians without traditional bank history.
 
 ## Overview
 
