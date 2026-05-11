@@ -6,6 +6,8 @@
 
 ScoreKu uses alternative data (e-wallet transactions, bill payments, digital footprint) to generate fair credit scores for the underbanked population in Malaysia. Built with explainable AI so users understand exactly what affects their score.
 
+![ScoreKu Dashboard](screenshots/scoreku-dashboard.jpg)
+
 ## Tech Stack
 
 | Layer | Technology |
