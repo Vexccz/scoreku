@@ -440,14 +440,6 @@ function Hero({ language }) {
       <div className="relative w-full max-w-7xl mx-auto px-6 grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-20 items-center">
         {/* Left — copy */}
         <motion.div initial="hidden" animate="visible" variants={staggerContainer}>
-          <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/20 bg-emerald-500/5 text-emerald-400 text-xs font-medium mb-6">
-            <span className="relative flex w-1.5 h-1.5">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping" />
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400" />
-            </span>
-            Live · 10,000 profiles analyzed
-          </motion.div>
-
           <motion.h1 variants={fadeInUp} className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-[-0.035em] text-white leading-[1.02]">
             Credit scoring,{' '}
             <span className="relative inline-block">
