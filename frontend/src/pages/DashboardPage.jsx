@@ -262,6 +262,127 @@ function CustomTooltip({ active, payload, label }) {
   return null
 }
 
+// ─── SHAP Waterfall — "What Drives Your Score" ──────────────────────────────
+// Converts the feature breakdown (0-1 values, helping flag) into signed
+// SHAP-style contributions summing to a total impact on the predicted score.
+function buildShapContributions(features) {
+  return features
+    .map((f) => {
+      const centered = f.value - 0.5 // deviation from baseline
+      const sign = f.helping ? 1 : -1
+      // Map to a reasonable score-points magnitude (each feature up to ~45 pts)
+      const value = Math.round(sign * Math.abs(centered) * 90)
+      return { feature: f.name, value, helping: f.helping }
+    })
+    .filter((c) => c.value !== 0)
+    .sort((a, b) => Math.abs(b.value) - Math.abs(a.value))
+}
+
+function ShapWaterfallTooltip({ active, payload }) {
+  if (active && payload && payload.length) {
+    const p = payload[0].payload
+    const positive = p.value >= 0
+    return (
+      <div className="bg-[#0f0f0f] border border-white/[0.08] rounded-lg px-3 py-2 shadow-xl">
+        <p className="text-[11px] text-white/50">{p.feature}</p>
+        <p
+          className="text-sm font-bold tabular-nums"
+          style={{ color: positive ? '#10b981' : '#ef4444' }}
+        >
+          {positive ? '+' : ''}
+          {p.value} pts
+        </p>
+      </div>
+    )
+  }
+  return null
+}
+
+function ShapWaterfall({ features, score, variants, cardBg, textPrimary, textSecondary, theme }) {
+  const contributions = buildShapContributions(features)
+  const total = contributions.reduce((s, c) => s + c.value, 0)
+  const maxAbs = Math.max(1, ...contributions.map((c) => Math.abs(c.value)))
+
+  return (
+    <motion.div variants={variants} className={`border rounded-2xl p-6 mb-6 ${cardBg}`}>
+      <div className="flex items-start justify-between mb-5 gap-3">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+            <Sparkles size={16} className="text-emerald-400" />
+          </div>
+          <div>
+            <h3 className="font-semibold text-sm">What drives your score</h3>
+            <p className={`text-[11px] mt-0.5 ${textSecondary}`}>
+              SHAP-style contribution per feature
+            </p>
+          </div>
+        </div>
+        <div className="text-right">
+          <p className={`text-[10px] uppercase tracking-[0.2em] ${textSecondary}`}>Net impact</p>
+          <p
+            className="text-lg font-bold tabular-nums"
+            style={{ color: total >= 0 ? '#10b981' : '#ef4444' }}
+          >
+            {total >= 0 ? '+' : ''}
+            {total} pts
+          </p>
+        </div>
+      </div>
+
+      <div style={{ height: Math.max(220, contributions.length * 36 + 40) }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            data={contributions}
+            layout="vertical"
+            margin={{ left: 10, right: 40, top: 4, bottom: 4 }}
+          >
+            <XAxis
+              type="number"
+              domain={[-maxAbs, maxAbs]}
+              tick={{ fontSize: 10, fill: '#6b7280' }}
+              axisLine={false}
+              tickLine={false}
+              tickFormatter={(v) => (v > 0 ? `+${v}` : `${v}`)}
+            />
+            <YAxis
+              type="category"
+              dataKey="feature"
+              tick={{ fontSize: 11, fill: theme === 'dark' ? '#9ca3af' : '#4b5563' }}
+              axisLine={false}
+              tickLine={false}
+              width={140}
+            />
+            <Tooltip content={<ShapWaterfallTooltip />} cursor={{ fill: 'rgba(16,185,129,0.04)' }} />
+            <Bar dataKey="value" radius={[4, 4, 4, 4]} barSize={18}>
+              {contributions.map((c, i) => (
+                <Cell key={i} fill={c.value >= 0 ? '#10b981' : '#ef4444'} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+
+      <div className="mt-4 flex items-center justify-between pt-4 border-t border-white/[0.06]">
+        <div className="flex items-center gap-4 text-[11px]">
+          <div className="flex items-center gap-1.5">
+            <div className="w-2.5 h-2.5 rounded-sm bg-emerald-500" />
+            <span className={textSecondary}>Helps score</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <div className="w-2.5 h-2.5 rounded-sm bg-red-500" />
+            <span className={textSecondary}>Hurts score</span>
+          </div>
+        </div>
+        <p className={`text-[11px] ${textSecondary}`}>
+          Base score <span className={textPrimary}>{score - total}</span>
+          {' → '}
+          <span style={{ color: '#10b981' }}>{score}</span>
+        </p>
+      </div>
+    </motion.div>
+  )
+}
+
 // ─── Main Component ──────────────────────────────────────────────────────────
 
 export default function DashboardPage() {
@@ -802,6 +923,17 @@ export default function DashboardPage() {
               </ResponsiveContainer>
             </div>
           </motion.div>
+
+          {/* SHAP Waterfall - What Drives Your Score */}
+          <ShapWaterfall
+            features={features}
+            score={score}
+            variants={item}
+            cardBg={cardBg}
+            textPrimary={textPrimary}
+            textSecondary={textSecondary}
+            theme={theme}
+          />
 
           {/* Improvement Tips */}
           <motion.div variants={item} className="mb-6">

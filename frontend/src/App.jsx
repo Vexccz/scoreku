@@ -6,6 +6,7 @@ import { ThemeProvider, useTheme } from './context/ThemeContext'
 import { LanguageProvider } from './context/LanguageContext'
 import { OfflineProvider } from './context/OfflineContext'
 import OfflineBanner from './components/OfflineBanner'
+import PWAInstallPrompt from './components/PWAInstallPrompt'
 import LandingPage from './pages/LandingPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
@@ -92,6 +93,7 @@ function ThemedApp() {
       <OfflineBanner />
       <AnimatedRoutes />
       <AIChatWidget />
+      <PWAInstallPrompt />
       <Toaster
         position="top-right"
         toastOptions={{
