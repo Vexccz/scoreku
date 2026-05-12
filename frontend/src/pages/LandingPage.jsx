@@ -658,48 +658,296 @@ function Features() {
   )
 }
 
+function AnimatedScorePipeline() {
+  const [active, setActive] = useState(-1)
+  const [running, setRunning] = useState(false)
+  const containerRef = useRef(null)
+  const hasStartedRef = useRef(false)
+
+  const phases = [
+    {
+      label: 'Connect data',
+      icon: Wallet,
+      sub: 'E-wallets, bills, employment',
+      output: '40+ signals ingested',
+      duration: 2200,
+    },
+    {
+      label: 'Feature engineering',
+      icon: LineChart,
+      sub: 'Spending patterns, payment regularity, velocity',
+      output: 'Feature vector ready',
+      duration: 2400,
+    },
+    {
+      label: 'XGBoost inference',
+      icon: Brain,
+      sub: 'Gradient boosted trees produce a probability',
+      output: 'P(default) = 0.14',
+      duration: 2200,
+    },
+    {
+      label: 'SHAP explainer',
+      icon: Eye,
+      sub: 'Per-feature attribution, positive and negative drivers',
+      output: '6 top drivers isolated',
+      duration: 2400,
+    },
+    {
+      label: 'Score + next steps',
+      icon: Target,
+      sub: 'Map to CTOS band, generate personalized tips',
+      output: 'Score 742 · Grade B',
+      duration: 2000,
+    },
+  ]
+
+  const start = () => {
+    if (running) return
+    setRunning(true)
+    setActive(0)
+  }
+
+  useEffect(() => {
+    if (!running) return
+    if (active >= phases.length) {
+      const t = setTimeout(() => {
+        setRunning(false)
+        setActive(-1)
+        hasStartedRef.current = false
+      }, 3000)
+      return () => clearTimeout(t)
+    }
+    const t = setTimeout(() => setActive((a) => a + 1), phases[active].duration)
+    return () => clearTimeout(t)
+  }, [active, running])
+
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasStartedRef.current) {
+          hasStartedRef.current = true
+          start()
+        }
+      },
+      { threshold: 0.3 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <div ref={containerRef} className="relative">
+      {/* Input card */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="max-w-md mx-auto mb-3"
+      >
+        <div className="relative bg-[#0a0a0a] border border-white/[0.08] rounded-2xl p-5">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-white/[0.04] border border-white/10 flex items-center justify-center shrink-0">
+              <Smartphone size={16} className="text-white/70" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="text-[10px] tracking-[0.3em] uppercase text-white/40 font-medium mb-1">Applicant</div>
+              <div className="text-sm text-white font-medium leading-snug">
+                Aminah · Gig worker · No bank history
+              </div>
+            </div>
+            <div className="text-right shrink-0">
+              <div className="text-[10px] tracking-wider uppercase text-white/40">Monthly flow</div>
+              <div className="text-sm font-mono text-emerald-400">RM 3,200</div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      <div className="flex justify-center">
+        <motion.div
+          className="w-px bg-gradient-to-b from-emerald-500/70 to-transparent h-6"
+          initial={{ scaleY: 0 }}
+          animate={{ scaleY: active >= 0 ? 1 : 0 }}
+          transition={{ duration: 0.4 }}
+          style={{ originY: 0 }}
+        />
+      </div>
+
+      {/* Pipeline column */}
+      <div className="relative max-w-2xl mx-auto space-y-3">
+        <div className="absolute left-6 top-6 bottom-6 w-px bg-white/[0.08] hidden sm:block" />
+        <motion.div
+          className="absolute left-6 top-6 w-px bg-emerald-500 hidden sm:block"
+          initial={{ height: 0 }}
+          animate={{
+            height:
+              active < 0
+                ? 0
+                : active >= phases.length
+                ? '100%'
+                : `${((active + 1) / phases.length) * 100}%`,
+          }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          style={{ originY: 0 }}
+        />
+
+        {phases.map((p, i) => {
+          const isActive = i === active
+          const isDone = i < active || active >= phases.length
+          const isPending = i > active && active < phases.length
+          const Icon = p.icon
+          return (
+            <div key={p.label} className="relative flex items-start gap-5">
+              <div className="relative z-10 shrink-0">
+                <motion.div
+                  animate={{
+                    scale: isActive ? [1, 1.12, 1] : 1,
+                    boxShadow: isActive
+                      ? [
+                          '0 0 0 0 rgba(16,185,129,0.5)',
+                          '0 0 0 14px rgba(16,185,129,0)',
+                          '0 0 0 0 rgba(16,185,129,0.5)',
+                        ]
+                      : '0 0 0 0 rgba(16,185,129,0)',
+                  }}
+                  transition={{ duration: 1.6, repeat: isActive ? Infinity : 0 }}
+                  className={`w-12 h-12 rounded-xl flex items-center justify-center border transition-colors ${
+                    isActive
+                      ? 'bg-emerald-500/15 border-emerald-500/60'
+                      : isDone
+                      ? 'bg-emerald-500/10 border-emerald-500/40'
+                      : 'bg-[#0a0a0a] border-white/[0.08]'
+                  }`}
+                >
+                  {isDone && !isActive ? (
+                    <CheckCircle2 size={18} className="text-emerald-400" />
+                  ) : (
+                    <Icon size={18} className={isActive || isDone ? 'text-emerald-400' : 'text-white/30'} />
+                  )}
+                </motion.div>
+              </div>
+
+              <motion.div
+                animate={{ opacity: isPending ? 0.3 : 1 }}
+                transition={{ duration: 0.4 }}
+                className={`flex-1 bg-[#0a0a0a] border rounded-2xl p-5 transition-colors ${
+                  isActive
+                    ? 'border-emerald-500/40 shadow-[0_20px_60px_-30px_rgba(16,185,129,0.5)]'
+                    : 'border-white/[0.06]'
+                }`}
+              >
+                <div className="flex items-center justify-between gap-3 mb-2">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-[10px] tracking-[0.3em] uppercase text-white/30 font-mono tabular-nums">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <span className="text-base font-semibold text-white tracking-tight">{p.label}</span>
+                  </div>
+                  {isActive && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="flex items-center gap-1.5 text-[10px] tracking-wider uppercase text-emerald-400 font-medium"
+                    >
+                      <motion.span
+                        className="w-1.5 h-1.5 rounded-full bg-emerald-400"
+                        animate={{ opacity: [0.3, 1, 0.3] }}
+                        transition={{ duration: 1, repeat: Infinity }}
+                      />
+                      Processing
+                    </motion.div>
+                  )}
+                  {isDone && !isActive && (
+                    <span className="text-[10px] tracking-wider uppercase text-emerald-400/70 font-medium">Done</span>
+                  )}
+                </div>
+                <div className="text-sm text-white/55 leading-relaxed">
+                  {isPending ? 'Waiting for upstream stage...' : p.sub}
+                </div>
+                <AnimatePresence>
+                  {(isDone || isActive) && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                      animate={{ opacity: 1, height: 'auto', marginTop: 12 }}
+                      exit={{ opacity: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/25">
+                        <ArrowRight size={11} className="text-emerald-400" />
+                        <span className="text-[11px] font-mono text-emerald-400">{p.output}</span>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            </div>
+          )
+        })}
+      </div>
+
+      <div className="flex justify-center">
+        <motion.div
+          className="w-px bg-gradient-to-b from-emerald-500/70 to-transparent h-6"
+          initial={{ scaleY: 0 }}
+          animate={{ scaleY: active >= phases.length ? 1 : 0 }}
+          transition={{ duration: 0.4 }}
+          style={{ originY: 0 }}
+        />
+      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{
+          opacity: active >= phases.length ? 1 : 0,
+          y: active >= phases.length ? 0 : 10,
+        }}
+        transition={{ duration: 0.5 }}
+        className="max-w-md mx-auto"
+      >
+        <div className="relative bg-gradient-to-br from-emerald-500/15 via-[#0a0a0a] to-[#0a0a0a] border border-emerald-500/40 rounded-2xl p-5 shadow-[0_0_60px_-20px_rgba(16,185,129,0.5)]">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-xl bg-emerald-500/15 border border-emerald-500/40 flex flex-col items-center justify-center shrink-0">
+              <div className="text-lg font-bold text-emerald-400 tabular-nums leading-none">742</div>
+              <div className="text-[8px] tracking-wider uppercase text-emerald-400/70">Score</div>
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="text-[10px] tracking-[0.3em] uppercase text-emerald-400 font-medium mb-1">Approved band</div>
+              <div className="text-sm text-white font-semibold leading-snug">
+                Eligible for RM 8,000 personal financing
+              </div>
+              <div className="text-xs text-white/50 mt-1">At 7.2% APR · Top driver: payment regularity</div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      <div className="flex justify-center mt-8">
+        <button
+          onClick={start}
+          disabled={running}
+          className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium text-white/50 border border-white/10 hover:border-emerald-500/40 hover:text-emerald-400 rounded-full transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          <Zap size={12} />
+          {running ? 'Pipeline running...' : 'Replay pipeline'}
+        </button>
+      </div>
+    </div>
+  )
+}
+
 function HowItWorks() {
   return (
     <section className="relative py-28 bg-gradient-to-b from-transparent via-emerald-500/[0.02] to-transparent">
       <div className="max-w-7xl mx-auto px-6">
         <SectionHeading
           eyebrow="How it works"
-          title="Three steps from data to decision"
-          desc="Link your alternative data, let the model analyze it, and receive a transparent score along with specific next steps."
+          title="Watch a score get built in real time"
+          desc="A real applicant flows through the full pipeline below. Each stage passes its output forward until the final score and eligibility decision are ready."
         />
-
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
-          variants={staggerContainer}
-          className="relative"
-        >
-          {/* Connecting line */}
-          <div className="absolute top-10 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent hidden lg:block" />
-
-          <div className="grid lg:grid-cols-3 gap-8 lg:gap-12 relative">
-            {howItWorks.map((step) => (
-              <motion.div
-                key={step.step}
-                variants={fadeInUp}
-                className="relative"
-              >
-                <div className="bg-[#0a0a0a] border border-white/[0.06] rounded-2xl p-7 h-full hover:border-white/15 transition-colors">
-                  <div className="text-5xl font-semibold tabular-nums bg-gradient-to-b from-white to-white/20 bg-clip-text text-transparent mb-5 tracking-tight">
-                    {step.step}
-                  </div>
-                  <h3 className="text-xl font-semibold text-white mb-2 tracking-tight">{step.title}</h3>
-                  <p className="text-sm text-white/55 leading-relaxed mb-6">{step.desc}</p>
-                  <div className="flex items-center gap-2 pt-4 border-t border-white/[0.06] text-xs text-emerald-400/80 font-medium">
-                    <Sparkles size={12} />
-                    {step.meta}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+        <AnimatedScorePipeline />
       </div>
     </section>
   )
