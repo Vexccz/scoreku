@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { motion, useInView, useScroll, useSpring, AnimatePresence } from 'framer-motion'
+import { motion, useInView, useScroll, useSpring, useTransform, AnimatePresence } from 'framer-motion'
 import {
-  Shield, TrendingUp, Smartphone, BarChart3, Zap, Users, ArrowRight,
+  Shield, TrendingUp, Smartphone, BarChart3, Zap, Users, ArrowRight, ArrowUpRight,
   CheckCircle2, X, Sparkles, Globe, Lock, ChevronDown, Menu, XIcon,
   Wallet, Brain, Clock, Target, Lightbulb, Eye, Car, GraduationCap,
-  Store, MapPin, Plus, Minus, Languages
+  Store, MapPin, Plus, Minus, Languages, CircleDollarSign, LineChart,
+  PieChart, ShieldCheck, Activity, TrendingDown, Star
 } from 'lucide-react'
 import BrandLogo from '../components/BrandLogo'
 import { useLanguage } from '../context/LanguageContext'
@@ -20,116 +21,152 @@ const navLinks = [
   { label: 'Learn', href: '/learn', isRoute: true },
 ]
 
-const typingWordsEn = ['Gig Workers', 'Fresh Graduates', 'Small Traders', 'Rural Communities']
-const typingWordsBm = ['Pekerja Gig', 'Graduan Baru', 'Peniaga Kecil', 'Komuniti Luar Bandar']
+const typingWordsEn = ['gig workers', 'fresh graduates', 'small traders', 'rural communities']
+const typingWordsBm = ['pekerja gig', 'graduan baru', 'peniaga kecil', 'komuniti luar bandar']
 
 const poweredBy = [
-  { name: 'DuitNow', logo: 'https://img.logo.dev/paynet.my?token=pk_free', color: '#1a3c6e' },
-  { name: "Touch 'n Go", logo: 'https://img.logo.dev/touchngo.com.my?token=pk_free', color: '#005baa' },
-  { name: 'Shopee', logo: 'https://img.logo.dev/shopee.com.my?token=pk_free', color: '#ee4d2d' },
-  { name: 'GrabPay', logo: 'https://img.logo.dev/grab.com?token=pk_free', color: '#00b14f' },
+  { name: 'DuitNow' },
+  { name: "Touch 'n Go" },
+  { name: 'Shopee' },
+  { name: 'GrabPay' },
+  { name: 'BigPay' },
+  { name: 'Boost' },
 ]
 
 const stats = [
-  { value: 3500000, display: '3.5M', label: 'Unbanked Malaysians', icon: Users },
-  { value: 89, display: '89%', label: 'AI Model Accuracy', icon: Zap },
-  { value: 10000, display: '10K+', label: 'Profiles Analyzed', icon: Globe },
+  { value: '3.5M', label: 'Unbanked Malaysians', sub: 'potential users' },
+  { value: '89.1%', label: 'Model Accuracy', sub: 'AUC-ROC 91.4%' },
+  { value: '< 5s', label: 'Score Generation', sub: 'real-time inference' },
+  { value: '40+', label: 'Features Analyzed', sub: 'alternative signals' },
 ]
 
 const features = [
-  { icon: Wallet, title: 'Alternative Data Scoring', desc: 'Uses e-wallet transactions, bill payments & digital footprint instead of traditional bank history', color: 'from-blue-500 to-blue-600' },
-  { icon: Brain, title: 'Explainable AI (SHAP)', desc: 'Transparent scoring with SHAP values — see exactly what affects your score and why', color: 'from-teal-500 to-teal-600' },
-  { icon: Clock, title: 'Real-time Scoring', desc: 'Get your credit score in under 5 seconds. No waiting days for bank processing', color: 'from-purple-500 to-purple-600' },
-  { icon: Target, title: 'Financial Product Matching', desc: 'AI matches you with loans, cards & financing products you actually qualify for', color: 'from-amber-500 to-amber-600' },
-  { icon: Lightbulb, title: 'Improvement Tips', desc: 'Personalized recommendations to boost your score based on your spending patterns', color: 'from-pink-500 to-pink-600' },
-  { icon: Lock, title: 'Privacy First', desc: 'Bank-grade encryption. Your data is never sold. You control what gets shared', color: 'from-green-500 to-green-600' },
+  {
+    icon: Wallet,
+    title: 'Alternative Data',
+    desc: 'E-wallet transactions, bill payments, and digital footprint replace traditional bank history.',
+  },
+  {
+    icon: Brain,
+    title: 'Explainable AI',
+    desc: 'SHAP values reveal exactly which factors drive your score, so nothing is hidden.',
+  },
+  {
+    icon: Activity,
+    title: 'Real-Time Scoring',
+    desc: 'Sub-five-second inference. No waiting days for legacy bank processing to complete.',
+  },
+  {
+    icon: Target,
+    title: 'Product Matching',
+    desc: 'Surface loans, cards, and financing products you actually qualify for today.',
+  },
+  {
+    icon: Lightbulb,
+    title: 'Improvement Tips',
+    desc: 'Personalized recommendations derived from your own spending and payment patterns.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Privacy First',
+    desc: 'Bank-grade encryption. We never sell your data. You control what gets shared.',
+  },
 ]
 
 const howItWorks = [
-  { step: 1, title: 'Connect Your Data', desc: 'Link your e-wallet, bill payments, and employment info securely', icon: Smartphone, details: 'DuitNow, TnG, Shopee, GrabPay' },
-  { step: 2, title: 'AI Analyzes', desc: 'Our ML model processes 40+ features using XGBoost & SHAP', icon: Brain, details: 'Processing takes < 5 seconds' },
-  { step: 3, title: 'Get Your Score', desc: 'Receive your score with full breakdown and improvement tips', icon: TrendingUp, details: 'Score + Explanation + Tips' },
+  {
+    step: '01',
+    title: 'Connect your data',
+    desc: 'Link e-wallets, bill payments, and employment info securely.',
+    meta: 'DuitNow · TnG · Shopee · GrabPay',
+  },
+  {
+    step: '02',
+    title: 'AI analyzes',
+    desc: 'XGBoost processes 40+ features while SHAP generates explanations.',
+    meta: 'Processing in under 5 seconds',
+  },
+  {
+    step: '03',
+    title: 'Get your score',
+    desc: 'Receive a CTOS-aligned score with full breakdown and improvement tips.',
+    meta: 'Score · Drivers · Next steps',
+  },
 ]
 
 const comparisonData = {
   traditional: [
-    'Requires bank account & credit history',
-    'Excludes 3.5M Malaysians',
-    '3-5 business days processing',
-    'Black box — no explanation',
+    'Requires bank account and credit history',
+    'Excludes 3.5 million Malaysians',
+    'Three to five business days processing',
+    'Opaque, no explanation provided',
     'RM50-100 per report',
   ],
   scoreku: [
-    'Uses digital footprint & e-wallet data',
-    'Inclusive — anyone with a smartphone',
-    'Instant results in < 5 seconds',
+    'Uses digital footprint and e-wallet data',
+    'Inclusive, anyone with a smartphone qualifies',
+    'Instant results in under five seconds',
     'SHAP-powered explainability',
-    'Completely free',
+    'Free for individual users',
   ],
 }
 
 const useCases = [
-  { icon: Car, title: 'Gig Workers', desc: 'Grab, Foodpanda, Lalamove drivers with consistent digital earnings but no payslip', color: '#3b82f6' },
-  { icon: GraduationCap, title: 'Fresh Graduates', desc: 'Just entered workforce — no credit history yet but active digital life', color: '#14b8a6' },
-  { icon: Store, title: 'Micro-Entrepreneurs', desc: 'Pasar malam sellers, online shop owners with Shopee/TnG transaction history', color: '#f59e0b' },
-  { icon: MapPin, title: 'Rural Communities', desc: 'Limited bank access but growing mobile payment adoption', color: '#8b5cf6' },
-]
-
-const techStack = [
-  { name: 'React', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
-  { name: 'Express', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg' },
-  { name: 'MongoDB', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg' },
-  { name: 'Python', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
-  { name: 'TailwindCSS', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg' },
-  { name: 'Vite', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg' },
-  { name: 'XGBoost', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
-  { name: 'SHAP', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg' },
-]
-
-const testimonials = [
-  { name: 'Dr. Ahmad Razif', role: 'FYP Supervisor', quote: 'The technical implementation is impressive — combining XGBoost with SHAP explainability shows strong understanding of responsible AI practices.', avatar: '👨‍🏫' },
-  { name: 'Aisha Tan', role: 'Beta Tester', quote: 'Finally something that sees my Grab earnings as real income. The score breakdown actually makes sense and the tips are actionable.', avatar: '👩‍💻' },
-  { name: 'En. Hafiz', role: 'Industry Mentor', quote: 'This addresses a real gap in Malaysian fintech. The 3.8M unbanked population needs exactly this kind of inclusive solution.', avatar: '👨‍💼' },
+  {
+    icon: Car,
+    title: 'Gig Workers',
+    desc: 'Grab, Foodpanda, and Lalamove drivers with consistent digital earnings but no payslip.',
+  },
+  {
+    icon: GraduationCap,
+    title: 'Fresh Graduates',
+    desc: 'Recently entered the workforce with no credit history but active digital lives.',
+  },
+  {
+    icon: Store,
+    title: 'Micro-Entrepreneurs',
+    desc: 'Pasar malam sellers and online shop owners with rich Shopee and TnG activity.',
+  },
+  {
+    icon: MapPin,
+    title: 'Rural Communities',
+    desc: 'Limited bank access but growing mobile payment adoption across states.',
+  },
 ]
 
 const faqData = [
-  { q: 'What data does ScoreKu use?', a: 'ScoreKu analyzes your e-wallet transactions (DuitNow, TnG, GrabPay), bill payment history, employment data, and digital activity patterns. We never access your bank account directly.' },
-  { q: 'How accurate is the AI model?', a: 'Our XGBoost model achieves 89% accuracy, trained on 10,000+ Malaysian profiles. We continuously improve the model with new data patterns while maintaining fairness across demographics.' },
-  { q: 'Is my data safe?', a: 'Absolutely. We use bank-grade AES-256 encryption, never sell your data to third parties, and you can request complete data deletion at any time. We comply with PDPA Malaysia.' },
+  { q: 'What data does ScoreKu use?', a: 'ScoreKu analyzes e-wallet transactions (DuitNow, TnG, GrabPay), bill payment history, employment data, and digital activity patterns. We never access your bank account directly.' },
+  { q: 'How accurate is the AI model?', a: 'The XGBoost model reaches 89.1% accuracy with an AUC-ROC of 91.4%, trained on 10,000 synthetic Malaysian profiles. The model is continuously improved while maintaining fairness across demographics.' },
+  { q: 'Is my data safe?', a: 'Yes. We use bank-grade AES-256 encryption, never sell data to third parties, and allow complete data deletion on request. The platform is built to comply with PDPA Malaysia.' },
   { q: 'Who can use ScoreKu?', a: 'Anyone in Malaysia with a smartphone and at least one e-wallet or digital payment account. No bank account required, no minimum income, no credit history needed.' },
-  { q: 'How is this different from CCRIS/CTOS?', a: 'CCRIS and CTOS only track formal banking relationships. If you have never had a bank loan or credit card, you are invisible to them. ScoreKu uses alternative digital data to score the unscored.' },
-  { q: 'Is it free?', a: 'Yes, completely free for individuals. We plan to monetize through partnerships with financial institutions who want to reach underserved segments — not by charging users.' },
-  { q: 'How long does it take to calculate my score?', a: 'Your score is generated in under 5 seconds once you submit your data. Our AI model processes your information instantly and provides a full breakdown with SHAP explanations and improvement tips.' },
-  { q: 'Can gig workers like Grab or Foodpanda riders use ScoreKu?', a: 'Absolutely — ScoreKu was built with gig workers in mind. Your DuitNow earnings, e-wallet activity, and consistent digital payments all count toward your score, even without a formal payslip.' },
-  { q: 'How can I improve my score quickly?', a: 'The fastest wins are: (1) paying all bills on time for 3+ months, (2) increasing your DuitNow and e-wallet transaction frequency, and (3) maintaining a stable income flow. Most users see a 20-40 point improvement within 3 months.' },
-  { q: 'Does ScoreKu work with Islamic banking products?', a: 'Yes. ScoreKu is compatible with both conventional and Shariah-compliant financial products. Your score is used by partner institutions regardless of whether they offer conventional or Islamic financing like Murabahah or Musharakah.' },
+  { q: 'How is this different from CCRIS or CTOS?', a: 'CCRIS and CTOS only track formal banking relationships. If you have never held a bank loan or credit card, you remain invisible to them. ScoreKu uses alternative digital data to score the unscored.' },
+  { q: 'Is it free?', a: 'Yes, completely free for individuals. The long-term plan is to monetize through partnerships with financial institutions that want to reach underserved segments.' },
+  { q: 'How long does scoring take?', a: 'A score is generated in under five seconds once data is submitted. The model returns a result instantly along with SHAP explanations and actionable improvement tips.' },
+  { q: 'Can gig workers use ScoreKu?', a: 'ScoreKu was designed with gig workers in mind. DuitNow earnings, e-wallet activity, and consistent digital payments all contribute to the score, even without a formal payslip.' },
+  { q: 'How can I improve my score quickly?', a: 'The fastest gains come from paying all bills on time for three or more months, increasing DuitNow and e-wallet transaction frequency, and maintaining stable income flow. Users typically see 20 to 40 point improvements within three months.' },
+  { q: 'Does ScoreKu work with Islamic banking products?', a: 'Yes. The score is compatible with both conventional and Shariah-compliant products. Partner institutions can apply ScoreKu results regardless of whether they offer conventional or Islamic financing such as Murabahah or Musharakah.' },
 ]
 
 // ─── Animation Variants ──────────────────────────────────────────────────────
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
 }
 
 const staggerContainer = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  visible: { opacity: 1, transition: { staggerChildren: 0.08 } },
 }
 
-const scaleIn = {
-  hidden: { opacity: 0, scale: 0.9 },
-  visible: { opacity: 1, scale: 1 },
-}
-
-// ─── Components ──────────────────────────────────────────────────────────────
+// ─── Utility Components ──────────────────────────────────────────────────────
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll()
-  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 })
+  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 })
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 to-teal-500 origin-left z-50"
+      className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-emerald-500 via-emerald-400 to-amber-400 origin-left z-50"
       style={{ scaleX }}
     />
   )
@@ -159,1225 +196,872 @@ function TypeWriter({ language }) {
         setText(word.slice(0, text.length - 1))
         if (text === '') {
           setIsDeleting(false)
-          setWordIndex((wordIndex + 1) % words.length)
+          setWordIndex((prev) => (prev + 1) % words.length)
         }
       }
-    }, isDeleting ? 40 : 80)
+    }, isDeleting ? 40 : 90)
     return () => clearTimeout(timeout)
   }, [text, isDeleting, wordIndex, words])
 
   return (
-    <span className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
-      {text}<span className="animate-pulse text-teal-400">|</span>
+    <span className="inline-flex items-baseline text-emerald-400">
+      {text}
+      <motion.span
+        className="ml-0.5 inline-block w-[3px] h-[0.85em] bg-emerald-400 translate-y-[2px]"
+        animate={{ opacity: [1, 0, 1] }}
+        transition={{ duration: 0.9, repeat: Infinity }}
+      />
     </span>
   )
 }
 
-function AnimatedCounter({ target, suffix = '', prefix = '' }) {
-  const [count, setCount] = useState(0)
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true })
-
-  useEffect(() => {
-    if (!isInView) return
-    const duration = 2000
-    const startTime = Date.now()
-    const animate = () => {
-      const elapsed = Date.now() - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      const eased = 1 - Math.pow(1 - progress, 3)
-      setCount(Math.round(eased * target))
-      if (progress < 1) requestAnimationFrame(animate)
-    }
-    requestAnimationFrame(animate)
-  }, [isInView, target])
-
-  const formatCount = (n) => {
-    if (target >= 1000000) return (n / 1000000).toFixed(1) + 'M'
-    if (target >= 1000) return (n / 1000).toFixed(n >= target ? 0 : 0) + 'K'
-    return n.toString()
-  }
-
-  return (
-    <span ref={ref}>
-      {prefix}{target >= 100 ? formatCount(count) : count}{suffix}
-    </span>
-  )
-}
-
-function AnimatedGauge({ language }) {
+// Animated score gauge — hero centerpiece
+function ScoreGauge() {
   const [score, setScore] = useState(300)
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true })
-  const targetScore = 712
-
   useEffect(() => {
-    if (!isInView) return
-    const duration = 2500
-    const startTime = Date.now()
-    const animate = () => {
-      const elapsed = Date.now() - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      const eased = 1 - Math.pow(1 - progress, 4)
-      setScore(Math.round(300 + eased * (targetScore - 300)))
-      if (progress < 1) requestAnimationFrame(animate)
+    const target = 782
+    const start = Date.now()
+    const duration = 2200
+    const frame = () => {
+      const elapsed = Date.now() - start
+      const t = Math.min(elapsed / duration, 1)
+      const eased = 1 - Math.pow(1 - t, 3)
+      setScore(Math.round(300 + (target - 300) * eased))
+      if (t < 1) requestAnimationFrame(frame)
     }
-    const timer = setTimeout(animate, 500)
-    return () => clearTimeout(timer)
-  }, [isInView])
+    frame()
+  }, [])
 
-  const circumference = 2 * Math.PI * 60
-  const strokeDasharray = `${((score - 300) / 550) * circumference} ${circumference}`
-  const color = score >= 720 ? '#10b981' : score >= 650 ? '#3b82f6' : score >= 530 ? '#f59e0b' : '#ef4444'
+  const pct = (score - 300) / (850 - 300)
+  const circumference = 2 * Math.PI * 90
+  const dash = circumference * pct
+
+  const band =
+    score >= 770 ? { label: 'Excellent', color: '#10b981' } :
+    score >= 700 ? { label: 'Very Good', color: '#14b8a6' } :
+    score >= 650 ? { label: 'Good', color: '#eab308' } :
+    score >= 600 ? { label: 'Fair', color: '#f97316' } :
+    { label: 'Poor', color: '#ef4444' }
 
   return (
-    <div ref={ref} className="relative w-52 h-52 mx-auto">
-      <svg className="w-52 h-52 -rotate-90" viewBox="0 0 140 140">
-        <circle cx="70" cy="70" r="60" fill="none" stroke="#1f1f1f" strokeWidth="10" />
-        <circle
-          cx="70" cy="70" r="60" fill="none"
-          stroke={color}
-          strokeWidth="10"
-          strokeDasharray={strokeDasharray}
-          strokeLinecap="round"
-          style={{ transition: 'stroke-dasharray 0.1s ease', filter: `drop-shadow(0 0 12px ${color}40)` }}
+    <div className="relative w-[280px] h-[280px]">
+      <svg viewBox="0 0 220 220" className="w-full h-full -rotate-90">
+        <defs>
+          <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#34d399" />
+            <stop offset="50%" stopColor="#10b981" />
+            <stop offset="100%" stopColor="#059669" />
+          </linearGradient>
+        </defs>
+        <circle cx="110" cy="110" r="90" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="12" />
+        <motion.circle
+          cx="110" cy="110" r="90" fill="none"
+          stroke="url(#gaugeGrad)" strokeWidth="12" strokeLinecap="round"
+          strokeDasharray={`${dash} ${circumference}`}
+          initial={{ strokeDasharray: `0 ${circumference}` }}
+          animate={{ strokeDasharray: `${dash} ${circumference}` }}
+          transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
+          style={{ filter: 'drop-shadow(0 0 12px rgba(16,185,129,0.4))' }}
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-5xl font-bold tracking-tight" style={{ color }}>{score}</span>
-        <span className="text-xs text-gray-500 mt-1 uppercase tracking-wider">{language === 'bm' ? 'daripada 850' : 'out of 850'}</span>
-        <span className="text-[10px] text-gray-600 mt-0.5">
-          {score >= 720 ? (language === 'bm' ? 'Cemerlang' : 'Excellent') : score >= 650 ? (language === 'bm' ? 'Baik' : 'Good') : score >= 530 ? (language === 'bm' ? 'Sederhana' : 'Fair') : (language === 'bm' ? 'Membina' : 'Building')}
-        </span>
+        <span className="text-xs tracking-[0.25em] uppercase text-white/40 font-medium">Credit Score</span>
+        <div className="mt-2 text-6xl font-semibold text-white tabular-nums tracking-tight">{score}</div>
+        <div className="mt-1 text-xs text-white/40 tabular-nums">/ 850</div>
+        <div
+          className="mt-3 px-3 py-1 rounded-full text-xs font-medium border"
+          style={{ color: band.color, borderColor: `${band.color}40`, backgroundColor: `${band.color}10` }}
+        >
+          {band.label}
+        </div>
       </div>
     </div>
   )
 }
 
-function Particles() {
-  return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
-      {Array.from({ length: 30 }).map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 rounded-full"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            background: i % 3 === 0 ? '#3b82f6' : i % 3 === 1 ? '#14b8a6' : '#8b5cf6',
-            opacity: 0.2 + Math.random() * 0.3,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            x: [0, Math.random() * 20 - 10, 0],
-            opacity: [0.2, 0.5, 0.2],
-          }}
-          transition={{
-            duration: 6 + Math.random() * 8,
-            repeat: Infinity,
-            delay: Math.random() * 5,
-            ease: 'easeInOut',
-          }}
-        />
-      ))}
-    </div>
-  )
-}
-
-function GradientOrbs() {
-  return (
-    <div aria-hidden="true">
-      <div className="fixed top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-blue-600/8 blur-[150px] pointer-events-none" />
-      <div className="fixed bottom-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-teal-600/8 blur-[150px] pointer-events-none" />
-      <div className="fixed top-[40%] left-[60%] w-[400px] h-[400px] rounded-full bg-purple-600/5 blur-[120px] pointer-events-none" />
-    </div>
-  )
-}
-
-function FAQItem({ item, isOpen, onClick }) {
+// Floating side cards beside the gauge
+function FloatingMetricCard({ icon: Icon, label, value, trend, delay = 0, className = '' }) {
   return (
     <motion.div
-      className="border border-[#1f1f1f] rounded-2xl overflow-hidden"
-      initial={false}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+      className={`absolute bg-[#0e0e0e]/90 backdrop-blur-xl border border-white/[0.08] rounded-2xl px-4 py-3 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.8)] ${className}`}
     >
-      <button
-        onClick={onClick}
-        className="w-full flex items-center justify-between p-6 text-left hover:bg-[#111]/50 transition-colors"
-      >
-        <span className="text-base font-medium pr-4">{item.q}</span>
-        <motion.div
-          animate={{ rotate: isOpen ? 45 : 0 }}
-          transition={{ duration: 0.2 }}
-          className="shrink-0"
-        >
-          <Plus size={18} className="text-teal-400" />
-        </motion.div>
-      </button>
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="px-6 pb-6 text-sm text-gray-400 leading-relaxed">
-              {item.a}
-            </div>
-          </motion.div>
+      <div className="flex items-center gap-3">
+        <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+          <Icon size={16} className="text-emerald-400" />
+        </div>
+        <div>
+          <div className="text-[10px] tracking-widest uppercase text-white/40">{label}</div>
+          <div className="text-sm font-semibold text-white tabular-nums">{value}</div>
+        </div>
+        {trend && (
+          <div className="ml-2 flex items-center gap-1 text-emerald-400 text-xs font-medium">
+            <TrendingUp size={12} />
+            {trend}
+          </div>
         )}
-      </AnimatePresence>
+      </div>
     </motion.div>
   )
 }
 
-function TechMarquee() {
-  const doubled = [...techStack, ...techStack]
+// ─── Sections ────────────────────────────────────────────────────────────────
+
+function Navbar({ language, setLanguage }) {
+  const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
-    <div className="overflow-hidden relative">
-      <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10" />
-      <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#0a0a0a] to-transparent z-10" />
-      <motion.div
-        className="flex gap-12 items-center"
-        animate={{ x: ['0%', '-50%'] }}
-        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-      >
-        {doubled.map((tech, i) => (
-          <div key={i} className="flex items-center gap-3 shrink-0">
-            <img src={tech.icon} alt={tech.name} className="w-8 h-8 opacity-60" loading="lazy" />
-            <span className="text-sm text-gray-400 whitespace-nowrap">{tech.name}</span>
-          </div>
-        ))}
-      </motion.div>
-    </div>
+    <motion.header
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className={`fixed top-0 left-0 right-0 z-40 transition-all ${scrolled ? 'bg-black/70 backdrop-blur-xl border-b border-white/[0.06]' : 'bg-transparent'}`}
+    >
+      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <Link to="/" className="flex items-center gap-2 text-white font-semibold tracking-tight">
+          <BrandLogo className="w-7 h-7" />
+          <span>ScoreKu</span>
+        </Link>
+
+        <nav className="hidden lg:flex items-center gap-1">
+          {navLinks.map((l) => (
+            <Link
+              key={l.label}
+              to={l.href}
+              className="px-3 py-2 text-sm text-white/60 hover:text-white transition-colors"
+            >
+              {l.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setLanguage(language === 'en' ? 'bm' : 'en')}
+            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white/60 hover:text-white border border-white/10 hover:border-white/20 rounded-full transition-colors"
+          >
+            <Languages size={13} />
+            {language === 'en' ? 'EN' : 'BM'}
+          </button>
+          <Link
+            to="/login"
+            className="hidden sm:flex items-center px-4 py-1.5 text-sm font-medium text-white/80 hover:text-white transition-colors"
+          >
+            Sign in
+          </Link>
+          <Link
+            to="/register"
+            className="flex items-center gap-1 px-4 py-1.5 text-sm font-medium bg-white text-black rounded-full hover:bg-white/90 transition-colors"
+          >
+            Get started
+            <ArrowRight size={14} />
+          </Link>
+          <button onClick={() => setOpen((v) => !v)} className="lg:hidden text-white p-1">
+            {open ? <XIcon size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="lg:hidden overflow-hidden bg-black border-t border-white/[0.06]"
+          >
+            <div className="px-6 py-4 space-y-1">
+              {navLinks.map((l) => (
+                <Link
+                  key={l.label}
+                  to={l.href}
+                  onClick={() => setOpen(false)}
+                  className="block px-3 py-2 text-sm text-white/70 hover:text-white rounded-lg hover:bg-white/5"
+                >
+                  {l.label}
+                </Link>
+              ))}
+              <Link to="/login" onClick={() => setOpen(false)} className="block px-3 py-2 text-sm text-white/70">
+                Sign in
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   )
 }
 
-const DEMO_USER = { name: 'Ahmad', income: 'RM3,500', employment: 'Gig Worker', ewallet: '32 txn/month', bills: '11/12 paid', ecommerce: '8 orders/month' }
-const PIPELINE_STEPS_EN = [
-  { id: 'collect', label: 'Collecting Data', icon: '📥' },
-  { id: 'validate', label: 'Validating', icon: '✅' },
-  { id: 'features', label: 'Feature Engineering', icon: '⚙️' },
-  { id: 'model', label: 'XGBoost Model', icon: '🧠' },
-  { id: 'shap', label: 'SHAP Analysis', icon: '📊' },
-  { id: 'score', label: 'Score Generated', icon: '🎯' },
-]
-const PIPELINE_STEPS_BM = [
-  { id: 'collect', label: 'Mengumpul Data', icon: '📥' },
-  { id: 'validate', label: 'Mengesahkan', icon: '✅' },
-  { id: 'features', label: 'Kejuruteraan Ciri', icon: '⚙️' },
-  { id: 'model', label: 'Model XGBoost', icon: '🧠' },
-  { id: 'shap', label: 'Analisis SHAP', icon: '📊' },
-  { id: 'score', label: 'Skor Dijana', icon: '🎯' },
-]
-
-function PipelineDemo({ t, language }) {
-  const [phase, setPhase] = useState('collect')
-  const [stepIndex, setStepIndex] = useState(0)
-  const [showResult, setShowResult] = useState(false)
-  const resultHandled = useRef(false)
-  const PIPELINE_STEPS = language === 'bm' ? PIPELINE_STEPS_BM : PIPELINE_STEPS_EN
-
-  useEffect(() => {
-    const durations = [4500, 4000, 5000, 5500, 4500, 5000]
-    let timeout
-
-    if (stepIndex < 5) {
-      setPhase(PIPELINE_STEPS[stepIndex].id)
-      setShowResult(false)
-      timeout = setTimeout(() => setStepIndex(s => s + 1), durations[stepIndex])
-    } else {
-      setPhase('score')
-      setShowResult(true)
-      timeout = setTimeout(() => {
-        setStepIndex(0)
-        setShowResult(false)
-      }, 5000)
-    }
-    return () => clearTimeout(timeout)
-  }, [stepIndex])
-
+function Hero({ language }) {
   return (
-    <div className="bg-[#111] border border-[#1f1f1f] rounded-2xl overflow-hidden">
-      {/* Window chrome */}
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-[#1f1f1f]">
-        <span className="w-3 h-3 rounded-full bg-red-400" />
-        <span className="w-3 h-3 rounded-full bg-yellow-400" />
-        <span className="w-3 h-3 rounded-full bg-green-400" />
-        <span className="ml-3 text-xs text-gray-500">{language === 'bm' ? 'ScoreKu — Saluran Pemarkahan Kredit' : 'ScoreKu — Credit Scoring Pipeline'}</span>
-        <motion.div className="ml-auto w-2 h-2 rounded-full bg-green-400" animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1.5, repeat: Infinity }} />
-        <span className="text-[10px] text-gray-500">{language === 'bm' ? 'Langsung' : 'Live'}</span>
+    <section className="relative min-h-screen flex items-center overflow-hidden pt-20 pb-16">
+      {/* Background */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Noise + grid */}
+        <div className="absolute inset-0 opacity-[0.04]" style={{
+          backgroundImage:
+            'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)',
+          backgroundSize: '80px 80px',
+        }} />
+        {/* Glow orbs */}
+        <motion.div
+          className="absolute top-1/3 -left-40 w-[600px] h-[600px] bg-emerald-500/15 rounded-full blur-[160px]"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.6, 0.4] }}
+          transition={{ duration: 10, repeat: Infinity }}
+        />
+        <motion.div
+          className="absolute bottom-1/4 -right-32 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[140px]"
+          animate={{ scale: [1.1, 1, 1.1], opacity: [0.3, 0.5, 0.3] }}
+          transition={{ duration: 12, repeat: Infinity, delay: 2 }}
+        />
       </div>
 
-      <div className="p-5">
-        {/* Pipeline progress */}
-        <div className="flex items-center gap-1 mb-5 overflow-x-auto pb-1">
-          {PIPELINE_STEPS.map((step, i) => (
-            <div key={step.id} className="flex items-center">
-              <motion.div
-                className={`flex items-center gap-1 px-2 py-1.5 rounded-lg text-[10px] font-medium whitespace-nowrap ${
-                  i < stepIndex ? 'bg-emerald-500/10 text-emerald-400' :
-                  i === stepIndex ? 'bg-blue-500/10 text-blue-400 ring-1 ring-blue-500/30' :
-                  'bg-[#1a1a1a] text-gray-500'
-                }`}
-                animate={i === stepIndex ? { scale: [1, 1.05, 1] } : {}}
-                transition={{ duration: 1, repeat: Infinity }}
-              >
-                <span>{step.icon}</span>
-                <span className="hidden sm:inline">{step.label}</span>
-              </motion.div>
-              {i < PIPELINE_STEPS.length - 1 && (
-                <div className={`w-3 h-0.5 mx-0.5 rounded-full ${i < stepIndex ? 'bg-emerald-500' : 'bg-[#2a2a2a]'}`} />
-              )}
+      <div className="relative w-full max-w-7xl mx-auto px-6 grid lg:grid-cols-[1.1fr_1fr] gap-12 lg:gap-20 items-center">
+        {/* Left — copy */}
+        <motion.div initial="hidden" animate="visible" variants={staggerContainer}>
+          <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/20 bg-emerald-500/5 text-emerald-400 text-xs font-medium mb-6">
+            <span className="relative flex w-1.5 h-1.5">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping" />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400" />
+            </span>
+            Live · 10,000 profiles analyzed
+          </motion.div>
+
+          <motion.h1 variants={fadeInUp} className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-[-0.035em] text-white leading-[1.02]">
+            Credit scoring,{' '}
+            <span className="relative inline-block">
+              <span className="bg-gradient-to-r from-emerald-300 via-emerald-400 to-teal-400 bg-clip-text text-transparent">
+                reimagined
+              </span>
+              <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none">
+                <motion.path
+                  d="M2 8 Q 150 0, 298 8"
+                  stroke="url(#underline)"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: 1.2, delay: 0.8, ease: 'easeOut' }}
+                />
+                <defs>
+                  <linearGradient id="underline" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#34d399" stopOpacity="0.3" />
+                    <stop offset="50%" stopColor="#10b981" />
+                    <stop offset="100%" stopColor="#14b8a6" stopOpacity="0.3" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </span>
+            <br />
+            for <TypeWriter language={language} />
+          </motion.h1>
+
+          <motion.p variants={fadeInUp} className="mt-6 text-lg text-white/60 max-w-xl leading-relaxed">
+            An alternative credit score built for the 3.5 million Malaysians excluded from traditional banking. Powered by explainable AI and your real digital footprint.
+          </motion.p>
+
+          <motion.div variants={fadeInUp} className="mt-8 flex flex-wrap items-center gap-3">
+            <Link
+              to="/score"
+              className="group inline-flex items-center gap-2 px-6 py-3 bg-white text-black rounded-full font-medium hover:bg-white/90 transition-all"
+            >
+              Check your score
+              <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </Link>
+            <Link
+              to="/how-it-works"
+              className="inline-flex items-center gap-2 px-6 py-3 text-white/80 border border-white/15 hover:border-white/30 hover:text-white rounded-full font-medium transition-all"
+            >
+              How it works
+            </Link>
+          </motion.div>
+
+          <motion.div variants={fadeInUp} className="mt-10 flex items-center gap-4 text-xs text-white/40">
+            <div className="flex -space-x-2">
+              {['#10b981', '#f59e0b', '#6366f1', '#ec4899'].map((c, i) => (
+                <div
+                  key={i}
+                  className="w-7 h-7 rounded-full border-2 border-black"
+                  style={{ background: `linear-gradient(135deg, ${c}, ${c}aa)` }}
+                />
+              ))}
+            </div>
+            <span>Trusted by researchers, analysts, and fintech partners</span>
+          </motion.div>
+        </motion.div>
+
+        {/* Right — score gauge centerpiece */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="relative flex items-center justify-center"
+        >
+          <div className="relative">
+            {/* Outer glow */}
+            <div className="absolute inset-0 bg-emerald-500/20 rounded-full blur-3xl scale-110" />
+            {/* Card backdrop */}
+            <div className="relative bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/[0.08] rounded-[32px] p-10 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8)]">
+              <ScoreGauge />
+            </div>
+
+            {/* Floating metric cards */}
+            <FloatingMetricCard
+              icon={CircleDollarSign}
+              label="Income"
+              value="RM 3,400"
+              trend="+12%"
+              delay={1.2}
+              className="-left-16 top-8 hidden sm:block"
+            />
+            <FloatingMetricCard
+              icon={LineChart}
+              label="Bill payments"
+              value="On time"
+              delay={1.5}
+              className="-right-12 top-24 hidden sm:block"
+            />
+            <FloatingMetricCard
+              icon={PieChart}
+              label="E-wallet activity"
+              value="Active"
+              delay={1.8}
+              className="-left-8 bottom-8 hidden sm:block"
+            />
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+function PoweredByBar() {
+  return (
+    <section className="relative py-12 border-y border-white/[0.06] bg-black/40">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="text-center text-[11px] tracking-[0.3em] uppercase text-white/40 mb-6">
+          Compatible with Malaysian digital payments
+        </div>
+        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+          {poweredBy.map((p) => (
+            <div key={p.name} className="text-white/30 hover:text-white/60 transition-colors text-sm font-medium tracking-wide">
+              {p.name}
             </div>
           ))}
         </div>
-
-        {/* User profile being processed */}
-        <div className="bg-[#0a0a0a] rounded-xl p-4 mb-4">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center text-xs font-bold">A</div>
-            <div>
-              <p className="text-sm font-medium text-white">{DEMO_USER.name}</p>
-              <p className="text-[10px] text-gray-500">{language === 'bm' ? 'Pekerja Gig' : DEMO_USER.employment} • Selangor</p>
-            </div>
-          </div>
-
-          {/* Step-specific content */}
-          <AnimatePresence mode="wait">
-            {phase === 'collect' && (
-              <motion.div key="collect" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <motion.div className="w-3 h-3 border-2 border-blue-500 border-t-transparent rounded-full" animate={{ rotate: 360 }} transition={{ duration: 0.6, repeat: Infinity, ease: 'linear' }} />
-                  <span className="text-xs text-blue-400">{language === 'bm' ? 'Mengumpul data pengguna...' : 'Collecting user data...'}</span>
-                </div>
-                <div className="grid grid-cols-3 gap-2">
-                  {[{ l: language === 'bm' ? 'Pendapatan' : 'Income', v: DEMO_USER.income }, { l: 'E-wallet', v: DEMO_USER.ewallet }, { l: language === 'bm' ? 'Bil' : 'Bills', v: DEMO_USER.bills }].map((d, i) => (
-                    <motion.div key={d.l} className="bg-[#111] rounded-lg p-2 text-center border border-[#1f1f1f]" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 + i * 0.4 }}>
-                      <div className="text-[9px] text-gray-500">{d.l}</div>
-                      <div className="text-[11px] font-medium text-white mt-0.5">{d.v}</div>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-
-            {phase === 'validate' && (
-              <motion.div key="validate" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-2">
-                <span className="text-xs text-blue-400">{language === 'bm' ? '✅ Mengesahkan integriti data...' : '✅ Validating data integrity...'}</span>
-                {(language === 'bm' ? ['Julat pendapatan: sah (RM1K-50K)', 'Data e-dompet: 32 transaksi ditemui', 'Sejarah bil: 12 bulan tersedia', 'Tiada anomali dikesan'] : ['Income range: valid (RM1K-50K)', 'E-wallet data: 32 transactions found', 'Bill history: 12 months available', 'No anomalies detected']).map((check, i) => (
-                  <motion.div key={i} className="flex items-center gap-2" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 + i * 0.4 }}>
-                    <motion.span className="text-emerald-400 text-xs" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.5 + i * 0.4 }}>✓</motion.span>
-                    <span className="text-[11px] text-gray-400">{check}</span>
-                  </motion.div>
-                ))}
-              </motion.div>
-            )}
-
-            {phase === 'features' && (
-              <motion.div key="features" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-2">
-                <span className="text-xs text-blue-400">{language === 'bm' ? '⚙️ Merekayasa 40+ ciri...' : '⚙️ Engineering 40+ features...'}</span>
-                <div className="space-y-1.5">
-                  {[
-                    { name: 'income_stability', val: '0.82', desc: 'std/mean of 6 months' },
-                    { name: 'payment_consistency', val: '0.92', desc: 'bills_paid / total' },
-                    { name: 'digital_activity', val: '0.71', desc: 'normalized txn count' },
-                    { name: 'account_maturity', val: '0.65', desc: 'years with same number' },
-                  ].map((f, i) => (
-                    <motion.div key={f.name} className="flex items-center gap-2 bg-[#111] rounded-lg px-3 py-1.5 border border-[#1f1f1f]" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 + i * 0.5 }}>
-                      <span className="text-[10px] font-mono text-purple-400 flex-1">{f.name}</span>
-                      <span className="text-[10px] font-bold text-white">{f.val}</span>
-                      <span className="text-[9px] text-gray-600 hidden sm:inline">({f.desc})</span>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-
-            {phase === 'model' && (
-              <motion.div key="model" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <motion.div className="w-3 h-3 border-2 border-purple-500 border-t-transparent rounded-full" animate={{ rotate: 360 }} transition={{ duration: 0.5, repeat: Infinity, ease: 'linear' }} />
-                  <span className="text-xs text-purple-400">{language === 'bm' ? '🧠 Menjalankan pengelas XGBoost...' : '🧠 Running XGBoost classifier...'}</span>
-                </div>
-                <motion.div className="text-[10px] text-gray-500 font-mono bg-[#111] rounded px-2 py-1 border border-[#1f1f1f]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
-                  Model: xgb_credit_v2 | Trees: 150 | Depth: 6 | Features: 42
-                </motion.div>
-                <div className="space-y-1.5">
-                  {(language === 'bm' ? ['Memuatkan pemberat model', 'Memproses vektor ciri', 'Menjalankan 150 pokok keputusan', 'Mengagregat ramalan'] : ['Loading model weights', 'Processing feature vector', 'Running 150 decision trees', 'Aggregating predictions']).map((step, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <span className="text-[10px] text-gray-400 flex-1">{step}</span>
-                      <div className="w-20 h-1.5 bg-[#1a1a1a] rounded-full overflow-hidden">
-                        <motion.div className="h-full bg-purple-500 rounded-full" initial={{ width: '0%' }} animate={{ width: '100%' }} transition={{ duration: 0.8, delay: 0.5 + i * 0.7 }} />
-                      </div>
-                      <motion.span className="text-[9px] text-emerald-400" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.3 + i * 0.7 }}>✓</motion.span>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-
-            {phase === 'shap' && (
-              <motion.div key="shap" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="space-y-2">
-                <span className="text-xs text-blue-400">{language === 'bm' ? '📊 Mengira penjelasan SHAP...' : '📊 Computing SHAP explanations...'}</span>
-                <div className="space-y-1.5">
-                  {(language === 'bm' ? [
-                    { name: 'Konsistensi Pembayaran', val: +0.18, color: '#22c55e' },
-                    { name: 'Kestabilan Pendapatan', val: +0.12, color: '#22c55e' },
-                    { name: 'Aktiviti Digital', val: +0.08, color: '#22c55e' },
-                    { name: 'Pulangan E-dagang', val: -0.05, color: '#ef4444' },
-                    { name: 'Umur Akaun', val: -0.03, color: '#ef4444' },
-                  ] : [
-                    { name: 'Payment Consistency', val: +0.18, color: '#22c55e' },
-                    { name: 'Income Stability', val: +0.12, color: '#22c55e' },
-                    { name: 'Digital Activity', val: +0.08, color: '#22c55e' },
-                    { name: 'E-commerce Returns', val: -0.05, color: '#ef4444' },
-                    { name: 'Account Age', val: -0.03, color: '#ef4444' },
-                  ]).map((f, i) => (
-                    <motion.div key={f.name} className="flex items-center gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 + i * 0.4 }}>
-                      <span className="text-[10px] text-gray-400 w-28 truncate">{f.name}</span>
-                      <div className="flex-1 h-2 bg-[#1a1a1a] rounded-full overflow-hidden relative">
-                        <motion.div
-                          className="absolute top-0 h-full rounded-full"
-                          style={{ backgroundColor: f.color, left: f.val > 0 ? '50%' : undefined, right: f.val < 0 ? '50%' : undefined }}
-                          initial={{ width: '0%' }}
-                          animate={{ width: `${Math.abs(f.val) * 200}%` }}
-                          transition={{ duration: 0.6, delay: 0.5 + i * 0.3 }}
-                        />
-                        <div className="absolute top-0 left-1/2 w-px h-full bg-gray-600" />
-                      </div>
-                      <span className={`text-[10px] font-bold ${f.val > 0 ? 'text-emerald-400' : 'text-red-400'}`}>{f.val > 0 ? '+' : ''}{f.val.toFixed(2)}</span>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-
-            {phase === 'score' && showResult && (
-              <motion.div key="score" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="text-center py-2">
-                <motion.div className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 200 }}>712</motion.div>
-                <p className="text-sm text-gray-400 mt-1">{t('landingPipelineScoreLabel')}</p>
-                <div className="flex gap-2 justify-center mt-3">
-                  <motion.span className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-xs text-emerald-400 font-medium" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>{t('landingPipelineGoodRisk')}</motion.span>
-                  <motion.span className="px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full text-xs text-blue-400 font-medium" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>{t('landingPipelineTips')}</motion.span>
-                  <motion.span className="px-3 py-1 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs text-teal-400 font-medium" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>{t('landingPipelineProducts')}</motion.span>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
       </div>
-    </div>
+    </section>
   )
 }
 
-// ─── Main Component ──────────────────────────────────────────────────────────
+function Stats() {
+  return (
+    <section className="relative py-24">
+      <div className="max-w-7xl mx-auto px-6">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          variants={staggerContainer}
+          className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.06] rounded-2xl overflow-hidden border border-white/[0.06]"
+        >
+          {stats.map((s) => (
+            <motion.div
+              key={s.label}
+              variants={fadeInUp}
+              className="bg-[#0a0a0a] p-8 hover:bg-[#111] transition-colors"
+            >
+              <div className="text-4xl sm:text-5xl font-semibold text-white tracking-tight tabular-nums">{s.value}</div>
+              <div className="mt-3 text-sm text-white/70 font-medium">{s.label}</div>
+              <div className="mt-1 text-xs text-white/40">{s.sub}</div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  )
+}
 
-export default function LandingPage() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [openFaq, setOpenFaq] = useState(null)
-  const { language, toggleLanguage, t } = useLanguage()
+function SectionHeading({ eyebrow, title, desc }) {
+  return (
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: '-60px' }}
+      variants={staggerContainer}
+      className="max-w-2xl mb-14"
+    >
+      <motion.div variants={fadeInUp} className="text-[11px] tracking-[0.3em] uppercase text-emerald-400 font-medium mb-4">
+        {eyebrow}
+      </motion.div>
+      <motion.h2 variants={fadeInUp} className="text-4xl sm:text-5xl font-semibold tracking-[-0.03em] text-white leading-[1.05]">
+        {title}
+      </motion.h2>
+      {desc && (
+        <motion.p variants={fadeInUp} className="mt-5 text-lg text-white/60 leading-relaxed">
+          {desc}
+        </motion.p>
+      )}
+    </motion.div>
+  )
+}
 
-  const localizedNavLinks = [
-    { label: t('landingNavFeatures'), href: '/features', isRoute: true },
-    { label: t('landingNavHowItWorks'), href: '/how-it-works', isRoute: true },
-    { label: t('landingNavSimulator'), href: '/simulation', isRoute: true },
-    { label: t('landingNavAI'), href: '/ai', isRoute: true },
-    { label: 'FAQ', href: '#faq' },
+function Features() {
+  return (
+    <section className="relative py-28">
+      <div className="max-w-7xl mx-auto px-6">
+        <SectionHeading
+          eyebrow="What's inside"
+          title="Built for transparency and inclusion"
+          desc="Every technical choice, from the model architecture to the explanations, is designed to give underserved users a fair shot at credit."
+        />
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          variants={staggerContainer}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+        >
+          {features.map((f, i) => (
+            <motion.div
+              key={f.title}
+              variants={fadeInUp}
+              className="group relative bg-[#0a0a0a] border border-white/[0.06] rounded-2xl p-7 hover:border-emerald-500/30 transition-all overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="relative">
+                <div className="w-11 h-11 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center mb-5 group-hover:border-emerald-500/40 group-hover:bg-emerald-500/5 transition-colors">
+                  <f.icon size={20} className="text-emerald-400" />
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-2 tracking-tight">{f.title}</h3>
+                <p className="text-sm text-white/50 leading-relaxed">{f.desc}</p>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+function HowItWorks() {
+  return (
+    <section className="relative py-28 bg-gradient-to-b from-transparent via-emerald-500/[0.02] to-transparent">
+      <div className="max-w-7xl mx-auto px-6">
+        <SectionHeading
+          eyebrow="How it works"
+          title="Three steps from data to decision"
+          desc="Link your alternative data, let the model analyze it, and receive a transparent score along with specific next steps."
+        />
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          variants={staggerContainer}
+          className="relative"
+        >
+          {/* Connecting line */}
+          <div className="absolute top-10 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent hidden lg:block" />
+
+          <div className="grid lg:grid-cols-3 gap-8 lg:gap-12 relative">
+            {howItWorks.map((step) => (
+              <motion.div
+                key={step.step}
+                variants={fadeInUp}
+                className="relative"
+              >
+                <div className="bg-[#0a0a0a] border border-white/[0.06] rounded-2xl p-7 h-full hover:border-white/15 transition-colors">
+                  <div className="text-5xl font-semibold tabular-nums bg-gradient-to-b from-white to-white/20 bg-clip-text text-transparent mb-5 tracking-tight">
+                    {step.step}
+                  </div>
+                  <h3 className="text-xl font-semibold text-white mb-2 tracking-tight">{step.title}</h3>
+                  <p className="text-sm text-white/55 leading-relaxed mb-6">{step.desc}</p>
+                  <div className="flex items-center gap-2 pt-4 border-t border-white/[0.06] text-xs text-emerald-400/80 font-medium">
+                    <Sparkles size={12} />
+                    {step.meta}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+function Comparison() {
+  return (
+    <section className="relative py-28">
+      <div className="max-w-7xl mx-auto px-6">
+        <SectionHeading
+          eyebrow="Why ScoreKu"
+          title="Legacy scoring vs. alternative scoring"
+          desc="Traditional credit bureaus only see formal banking relationships. Alternative scoring sees what you actually do with money every day."
+        />
+
+        <div className="grid lg:grid-cols-2 gap-5">
+          {/* Traditional */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative bg-[#0a0a0a] border border-white/[0.06] rounded-2xl p-8"
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
+                <X size={18} className="text-white/40" />
+              </div>
+              <div>
+                <div className="text-xs uppercase tracking-[0.2em] text-white/40 mb-0.5">Traditional</div>
+                <div className="text-lg font-semibold text-white tracking-tight">Bank credit scoring</div>
+              </div>
+            </div>
+            <ul className="space-y-3">
+              {comparisonData.traditional.map((item) => (
+                <li key={item} className="flex items-start gap-3 text-sm text-white/50">
+                  <X size={16} className="text-white/30 mt-0.5 flex-shrink-0" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* ScoreKu */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="relative bg-gradient-to-br from-emerald-500/10 via-[#0a0a0a] to-[#0a0a0a] border border-emerald-500/30 rounded-2xl p-8 shadow-[0_0_60px_-20px_rgba(16,185,129,0.3)]"
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center">
+                <CheckCircle2 size={18} className="text-emerald-400" />
+              </div>
+              <div>
+                <div className="text-xs uppercase tracking-[0.2em] text-emerald-400 mb-0.5">ScoreKu</div>
+                <div className="text-lg font-semibold text-white tracking-tight">Alternative scoring</div>
+              </div>
+            </div>
+            <ul className="space-y-3">
+              {comparisonData.scoreku.map((item) => (
+                <li key={item} className="flex items-start gap-3 text-sm text-white/80">
+                  <CheckCircle2 size={16} className="text-emerald-400 mt-0.5 flex-shrink-0" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function UseCases() {
+  return (
+    <section className="relative py-28">
+      <div className="max-w-7xl mx-auto px-6">
+        <SectionHeading
+          eyebrow="Who it's for"
+          title="Designed for the unscored"
+          desc="If you have been turned away by traditional lenders despite steady income, ScoreKu was built with you in mind."
+        />
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          variants={staggerContainer}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5"
+        >
+          {useCases.map((u) => (
+            <motion.div
+              key={u.title}
+              variants={fadeInUp}
+              className="group bg-[#0a0a0a] border border-white/[0.06] rounded-2xl p-6 hover:border-emerald-500/30 hover:-translate-y-1 transition-all duration-300"
+            >
+              <div className="w-12 h-12 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center mb-5 group-hover:bg-emerald-500/10 group-hover:border-emerald-500/30 transition-colors">
+                <u.icon size={22} className="text-white/70 group-hover:text-emerald-400 transition-colors" />
+              </div>
+              <h3 className="text-base font-semibold text-white mb-2 tracking-tight">{u.title}</h3>
+              <p className="text-sm text-white/50 leading-relaxed">{u.desc}</p>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+function ModelPerformance() {
+  const metrics = [
+    { label: 'Accuracy', value: 89.1 },
+    { label: 'AUC-ROC', value: 91.4 },
+    { label: 'Precision', value: 68.0 },
+    { label: 'Recall', value: 51.7 },
+  ]
+  return (
+    <section className="relative py-28 border-t border-white/[0.06]">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid lg:grid-cols-[1fr_1.1fr] gap-16 items-center">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-60px' }}
+            variants={staggerContainer}
+          >
+            <motion.div variants={fadeInUp} className="text-[11px] tracking-[0.3em] uppercase text-emerald-400 font-medium mb-4">
+              Model performance
+            </motion.div>
+            <motion.h2 variants={fadeInUp} className="text-4xl sm:text-5xl font-semibold tracking-[-0.03em] text-white leading-[1.05]">
+              Validated on 10,000 Malaysian profiles
+            </motion.h2>
+            <motion.p variants={fadeInUp} className="mt-5 text-lg text-white/60 leading-relaxed">
+              The XGBoost model is tuned for the Malaysian context and benchmarked against traditional scoring baselines. SHAP analysis ensures every prediction stays interpretable.
+            </motion.p>
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-60px' }}
+            variants={staggerContainer}
+            className="grid grid-cols-2 gap-4"
+          >
+            {metrics.map((m) => (
+              <motion.div
+                key={m.label}
+                variants={fadeInUp}
+                className="bg-[#0a0a0a] border border-white/[0.06] rounded-2xl p-6"
+              >
+                <div className="text-xs uppercase tracking-[0.2em] text-white/40 mb-3">{m.label}</div>
+                <div className="flex items-baseline gap-1 mb-3">
+                  <span className="text-4xl font-semibold text-white tabular-nums tracking-tight">{m.value}</span>
+                  <span className="text-xl text-white/40">%</span>
+                </div>
+                <div className="h-1 rounded-full bg-white/[0.06] overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${m.value}%` }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                    className="h-full bg-gradient-to-r from-emerald-500 to-teal-400"
+                  />
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function FAQ() {
+  const [openIdx, setOpenIdx] = useState(0)
+  return (
+    <section className="relative py-28">
+      <div className="max-w-4xl mx-auto px-6">
+        <SectionHeading
+          eyebrow="FAQ"
+          title="Answers before you ask"
+          desc="Common questions about how the platform works, what data it needs, and how the model stays fair."
+        />
+
+        <div className="divide-y divide-white/[0.06] border-y border-white/[0.06]">
+          {faqData.map((f, i) => (
+            <div key={f.q}>
+              <button
+                onClick={() => setOpenIdx(openIdx === i ? -1 : i)}
+                className="w-full flex items-center justify-between gap-6 py-5 text-left group"
+              >
+                <span className="text-base sm:text-lg font-medium text-white group-hover:text-emerald-400 transition-colors">
+                  {f.q}
+                </span>
+                <motion.div
+                  animate={{ rotate: openIdx === i ? 45 : 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex-shrink-0 w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/60 group-hover:border-emerald-500/40 group-hover:text-emerald-400 transition-colors"
+                >
+                  <Plus size={16} />
+                </motion.div>
+              </button>
+              <AnimatePresence>
+                {openIdx === i && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <p className="pb-6 pr-16 text-white/60 leading-relaxed">{f.a}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function FinalCTA() {
+  return (
+    <section className="relative py-28">
+      <div className="max-w-5xl mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="relative bg-gradient-to-br from-emerald-500/15 via-[#0a0a0a] to-[#0a0a0a] border border-emerald-500/20 rounded-[32px] p-12 sm:p-16 overflow-hidden shadow-[0_40px_100px_-40px_rgba(16,185,129,0.4)]"
+        >
+          {/* Decorative glow */}
+          <div className="absolute -top-24 -right-24 w-80 h-80 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative text-center">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/20 bg-emerald-500/5 text-emerald-400 text-xs font-medium mb-6">
+              <Sparkles size={12} />
+              Free for individuals
+            </div>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-[-0.035em] text-white leading-[1.02] max-w-3xl mx-auto">
+              Your digital footprint deserves a score.
+            </h2>
+            <p className="mt-5 text-lg text-white/60 max-w-2xl mx-auto">
+              Get a fair, transparent credit assessment in under five seconds. No bank account required.
+            </p>
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+              <Link
+                to="/score"
+                className="group inline-flex items-center gap-2 px-7 py-3.5 bg-white text-black rounded-full font-medium hover:bg-white/90 transition-all"
+              >
+                Check your score
+                <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </Link>
+              <Link
+                to="/learn"
+                className="inline-flex items-center gap-2 px-7 py-3.5 text-white/80 border border-white/15 hover:border-white/30 hover:text-white rounded-full font-medium transition-all"
+              >
+                Learn first
+              </Link>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+function Footer() {
+  const sections = [
+    {
+      title: 'Product',
+      links: [
+        { label: 'Features', href: '/features' },
+        { label: 'How it Works', href: '/how-it-works' },
+        { label: 'Simulator', href: '/simulation' },
+        { label: 'AI Model', href: '/ai' },
+      ],
+    },
+    {
+      title: 'Resources',
+      links: [
+        { label: 'Learn', href: '/learn' },
+        { label: 'Use Cases', href: '#use-cases' },
+        { label: 'FAQ', href: '#faq' },
+      ],
+    },
+    {
+      title: 'Account',
+      links: [
+        { label: 'Sign in', href: '/login' },
+        { label: 'Register', href: '/register' },
+      ],
+    },
   ]
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white relative overflow-hidden">
+    <footer className="relative border-t border-white/[0.06] py-14 bg-black">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-10">
+          <div className="col-span-2">
+            <Link to="/" className="flex items-center gap-2 text-white font-semibold tracking-tight mb-4">
+              <BrandLogo className="w-7 h-7" />
+              <span>ScoreKu</span>
+            </Link>
+            <p className="text-sm text-white/50 max-w-xs leading-relaxed">
+              Alternative credit scoring for Malaysians excluded from traditional banking. Built with explainable AI.
+            </p>
+          </div>
+          {sections.map((s) => (
+            <div key={s.title}>
+              <div className="text-xs tracking-[0.2em] uppercase text-white/40 mb-4">{s.title}</div>
+              <ul className="space-y-2.5">
+                {s.links.map((l) => (
+                  <li key={l.label}>
+                    <Link to={l.href} className="text-sm text-white/70 hover:text-white transition-colors">
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div className="mt-12 pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40">
+          <div>© {new Date().getFullYear()} ScoreKu. Built for financial inclusion.</div>
+          <div>Made in Malaysia</div>
+        </div>
+      </div>
+    </footer>
+  )
+}
+
+// ─── Main ────────────────────────────────────────────────────────────────────
+
+export default function LandingPage() {
+  const { language, setLanguage } = useLanguage()
+
+  useEffect(() => {
+    document.documentElement.classList.add('dark')
+  }, [])
+
+  return (
+    <div className="min-h-screen bg-black text-white antialiased">
       <ScrollProgress />
-      <Particles />
-      <GradientOrbs />
+      <Navbar language={language} setLanguage={setLanguage} />
 
-      {/* ─── 1. Navbar ─────────────────────────────────────────────────────── */}
-      <nav className="relative z-40 border-b border-[#1f1f1f]/50 backdrop-blur-xl bg-[#0a0a0a]/80 sticky top-0">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
-              <Zap size={18} className="text-white" />
-            </div>
-            <span className="text-xl font-bold">Score<span className="text-teal-400">Ku</span></span>
-          </div>
+      <main>
+        <Hero language={language} />
+        <PoweredByBar />
+        <Stats />
+        <Features />
+        <HowItWorks />
+        <Comparison />
+        <UseCases />
+        <ModelPerformance />
+        <FAQ />
+        <FinalCTA />
+      </main>
 
-          <div className="hidden md:flex items-center gap-8 text-sm text-gray-400">
-            {localizedNavLinks.map((link) => (
-              link.isRoute ? (
-                <Link key={link.href} to={link.href} className="hover:text-white transition-colors duration-200">{link.label}</Link>
-              ) : (
-                <a key={link.href} href={link.href} className="hover:text-white transition-colors duration-200">{link.label}</a>
-              )
-            ))}
-          </div>
-
-          <div className="hidden md:flex items-center gap-3">
-            <button
-              onClick={toggleLanguage}
-              className="px-3 py-1.5 rounded-lg text-xs font-medium border border-[#2a2a2a] hover:border-gray-600 transition-all duration-200 flex items-center gap-1.5"
-            >
-              <Languages size={14} className="text-gray-400" />
-              <span className={language === 'en' ? 'text-white' : 'text-gray-500'}>EN</span>
-              <span className="text-gray-600">|</span>
-              <span className={language === 'bm' ? 'text-white' : 'text-gray-500'}>BM</span>
-            </button>
-            <Link to="/login" className="px-4 py-2.5 rounded-xl text-sm text-gray-300 hover:text-white border border-[#2a2a2a] hover:border-gray-600 transition-all duration-200">
-              {t('landingLogin')}
-            </Link>
-            <Link to="/register" className="px-5 py-2.5 rounded-xl text-sm bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 transition-all duration-200 font-medium shadow-lg shadow-blue-600/20">
-              {t('landingSignUp')}
-            </Link>
-          </div>
-
-          <button
-            className="md:hidden p-2 text-gray-400 hover:text-white"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <XIcon size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-
-        {/* Mobile menu */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="md:hidden border-t border-[#1f1f1f] bg-[#0a0a0a]/95 backdrop-blur-xl"
-            >
-              <div className="px-6 py-4 space-y-3">
-                {localizedNavLinks.map((link) => (
-                  link.isRoute ? (
-                    <Link key={link.href} to={link.href} className="block text-gray-300 hover:text-white py-2" onClick={() => setMobileMenuOpen(false)}>{link.label}</Link>
-                  ) : (
-                    <a key={link.href} href={link.href} className="block text-gray-300 hover:text-white py-2" onClick={() => setMobileMenuOpen(false)}>{link.label}</a>
-                  )
-                ))}
-                <div className="flex items-center gap-3 pt-3 border-t border-[#1f1f1f]">
-                  <button
-                    onClick={toggleLanguage}
-                    className="px-3 py-2.5 rounded-xl text-xs font-medium border border-[#2a2a2a] flex items-center gap-1.5"
-                  >
-                    <Languages size={14} className="text-gray-400" />
-                    <span className={language === 'en' ? 'text-white' : 'text-gray-500'}>EN</span>
-                    <span className="text-gray-600">|</span>
-                    <span className={language === 'bm' ? 'text-white' : 'text-gray-500'}>BM</span>
-                  </button>
-                  <Link to="/login" className="flex-1 text-center px-4 py-2.5 rounded-xl text-sm border border-[#2a2a2a]">{t('landingLogin')}</Link>
-                  <Link to="/register" className="flex-1 text-center px-4 py-2.5 rounded-xl text-sm bg-blue-600 font-medium">{t('landingSignUp')}</Link>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
-
-      {/* ─── 2. Hero ───────────────────────────────────────────────────────── */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 pt-20 pb-28">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeInUp}
-            transition={{ duration: 0.7 }}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium mb-8"
-            >
-              <Sparkles size={12} /> {t('landingHeroBadge')}
-            </motion.div>
-
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] mb-6 tracking-tight">
-              {language === 'en' ? (
-                <>Your Financial Identity,{' '}<span className="bg-gradient-to-r from-blue-400 via-teal-400 to-blue-400 bg-clip-text text-transparent">Reimagined</span></>
-              ) : (
-                <>Identiti Kewangan Anda,{' '}<span className="bg-gradient-to-r from-blue-400 via-teal-400 to-blue-400 bg-clip-text text-transparent">Dicipta Semula</span></>
-              )}
-            </h1>
-
-            <p className="text-xl text-gray-300 mb-2">
-              {t('landingHeroScoring')} <TypeWriter language={language} />
-            </p>
-
-            <p className="text-base text-gray-500 max-w-lg mb-8 leading-relaxed">
-              {t('landingHeroSubtitle')}
-            </p>
-
-            <div className="flex flex-wrap gap-4 mb-4">
-              <Link to="/register" className="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-2xl text-lg font-semibold transition-all duration-300 shadow-xl shadow-blue-600/25 hover:shadow-blue-500/40 hover:-translate-y-0.5">
-                {t('landingGetStarted')} <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <a href="#how-it-works" className="inline-flex items-center gap-2 px-8 py-4 border border-[#2a2a2a] hover:border-gray-600 rounded-2xl text-lg transition-all duration-300 text-gray-300 hover:text-white hover:-translate-y-0.5">
-                {t('landingLearnMore')}
-              </a>
-            </div>
-            <div className="mb-8">
-              <Link to="/dashboard?demo=true" className="inline-flex items-center gap-2 text-sm text-teal-400 hover:text-teal-300 transition-colors group">
-                <Eye size={14} /> {t('landingTryDemo')} <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </div>
-
-            <div className="flex items-center gap-2 text-xs text-gray-600">
-              <span>{t('landingPoweredBy')}</span>
-              <div className="flex gap-3 items-center">
-                {poweredBy.map((item) => (
-                  <span key={item.name} className="px-2.5 py-1.5 bg-[#111] border border-[#1f1f1f] rounded-lg text-gray-400 flex items-center gap-2">
-                    <BrandLogo name={item.name} url={item.logo} fallbackColor={item.color} size="h-5 w-5" />
-                    {item.name}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="hidden lg:block"
-          >
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-teal-500/10 rounded-3xl blur-2xl" />
-              <div className="relative bg-[#111]/90 backdrop-blur-sm border border-[#1f1f1f] rounded-3xl p-10">
-                <div className="text-center mb-6">
-                  <p className="text-sm text-gray-400 mb-4">{t('landingYourAltScore')}</p>
-                  <AnimatedGauge language={language} />
-                </div>
-                <div className="mt-6 space-y-4">
-                  <div>
-                    <div className="flex justify-between text-sm mb-1.5">
-                      <span className="text-gray-400">{t('landingPaymentConsistency')}</span>
-                      <span className="text-teal-400 font-medium">85%</span>
-                    </div>
-                    <div className="w-full h-2 bg-[#1a1a1a] rounded-full overflow-hidden">
-                      <motion.div initial={{ width: 0 }} animate={{ width: '85%' }} transition={{ delay: 2, duration: 1.2, ease: 'easeOut' }} className="h-full bg-gradient-to-r from-teal-500 to-teal-400 rounded-full" />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="flex justify-between text-sm mb-1.5">
-                      <span className="text-gray-400">{t('landingDigitalActivity')}</span>
-                      <span className="text-blue-400 font-medium">72%</span>
-                    </div>
-                    <div className="w-full h-2 bg-[#1a1a1a] rounded-full overflow-hidden">
-                      <motion.div initial={{ width: 0 }} animate={{ width: '72%' }} transition={{ delay: 2.3, duration: 1.2, ease: 'easeOut' }} className="h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full" />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="flex justify-between text-sm mb-1.5">
-                      <span className="text-gray-400">{t('landingIncomeStability')}</span>
-                      <span className="text-purple-400 font-medium">68%</span>
-                    </div>
-                    <div className="w-full h-2 bg-[#1a1a1a] rounded-full overflow-hidden">
-                      <motion.div initial={{ width: 0 }} animate={{ width: '68%' }} transition={{ delay: 2.6, duration: 1.2, ease: 'easeOut' }} className="h-full bg-gradient-to-r from-purple-500 to-purple-400 rounded-full" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ─── 3. Problem Statement ──────────────────────────────────────────── */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 pb-28">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-          variants={fadeInUp}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <span className="inline-block px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium mb-6">{t('landingProblemBadge')}</span>
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            <AnimatedCounter target={3500000} prefix="" suffix="" /> {t('landingProblemHeadMid')}{' '}
-            <span className="text-red-400">{t('landingProblemHeadEnd')}</span>
-          </h2>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            {t('landingProblemDesc')}
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={staggerContainer}
-          className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto"
-        >
-          <motion.div variants={fadeInUp} className="bg-[#111] border border-red-500/10 rounded-2xl p-8">
-            <h3 className="text-lg font-semibold text-red-400 mb-4 flex items-center gap-2">
-              <X size={18} /> {t('landingTraditionalData')}
-            </h3>
-            <ul className="space-y-3 text-sm text-gray-400">
-              <li className="flex items-start gap-2"><X size={14} className="text-red-400/60 mt-0.5 shrink-0" /> {t('landingTradItem1')}</li>
-              <li className="flex items-start gap-2"><X size={14} className="text-red-400/60 mt-0.5 shrink-0" /> {t('landingTradItem2')}</li>
-              <li className="flex items-start gap-2"><X size={14} className="text-red-400/60 mt-0.5 shrink-0" /> {t('landingTradItem3')}</li>
-              <li className="flex items-start gap-2"><X size={14} className="text-red-400/60 mt-0.5 shrink-0" /> {t('landingTradItem4')}</li>
-            </ul>
-          </motion.div>
-          <motion.div variants={fadeInUp} className="bg-[#111] border border-teal-500/10 rounded-2xl p-8">
-            <h3 className="text-lg font-semibold text-teal-400 mb-4 flex items-center gap-2">
-              <CheckCircle2 size={18} /> {t('landingAlternativeData')}
-            </h3>
-            <ul className="space-y-3 text-sm text-gray-400">
-              <li className="flex items-start gap-2"><CheckCircle2 size={14} className="text-teal-400 mt-0.5 shrink-0" /> {t('landingAltItem1')}</li>
-              <li className="flex items-start gap-2"><CheckCircle2 size={14} className="text-teal-400 mt-0.5 shrink-0" /> {t('landingAltItem2')}</li>
-              <li className="flex items-start gap-2"><CheckCircle2 size={14} className="text-teal-400 mt-0.5 shrink-0" /> {t('landingAltItem3')}</li>
-              <li className="flex items-start gap-2"><CheckCircle2 size={14} className="text-teal-400 mt-0.5 shrink-0" /> {t('landingAltItem4')}</li>
-            </ul>
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* ─── 4. Stats Section ──────────────────────────────────────────────── */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 pb-28">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={staggerContainer}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
-        >
-          {stats.map((stat, i) => (
-            <motion.div
-              key={i}
-              variants={scaleIn}
-              className="bg-[#111]/80 backdrop-blur-sm border border-[#1f1f1f] rounded-2xl p-8 text-center group hover:border-teal-500/30 transition-all duration-300"
-            >
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/10 to-teal-500/10 border border-[#2a2a2a] flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                <stat.icon className="w-7 h-7 text-teal-400" />
-              </div>
-              <div className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent mb-2">
-                {stat.display === '3.5M' && <AnimatedCounter target={3500000} />}
-                {stat.display === '89%' && <><AnimatedCounter target={89} />%</>}
-                {stat.display === '10K+' && <><AnimatedCounter target={10000} />+</>}
-              </div>
-              <div className="text-sm text-gray-400">
-                {stat.display === '3.5M' ? t('landingStatsUnbanked') : stat.display === '89%' ? t('landingStatsAccuracy') : t('landingStatsProfiles')}
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
-
-      {/* ─── 5. Live Demo / Pipeline ──────────────────────────────────────── */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 pb-28">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('landingPipelineTitle')}</h2>
-          <p className="text-gray-400 max-w-xl mx-auto">{t('landingPipelineSubtitle')}</p>
-        </motion.div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={scaleIn}
-          transition={{ duration: 0.6 }}
-          className="max-w-2xl mx-auto"
-        >
-          <PipelineDemo t={t} language={language} />
-        </motion.div>
-      </section>
-
-      {/* ─── 6. Features Grid ──────────────────────────────────────────────── */}
-      <section id="features" className="relative z-10 max-w-7xl mx-auto px-6 pb-28">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('landingFeaturesTitle')}</h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">{t('landingFeaturesSubtitle')}</p>
-          <Link to="/features" className="inline-flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 mt-3 transition-colors">{t('landingFeaturesSeeAll')} <ArrowRight size={14} /></Link>
-        </motion.div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={staggerContainer}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
-          {features.map((f, i) => {
-            const titleKey = `landingFeature${i + 1}Title`
-            const descKey = `landingFeature${i + 1}Desc`
-            return (
-              <motion.div
-                key={i}
-                variants={fadeInUp}
-                className="group bg-[#111]/80 backdrop-blur-sm border border-[#1f1f1f] rounded-2xl p-7 hover:border-[#2a2a2a] transition-all duration-300 hover:-translate-y-1"
-              >
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${f.color} bg-opacity-10 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`} style={{ background: `linear-gradient(135deg, ${f.color.includes('blue') ? '#3b82f620' : f.color.includes('teal') ? '#14b8a620' : f.color.includes('purple') ? '#8b5cf620' : f.color.includes('amber') ? '#f59e0b20' : f.color.includes('pink') ? '#ec489920' : '#10b98120'}, transparent)` }}>
-                  <f.icon className="w-6 h-6 text-white/80" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2">{t(titleKey)}</h3>
-                <p className="text-sm text-gray-400 leading-relaxed">{t(descKey)}</p>
-              </motion.div>
-            )
-          })}
-        </motion.div>
-      </section>
-
-      {/* ─── 7. How It Works ───────────────────────────────────────────────── */}
-      <section id="how-it-works" className="relative z-10 max-w-7xl mx-auto px-6 pb-28">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('landingHowItWorksTitle')}</h2>
-          <p className="text-gray-400">{t('landingHowItWorksSubtitle')}</p>
-          <Link to="/how-it-works" className="inline-flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 mt-3 transition-colors">{t('landingHowSeeAll')} <ArrowRight size={14} /></Link>
-        </motion.div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={staggerContainer}
-          className="grid md:grid-cols-3 gap-8 relative"
-        >
-          {/* Connecting line */}
-          <div className="hidden md:block absolute top-1/2 left-[20%] right-[20%] h-px bg-gradient-to-r from-blue-500/30 via-teal-500/30 to-blue-500/30" />
-
-          {howItWorks.map((item, i) => {
-            const stepTitleKey = `landingStep${i + 1}Title`
-            const stepDescKey = `landingStep${i + 1}Desc`
-            const stepDetailKey = `landingStep${i + 1}Detail`
-            return (
-              <motion.div key={i} variants={fadeInUp} className="relative">
-                <div className="bg-[#111]/80 backdrop-blur-sm border border-[#1f1f1f] rounded-2xl p-8 text-center hover:border-blue-500/20 transition-all duration-300 relative z-10">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-teal-600 flex items-center justify-center mx-auto mb-5 text-sm font-bold shadow-lg shadow-blue-500/20">
-                    {item.step}
-                  </div>
-                  <div className="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mx-auto mb-5">
-                    <item.icon className="w-7 h-7 text-blue-400" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">{t(stepTitleKey)}</h3>
-                  <p className="text-sm text-gray-400 leading-relaxed mb-3">{t(stepDescKey)}</p>
-                  <span className="inline-block px-3 py-1 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg text-xs text-gray-500">{t(stepDetailKey)}</span>
-                </div>
-              </motion.div>
-            )
-          })}
-        </motion.div>
-      </section>
-
-      {/* ─── 8. Comparison Section ─────────────────────────────────────────── */}
-      <section className="relative z-10 max-w-5xl mx-auto px-6 pb-28">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('landingComparisonTitle')}</h2>
-          <p className="text-gray-400">{t('landingCompSubtitle')}</p>
-        </motion.div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={scaleIn}
-          transition={{ duration: 0.6 }}
-          className="grid md:grid-cols-2 gap-6"
-        >
-          <div className="bg-[#111] border border-red-500/10 rounded-2xl p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center">
-                <X size={20} className="text-red-400" />
-              </div>
-              <h3 className="text-lg font-semibold text-red-400">{t('landingCompTraditional')}</h3>
-            </div>
-            <ul className="space-y-4">
-              {[t('landingCompTrad1'), t('landingCompTrad2'), t('landingCompTrad3'), t('landingCompTrad4'), t('landingCompTrad5')].map((item, i) => (
-                <motion.li
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="flex items-start gap-3 text-sm text-gray-400"
-                >
-                  <X size={16} className="text-red-400/60 mt-0.5 shrink-0" />
-                  {item}
-                </motion.li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="bg-[#111] border border-teal-500/20 rounded-2xl p-8 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-transparent" />
-            <div className="relative z-10">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-teal-500/10 flex items-center justify-center">
-                  <CheckCircle2 size={20} className="text-teal-400" />
-                </div>
-                <h3 className="text-lg font-semibold text-teal-400">ScoreKu</h3>
-              </div>
-              <ul className="space-y-4">
-                {[t('landingCompSk1'), t('landingCompSk2'), t('landingCompSk3'), t('landingCompSk4'), t('landingCompSk5')].map((item, i) => (
-                  <motion.li
-                    key={i}
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 + 0.2 }}
-                    className="flex items-start gap-3 text-sm text-gray-300"
-                  >
-                    <CheckCircle2 size={16} className="text-teal-400 mt-0.5 shrink-0" />
-                    {item}
-                  </motion.li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* ─── 9. Use Cases ──────────────────────────────────────────────────── */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 pb-28">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('landingUseCasesTitle')}</h2>
-          <p className="text-gray-400">{t('landingUseCasesSubtitle')}</p>
-        </motion.div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={staggerContainer}
-          className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
-        >
-          {useCases.map((uc, i) => (
-            <motion.div
-              key={i}
-              variants={fadeInUp}
-              className="bg-[#111]/80 border border-[#1f1f1f] rounded-2xl p-6 hover:border-opacity-50 transition-all duration-300 hover:-translate-y-1 group"
-              style={{ '--accent': uc.color }}
-            >
-              <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform"
-                style={{ background: `${uc.color}15`, border: `1px solid ${uc.color}30` }}
-              >
-                <uc.icon className="w-6 h-6" style={{ color: uc.color }} />
-              </div>
-              <h3 className="text-base font-semibold mb-2">{t(`landingUc${i + 1}Title`)}</h3>
-              <p className="text-sm text-gray-400 leading-relaxed">{t(`landingUc${i + 1}Desc`)}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
-
-      {/* ─── 10. Tech Stack Marquee ────────────────────────────────────────── */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 pb-28">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-10"
-        >
-          <h2 className="text-2xl font-bold mb-2">{t('landingTechTitle')}</h2>
-          <p className="text-sm text-gray-500">{t('landingTechSubtitle')}</p>
-        </motion.div>
-        <TechMarquee />
-      </section>
-
-
-
-      {/* ─── BNM Alignment ───────────────────────────────────────────────────────── */}
-      <section className="relative z-10 max-w-5xl mx-auto px-6 pb-28">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7 } } }}
-        >
-          <div className="bg-gradient-to-br from-[#111] to-[#0a0a0a] border border-[#1f1f1f] rounded-3xl p-8 md:p-12 relative overflow-hidden">
-            {/* Background accent */}
-            <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-blue-600/5 rounded-full blur-[100px] pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-[200px] h-[200px] bg-teal-600/5 rounded-full blur-[80px] pointer-events-none" />
-
-            <div className="relative">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                  <Shield className="w-5 h-5 text-blue-400" />
-                </div>
-                <span className="text-xs font-medium text-blue-400 uppercase tracking-wider">{t('landingBnmBadge')}</span>
-              </div>
-
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                {t('landingBnmTitle')}
-              </h2>
-              <p className="text-gray-400 max-w-2xl mb-8">
-                {t('landingBnmDesc')}
-              </p>
-
-              <div className="grid md:grid-cols-2 gap-4 mb-8">
-                {[1, 2, 3, 4].map((n) => (
-                  <motion.div
-                    key={n}
-                    className="bg-[#0a0a0a] border border-[#1f1f1f] rounded-xl p-4"
-                    initial={{ opacity: 0, y: 15 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.1 + (n - 1) * 0.1 }}
-                  >
-                    <h4 className="text-sm font-semibold text-white mb-1">{t(`landingBnm${n}Title`)}</h4>
-                    <p className="text-xs text-gray-500 leading-relaxed">{t(`landingBnm${n}Desc`)}</p>
-                  </motion.div>
-                ))}
-              </div>
-
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="px-3 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-lg text-xs text-blue-400 font-medium">{t('landingBnmBadge1')}</span>
-                <span className="px-3 py-1.5 bg-teal-500/10 border border-teal-500/20 rounded-lg text-xs text-teal-400 font-medium">{t('landingBnmBadge2')}</span>
-                <span className="px-3 py-1.5 bg-purple-500/10 border border-purple-500/20 rounded-lg text-xs text-purple-400 font-medium">{t('landingBnmBadge3')}</span>
-                <span className="px-3 py-1.5 bg-amber-500/10 border border-amber-500/20 rounded-lg text-xs text-amber-400 font-medium">{t('landingBnmBadge4')}</span>
-              </div>
-
-              <p className="text-[10px] text-gray-600 mt-6">{t('landingBnmSources')}</p>
-            </div>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* ─── 12. FAQ ───────────────────────────────────────────────────────── */}
-      {/* ─── 12. Learn Section ─────────────────────────────────────────── */}
-      <section id="learn" className="relative z-10 max-w-6xl mx-auto px-6 pb-28">
-        {/* Header */}
-        <motion.div
-          initial="hidden" whileInView="visible" viewport={{ once: true }}
-          variants={fadeInUp} transition={{ duration: 0.6 }}
-          className="text-center mb-6"
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-blue-500/20 bg-blue-500/5 text-blue-400 text-xs font-medium mb-4">
-            <span>📚</span> {t('learnHeroLabel')}
-          </div>
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            {t('learnHeroTitle1')} <span className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">{t('learnHeroTitle2')}</span>
-          </h2>
-          <p className="text-gray-400 max-w-xl mx-auto text-base">{t('learnHeroDesc')}</p>
-        </motion.div>
-
-        {/* Stats Row */}
-        <motion.div
-          initial="hidden" whileInView="visible" viewport={{ once: true }}
-          variants={staggerContainer}
-          className="grid grid-cols-3 gap-4 mb-10"
-        >
-          {[
-            { value: '8', label: t('learnStat1Label'), suffix: '' },
-            { value: '5', label: t('learnStat2Label'), suffix: '' },
-            { value: '100', label: t('learnStat3Label'), suffix: '%' },
-          ].map((stat, i) => (
-            <motion.div key={i} variants={fadeInUp} className="text-center p-4 rounded-2xl border border-white/5 bg-white/[0.03]">
-              <div className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">{stat.value}{stat.suffix}</div>
-              <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Featured Article */}
-        <motion.a
-          href="/learn"
-          initial="hidden" whileInView="visible" viewport={{ once: true }}
-          variants={fadeInUp}
-          className="group flex flex-col md:flex-row gap-6 p-6 rounded-3xl border border-blue-500/20 bg-gradient-to-br from-blue-500/10 to-teal-500/5 hover:border-blue-500/40 transition-all mb-6 block"
-        >
-          <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500/30 to-teal-500/20 border border-blue-500/20 flex items-center justify-center text-3xl">
-            📊
-          </div>
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 font-medium">{t('learnFeaturedTag')}</span>
-              <span className="text-[11px] text-gray-500">5 min read</span>
-            </div>
-            <h3 className="text-lg font-bold mb-1 group-hover:text-blue-400 transition-colors">{t('learnA1Title')}</h3>
-            <p className="text-sm text-gray-400">{t('learnA1Sub')}</p>
-          </div>
-          <div className="flex items-center text-blue-400 text-sm font-medium gap-1 md:self-center flex-shrink-0 group-hover:gap-2 transition-all">
-            Read <span>→</span>
-          </div>
-        </motion.a>
-
-        {/* Article Grid */}
-        <motion.div
-          initial="hidden" whileInView="visible" viewport={{ once: true }}
-          variants={staggerContainer}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10"
-        >
-          {[
-            { emoji: '🏗️', title: t('learnA2Title'), desc: t('learnA2Sub'), tag: t('beginner'), time: '8 min' },
-            { emoji: '💳', title: t('learnA3Title'), desc: t('learnA3Sub'), tag: 'Tips', time: '4 min' },
-            { emoji: '🚗', title: t('learnA4Title'), desc: t('learnA4Sub'), tag: 'Tips', time: '7 min' },
-            { emoji: '⚠️', title: t('learnA5Title'), desc: t('learnA5Sub'), tag: language === 'bm' ? 'Kewangan' : 'Finance', time: '7 min' },
-            { emoji: '🕌', title: t('learnA6Title'), desc: t('learnA6Sub'), tag: language === 'bm' ? 'Kewangan' : 'Finance', time: '6 min' },
-            { emoji: '🏛️', title: t('learnA7Title'), desc: t('learnA7Sub'), tag: language === 'bm' ? 'Kewangan' : 'Finance', time: '8 min' },
-          ].map((article, i) => (
-            <motion.a
-              key={i}
-              href="/learn"
-              variants={fadeInUp}
-              className="group p-5 rounded-2xl border border-white/[0.07] bg-white/[0.03] hover:bg-white/[0.07] hover:border-blue-500/30 transition-all cursor-pointer block"
-            >
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-xl flex-shrink-0">
-                  {article.emoji}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-1.5 mb-1.5">
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/10 font-medium">{article.tag}</span>
-                    <span className="text-[10px] text-gray-600">{article.time} read</span>
-                  </div>
-                  <h3 className="text-sm font-semibold mb-1 group-hover:text-blue-400 transition-colors leading-snug">{article.title}</h3>
-                  <p className="text-xs text-gray-500 leading-relaxed">{article.desc}</p>
-                </div>
-              </div>
-            </motion.a>
-          ))}
-        </motion.div>
-
-        {/* CTA */}
-        <motion.div
-          initial="hidden" whileInView="visible" viewport={{ once: true }}
-          variants={fadeInUp}
-          className="text-center"
-        >
-          <a
-            href="/learn"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-teal-500 text-white font-semibold hover:opacity-90 transition-opacity shadow-lg shadow-blue-500/20"
-          >
-            {t('learnViewAll')} →
-          </a>
-          <p className="text-xs text-gray-600 mt-3">{t('learnFree')}</p>
-        </motion.div>
-      </section>
-
-      {/* ─── 13. CTA Section ───────────────────────────────────────────────── */}
-      <section className="relative z-10 max-w-4xl mx-auto px-6 pb-28">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={scaleIn}
-          transition={{ duration: 0.6 }}
-          className="relative overflow-hidden rounded-3xl"
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-teal-600/10 to-purple-600/20" />
-          <div className="absolute inset-0 bg-[#0a0a0a]/80 backdrop-blur-sm" />
-          <div className="relative z-10 text-center py-20 px-8">
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-3xl md:text-4xl font-bold mb-4"
-            >
-              {t('landingCtaTitle')}
-            </motion.h2>
-            <p className="text-gray-400 max-w-lg mx-auto mb-8">
-              {t('landingCtaSubtitle')}
-            </p>
-            <Link
-              to="/register"
-              className="group relative inline-flex items-center gap-2 px-10 py-5 bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-500 hover:to-teal-500 rounded-2xl text-lg font-semibold transition-all duration-300 shadow-2xl shadow-blue-600/30 hover:shadow-blue-500/50 hover:-translate-y-1 overflow-hidden"
-            >
-              {/* Shimmer effect */}
-              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-              <span className="relative">{t('landingCtaButton')}</span>
-              <ArrowRight size={18} className="relative group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* ─── 14. Footer ────────────────────────────────────────────────────── */}
-      <footer className="relative z-10 border-t border-[#1f1f1f]">
-        <div className="max-w-7xl mx-auto px-6 py-16">
-          <div className="grid md:grid-cols-4 gap-12">
-            <div className="md:col-span-1">
-              <div className="flex items-center gap-2.5 mb-4">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center">
-                  <Zap size={18} className="text-white" />
-                </div>
-                <span className="text-xl font-bold">Score<span className="text-teal-400">Ku</span></span>
-              </div>
-              <p className="text-sm text-gray-500 leading-relaxed">
-                {t('landingFooterDesc')}
-              </p>
-            </div>
-
-            <div>
-              <h4 className="text-sm font-semibold mb-4 text-gray-300">{t('landingFooterProduct')}</h4>
-              <ul className="space-y-2.5 text-sm text-gray-500">
-                <li><a href="#features" className="hover:text-white transition-colors">{t('landingFooterFeatures')}</a></li>
-                <li><a href="#how-it-works" className="hover:text-white transition-colors">{t('landingFooterHowItWorks')}</a></li>
-                <li><Link to="/simulation" className="hover:text-white transition-colors">{t('landingFooterSimulator')}</Link></li>
-                <li><Link to="/ai" className="hover:text-white transition-colors">{t('landingFooterAI')}</Link></li>
-                <li><a href="#faq" className="hover:text-white transition-colors">{t('landingFooterFaq')}</a></li>
-                <li><Link to="/register" className="hover:text-white transition-colors">{t('landingFooterGetStarted')}</Link></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-sm font-semibold mb-4 text-gray-300">{t('landingFooterCompany')}</h4>
-              <ul className="space-y-2.5 text-sm text-gray-500">
-                <li><a href="#" className="hover:text-white transition-colors">{t('landingFooterAbout')}</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">{t('landingFooterBlog')}</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">{t('landingFooterCareers')}</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">{t('landingFooterContact')}</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-sm font-semibold mb-4 text-gray-300">{t('landingFooterLegal')}</h4>
-              <ul className="space-y-2.5 text-sm text-gray-500">
-                <li><a href="#" className="hover:text-white transition-colors">{t('landingFooterPrivacy')}</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">{t('landingFooterTerms')}</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">{t('landingFooterPdpa')}</a></li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border-t border-[#1f1f1f] mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-gray-600">{t('landingFooterCopyright')}</p>
-            <div className="flex items-center gap-2 text-xs text-gray-600">
-              <Lock size={12} /> {t('landingFooterEncryption')}
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }
