@@ -1,61 +1,101 @@
+<div align="center">
+
 # ScoreKu
 
-**Your Alternative Credit Score** — AI-powered credit scoring for Malaysians without traditional bank history.
+**Alternative Credit Scoring for the Underbanked**
 
-## Overview
+AI-powered credit scoring platform that uses alternative data sources to assess creditworthiness for Malaysians without traditional bank history.
 
-ScoreKu uses alternative data (e-wallet transactions, bill payments, digital footprint) to generate fair credit scores for the underbanked population in Malaysia. Built with explainable AI so users understand exactly what affects their score.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)](https://nodejs.org)
+[![MongoDB](https://img.shields.io/badge/MongoDB-6.0-47A248?logo=mongodb&logoColor=white)](https://mongodb.com)
+[![XGBoost](https://img.shields.io/badge/XGBoost-ML-orange)](https://xgboost.ai)
+
+[Live Demo](https://frontend-kappa-six-83.vercel.app) · [Report Issue](https://github.com/Vexccz/scoreku/issues) · [Request Feature](https://github.com/Vexccz/scoreku/issues)
+
+</div>
+
+---
 
 ![ScoreKu Dashboard](screenshots/scoreku-dashboard.jpg)
 
+## The Problem
+
+An estimated 3.5 million Malaysians are excluded from traditional credit systems because they lack bank loans, credit cards, or formal financial history. This includes gig workers, fresh graduates, micro-entrepreneurs, and rural communities.
+
+## The Solution
+
+ScoreKu evaluates creditworthiness using alternative signals people already generate every day: e-wallet transactions, utility bill payments, e-commerce activity, and employment patterns. Every score comes with SHAP-based explanations so users understand exactly what drives their rating and how to improve.
+
+## Core Features
+
+- Alternative data scoring based on e-wallet, bills, and digital footprint
+- Explainable AI with SHAP values showing feature contributions
+- CTOS-aligned score range (300-850) for Malaysian context
+- Personalized improvement recommendations
+- Score history tracking and monthly reports
+- Bilingual support (Bahasa Malaysia and English)
+- Financial Literacy Hub with 8 structured articles
+- Social sharing and referral system
+
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React + Vite, TailwindCSS, Framer Motion, Recharts |
-| Backend | Node.js, Express, MongoDB, JWT Auth |
-| ML Model | Python, XGBoost, SHAP (explainability) |
-| Data | 10,000 synthetic Malaysian credit profiles |
+| Layer        | Technologies                                                    |
+| ------------ | --------------------------------------------------------------- |
+| Frontend     | React 19, Vite, TailwindCSS, Framer Motion, Recharts            |
+| Backend      | Node.js, Express, MongoDB, JWT                                  |
+| ML Pipeline  | Python, XGBoost, SHAP, scikit-learn                             |
+| Deployment   | Vercel (frontend), Render (backend)                             |
+| Dataset      | 10,000 synthetic Malaysian credit profiles                      |
+
+## Model Performance
+
+| Metric     | Value  |
+| ---------- | ------ |
+| Accuracy   | 89.1%  |
+| AUC-ROC    | 91.4%  |
+| Precision  | 68.0%  |
+| Recall     | 51.7%  |
 
 ## Project Structure
 
 ```
 scoreku/
-├── frontend/          # React SPA
-│   ├── src/
-│   │   ├── pages/     # Landing, Login, Register, ScoreForm, Dashboard
-│   │   ├── context/   # Auth context
-│   │   └── services/  # API client
-│   └── ...
-├── backend/           # Express API
-│   ├── controllers/   # Auth, Score logic
-│   ├── models/        # User, ScoreResult (Mongoose)
-│   ├── routes/        # API routes
-│   └── server.js
-├── ml-model/          # Python ML pipeline
-│   ├── train_model.py # Training script
-│   ├── predict.py     # Prediction API
-│   ├── model.joblib   # Trained model
-│   └── feature_importance.json
-└── data/              # Raw dataset
+├── frontend/          React SPA (Vite + Tailwind)
+│   ├── src/pages/     Landing, Dashboard, Score, Learn, Profile
+│   ├── src/context/   Auth, Theme, Language, Offline
+│   └── src/services/  API client
+├── backend/           Express API server
+│   ├── controllers/   Auth, Score logic
+│   ├── models/        User, ScoreResult (Mongoose)
+│   └── routes/        API endpoints
+├── ml-model/          Python ML pipeline
+│   ├── train_model.py Training script
+│   ├── predict.py     Inference API
+│   └── model.joblib   Trained XGBoost model
+└── data/              Raw synthetic dataset
 ```
 
-## Setup
+## Getting Started
 
 ### Prerequisites
-- Node.js 18+
-- Python 3.10+
+
+- Node.js 18 or newer
+- Python 3.10 or newer
 - MongoDB (local or Atlas)
 
 ### Backend
+
 ```bash
 cd backend
 npm install
-# Configure .env (MONGO_URI, JWT_SECRET)
+cp .env.example .env      # configure MONGO_URI and JWT_SECRET
 node server.js
 ```
 
 ### ML Model
+
 ```bash
 cd ml-model
 pip install -r requirements.txt
@@ -63,33 +103,33 @@ python train_model.py
 ```
 
 ### Frontend
+
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-## Features
+Open `http://localhost:5173` to view the app.
 
-- **Alternative Data Scoring** — Uses e-wallet, bill payments, e-commerce activity
-- **Explainable AI** — SHAP values show feature contributions
-- **Multi-step Form** — Guided data input with progress tracking
-- **Score Dashboard** — Visual gauge, risk category, improvement tips
-- **Malaysian Context** — States, DuitNow, local employment types
+## How It Works
 
-## Model Performance
+1. User completes a multi-step form with alternative data (employment, digital transactions, bill history)
+2. Backend sends data to the Python ML service for inference
+3. XGBoost model returns a score plus SHAP values for each feature
+4. Frontend renders the score, risk category, feature impact breakdown, and actionable improvement tips
 
-| Metric | Value |
-|--------|-------|
-| Accuracy | 89.1% |
-| AUC-ROC | 91.4% |
-| Precision | 68.0% |
-| Recall | 51.7% |
+## Roadmap
 
-## Team
-
-Built for hackathon submission.
+- Bank API integration for real transaction data
+- Mobile app with Capacitor (Android APK built, awaiting JDK 21)
+- Integration with Malaysian credit bureaus
+- Multi-language expansion beyond BM and EN
 
 ## License
 
-MIT
+Distributed under the MIT License. See `LICENSE` for details.
+
+## Contact
+
+Built by [Zafran](https://github.com/Vexccz) as a fintech portfolio project. Open to collaboration on financial inclusion tooling for Southeast Asia.
