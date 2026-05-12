@@ -18,8 +18,6 @@ AI-powered credit scoring platform that uses alternative data sources to assess 
 
 ---
 
-![ScoreKu Dashboard](screenshots/scoreku-dashboard.jpg)
-
 ## The Problem
 
 An estimated 3.5 million Malaysians are excluded from traditional credit systems because they lack bank loans, credit cards, or formal financial history. This includes gig workers, fresh graduates, micro-entrepreneurs, and rural communities.
