@@ -29,12 +29,15 @@ ScoreKu evaluates creditworthiness using alternative signals people already gene
 ## Core Features
 
 - Alternative data scoring based on e-wallet, bills, and digital footprint
-- Explainable AI with SHAP values showing feature contributions
+- Explainable AI with SHAP waterfall chart showing every feature's contribution
 - CTOS-aligned score range (300-850) for Malaysian context
+- Interactive score simulator with 5 adjustable factors to project future score
+- Animated 5-stage pipeline visualization on landing (Data → Features → XGBoost → SHAP → Score)
 - Personalized improvement recommendations
 - Score history tracking and monthly reports
 - Bilingual support (Bahasa Malaysia and English)
 - Financial Literacy Hub with 8 structured articles
+- PWA with offline support and installable app experience
 - Social sharing and referral system
 
 ## Tech Stack
@@ -119,9 +122,11 @@ Open `http://localhost:5173` to view the app.
 
 ## Roadmap
 
-- Bank API integration for real transaction data
+- Bank API integration for real transaction data via BNM sandbox / DuitNow
 - Mobile app with Capacitor (Android APK built, awaiting JDK 21)
 - Integration with Malaysian credit bureaus
+- Bank statement PDF parsing for auto-transaction extraction
+- Gamified improvement streaks and achievement badges
 - Multi-language expansion beyond BM and EN
 
 ## License
