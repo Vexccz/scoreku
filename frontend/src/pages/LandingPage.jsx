@@ -8,8 +8,20 @@ import {
   Store, MapPin, Plus, Minus, Languages, CircleDollarSign, LineChart,
   PieChart, ShieldCheck, Activity, TrendingDown, Star
 } from 'lucide-react'
-import BrandLogo from '../components/BrandLogo'
 import { useLanguage } from '../context/LanguageContext'
+
+// ─── Brand mark ──────────────────────────────────────────────────────────────
+
+function BrandMark({ size = 28 }) {
+  return (
+    <div
+      className="relative rounded-[10px] bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center shadow-[0_4px_20px_-4px_rgba(16,185,129,0.5)]"
+      style={{ width: size, height: size }}
+    >
+      <Shield size={Math.round(size * 0.55)} className="text-black" strokeWidth={2.5} />
+    </div>
+  )
+}
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -328,7 +340,7 @@ function Navbar({ language, setLanguage }) {
     >
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2 text-white font-semibold tracking-tight">
-          <BrandLogo className="w-7 h-7" />
+          <BrandMark size={28} />
           <span>ScoreKu</span>
         </Link>
 
@@ -1003,7 +1015,7 @@ function Footer() {
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-10">
           <div className="col-span-2">
             <Link to="/" className="flex items-center gap-2 text-white font-semibold tracking-tight mb-4">
-              <BrandLogo className="w-7 h-7" />
+              <BrandMark size={28} />
               <span>ScoreKu</span>
             </Link>
             <p className="text-sm text-white/50 max-w-xs leading-relaxed">
