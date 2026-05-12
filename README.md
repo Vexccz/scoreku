@@ -129,7 +129,3 @@ Open `http://localhost:5173` to view the app.
 ## License
 
 Distributed under the MIT License. See `LICENSE` for details.
-
-## Contact
-
-Built by [Zafran](https://github.com/Vexccz) as a fintech portfolio project. Open to collaboration on financial inclusion tooling for Southeast Asia.
