@@ -1,80 +1,51 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Home, LayoutDashboard, LinkIcon } from 'lucide-react'
-import { useLanguage } from '../context/LanguageContext'
+import { Home, ArrowLeft } from 'lucide-react'
+import { PageShell, BrandMark, btn } from '../components/ui'
 
 export default function NotFoundPage() {
-  const { t } = useLanguage()
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center px-6">
-      <div className="text-center max-w-md">
-        {/* Animated broken link icon */}
-        <motion.div
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-          className="mb-8 inline-flex"
-        >
-          <motion.div
-            animate={{ y: [0, -8, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            className="w-24 h-24 rounded-3xl bg-gradient-to-br from-blue-500/20 to-teal-500/20 border border-[#1f1f1f] flex items-center justify-center"
-          >
-            <LinkIcon size={40} className="text-gray-500" />
-          </motion.div>
-        </motion.div>
-
-        {/* 404 text */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="text-8xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent mb-4"
-        >
-          404
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="text-xl text-gray-400 mb-2"
-        >
-          {t('pageNotFound')}
-        </motion.p>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="text-sm text-gray-600 mb-10"
-        >
-          {t('pageNotFoundDesc')}
-        </motion.p>
-
-        {/* Buttons */}
+    <PageShell>
+      <div className="relative flex items-center justify-center min-h-screen px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          transition={{ duration: 0.5 }}
+          className="text-center max-w-lg"
         >
-          <Link
-            to="/"
-            className="flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-500 hover:to-teal-500 rounded-xl text-sm font-medium transition-all duration-300 shadow-lg shadow-blue-600/20"
-          >
-            <Home size={16} />
-            {t('goHome')}
+          <Link to="/" className="inline-flex items-center justify-center gap-2 mb-12 text-white font-semibold tracking-tight">
+            <BrandMark size={28} />
+            <span>ScoreKu</span>
           </Link>
-          <Link
-            to="/dashboard?demo=true"
-            className="flex items-center gap-2 px-6 py-3.5 bg-[#111] border border-[#1f1f1f] hover:border-blue-500/50 rounded-xl text-sm font-medium text-gray-300 hover:text-white transition-all"
-          >
-            <LayoutDashboard size={16} />
-            {t('tryDashboard')}
-          </Link>
+
+          <div className="relative mb-8">
+            <div className="text-[160px] sm:text-[200px] font-semibold tracking-[-0.05em] leading-none bg-gradient-to-b from-white/90 to-white/10 bg-clip-text text-transparent tabular-nums">
+              404
+            </div>
+            <div className="absolute inset-0 text-[160px] sm:text-[200px] font-semibold tracking-[-0.05em] leading-none text-emerald-500/5 blur-2xl tabular-nums">
+              404
+            </div>
+          </div>
+
+          <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.02em] text-white mb-4">
+            Page not found
+          </h1>
+          <p className="text-white/55 text-base mb-10 max-w-md mx-auto leading-relaxed">
+            The page you are looking for does not exist or has been moved. Let's get you back on track.
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Link to="/" className={btn.primary}>
+              <Home size={16} />
+              Back to home
+            </Link>
+            <button onClick={() => window.history.back()} className={btn.secondary}>
+              <ArrowLeft size={16} />
+              Go back
+            </button>
+          </div>
         </motion.div>
       </div>
-    </div>
+    </PageShell>
   )
 }

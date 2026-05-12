@@ -165,7 +165,7 @@ export default function SimulationPage() {
           className="text-center mb-12 pt-12 lg:pt-0"
         >
           <h1 className="text-3xl md:text-4xl font-bold mb-3">
-            {t('scoreSimulator').split(' ')[0]} <span className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">{t('scoreSimulator').split(' ').slice(1).join(' ')}</span>
+            {t('scoreSimulator').split(' ')[0]} <span className="bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent">{t('scoreSimulator').split(' ').slice(1).join(' ')}</span>
           </h1>
           <p className="text-gray-400 max-w-lg mx-auto">
             {t('simulatorSubtitle')}
@@ -220,7 +220,7 @@ export default function SimulationPage() {
                 <div className="mt-6">
                   <Link
                     to="/score"
-                    className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-500 hover:to-teal-500 rounded-xl text-sm font-medium transition-all duration-300 shadow-lg shadow-blue-600/20"
+                    className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-500 hover:to-teal-500 rounded-xl text-sm font-medium transition-all duration-300 shadow-lg shadow-emerald-600/20"
                   >
                     {t('getYourRealScore')} <ChevronRight size={16} />
                   </Link>

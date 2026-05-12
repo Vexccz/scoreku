@@ -130,9 +130,9 @@ function SelectBankStep({ onSelect, theme }) {
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}
-          className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500/20 to-teal-500/20 flex items-center justify-center mx-auto mb-4"
+          className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center mx-auto mb-4"
         >
-          <Building2 size={28} className="text-blue-400" />
+          <Building2 size={28} className="text-emerald-400" />
         </motion.div>
         <h2 className={`text-2xl font-bold mb-2 ${textPrimary}`}>{t('connectYourBank')}</h2>
         <p className={`text-sm ${textSecondary}`}>{t('connectBankSubtitle')}</p>
@@ -230,7 +230,7 @@ function AuthorizationStep({ bank, onAuthorize, onCancel, theme }) {
         <div className="p-6">
           {/* Auth Title */}
           <div className="flex items-center gap-3 mb-5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center">
               <Shield size={16} className="text-white" />
             </div>
             <div>
@@ -280,7 +280,7 @@ function AuthorizationStep({ bank, onAuthorize, onCancel, theme }) {
             <button
               onClick={handleAuthorize}
               disabled={connecting}
-              className="flex-1 px-4 py-3 rounded-xl text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-teal-600 hover:opacity-90 transition-all flex items-center justify-center gap-2"
+              className="flex-1 px-4 py-3 rounded-xl text-sm font-medium text-white bg-gradient-to-r from-emerald-500 to-emerald-600 hover:opacity-90 transition-all flex items-center justify-center gap-2"
             >
               {connecting ? (
                 <>
@@ -358,7 +358,7 @@ function ImportingStep({ bank, onComplete, theme }) {
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
           transition={{ duration: 0.5 }}
-          className="h-full rounded-full bg-gradient-to-r from-blue-500 to-teal-500"
+          className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-600"
         />
       </div>
 
@@ -387,12 +387,12 @@ function ImportingStep({ bank, onComplete, theme }) {
                     <CheckCircle2 size={20} className="text-emerald-400" />
                   </motion.div>
                 ) : isCurrent ? (
-                  <Loader2 size={20} className="text-blue-400 animate-spin" />
+                  <Loader2 size={20} className="text-emerald-400 animate-spin" />
                 ) : (
                   <div className={`w-5 h-5 rounded-full border-2 ${theme === 'dark' ? 'border-[#2a2a2a]' : 'border-gray-200'}`} />
                 )}
                 <div className="flex-1">
-                  <span className={`text-sm ${isCompleted ? textPrimary : isCurrent ? 'text-blue-400' : textSecondary}`}>
+                  <span className={`text-sm ${isCompleted ? textPrimary : isCurrent ? 'text-emerald-400' : textSecondary}`}>
                     {text}
                   </span>
                   {isCompleted && step.detail && (
@@ -529,7 +529,7 @@ function ResultsStep({ bank, theme }) {
       >
         <button
           onClick={() => navigate('/dashboard?demo=true')}
-          className="flex-1 px-6 py-3 rounded-xl text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-teal-600 hover:opacity-90 transition-all flex items-center justify-center gap-2"
+          className="flex-1 px-6 py-3 rounded-xl text-sm font-medium text-white bg-gradient-to-r from-emerald-500 to-emerald-600 hover:opacity-90 transition-all flex items-center justify-center gap-2"
         >
           {t('viewDashboard')}
           <ChevronRight size={16} />
@@ -588,7 +588,7 @@ export default function BankConnectionPage() {
     <div className={`min-h-screen ${pageBg} ${textPrimary}`}>
       {/* Background effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className={`absolute top-1/4 left-1/3 w-[500px] h-[500px] rounded-full blur-[120px] ${theme === 'dark' ? 'bg-blue-600/5' : 'bg-blue-200/20'}`} />
+        <div className={`absolute top-1/4 left-1/3 w-[500px] h-[500px] rounded-full blur-[120px] ${theme === 'dark' ? 'bg-emerald-600/5' : 'bg-emerald-200/20'}`} />
         <div className={`absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full blur-[100px] ${theme === 'dark' ? 'bg-teal-600/5' : 'bg-teal-200/20'}`} />
       </div>
 
@@ -619,7 +619,7 @@ export default function BankConnectionPage() {
                   <div
                     className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
                       s === step
-                        ? 'bg-blue-500 text-white'
+                        ? 'bg-emerald-500 text-white'
                         : s < step
                         ? 'bg-emerald-500 text-white'
                         : theme === 'dark'

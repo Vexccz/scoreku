@@ -174,17 +174,17 @@ export default function ComparisonPage() {
 
           {/* Percentile Banner */}
           <motion.div variants={item} className={`border rounded-2xl p-6 mb-6 ${cardBg} relative overflow-hidden`}>
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-teal-500/5" />
+            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-teal-500/5" />
             <div className="relative flex flex-col sm:flex-row items-center gap-4">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500/20 to-teal-500/20 flex items-center justify-center">
-                <TrendingUp size={28} className="text-blue-400" />
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center">
+                <TrendingUp size={28} className="text-emerald-400" />
               </div>
               <div className="text-center sm:text-left">
                 <p className={`text-lg font-bold ${textPrimary}`}>{t('youreInTop')} 35% {t('ofAllUsers')}</p>
                 <p className={`text-sm ${textSecondary}`}>{t('topAmongGig')}</p>
               </div>
               <div className="sm:ml-auto">
-                <div className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
+                <div className="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent">
                   {userScore}
                 </div>
                 <p className={`text-xs text-center ${textSecondary}`}>{t('yourScore')}</p>
@@ -195,8 +195,8 @@ export default function ComparisonPage() {
           {/* Comparison Bars */}
           <motion.div variants={item} className={`border rounded-2xl p-6 mb-6 ${cardBg}`}>
             <div className="flex items-center gap-2 mb-6">
-              <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
-                <BarChart3 size={16} className="text-blue-400" />
+              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                <BarChart3 size={16} className="text-emerald-400" />
               </div>
               <h3 className="font-semibold text-sm">{t('scoreComparison')}</h3>
             </div>
@@ -225,7 +225,7 @@ export default function ComparisonPage() {
                         initial={{ width: 0 }}
                         animate={{ width: `${userPct}%` }}
                         transition={{ delay: 0.5 + i * 0.1, duration: 0.8 }}
-                        className="h-full rounded-full bg-gradient-to-r from-blue-500 to-blue-400"
+                        className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400"
                       />
                     </div>
                     {/* Average bar */}
@@ -238,8 +238,8 @@ export default function ComparisonPage() {
                       />
                     </div>
                     <div className="flex items-center gap-4 mt-1">
-                      <span className="text-[10px] text-blue-400 flex items-center gap-1">
-                        <span className="w-2 h-2 rounded-full bg-blue-500 inline-block" /> You: {userScore}
+                      <span className="text-[10px] text-emerald-400 flex items-center gap-1">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" /> You: {userScore}
                       </span>
                       <span className="text-[10px] text-gray-500 flex items-center gap-1">
                         <span className="w-2 h-2 rounded-full bg-gray-500 inline-block" /> Avg: {comp.value}
@@ -261,8 +261,8 @@ export default function ComparisonPage() {
             </div>
             <RadarChart dimensions={dimensions} />
             <div className="flex items-center justify-center gap-6 mt-4">
-              <span className="text-xs text-blue-400 flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-blue-500 inline-block" /> {t('yourScore')}
+              <span className="text-xs text-emerald-400 flex items-center gap-2">
+                <span className="w-3 h-3 rounded-full bg-emerald-500 inline-block" /> {t('yourScore')}
               </span>
               <span className="text-xs text-gray-500 flex items-center gap-2">
                 <span className="w-3 h-3 rounded-full bg-gray-500 inline-block" /> {t('average')}
@@ -299,7 +299,7 @@ export default function ComparisonPage() {
                       initial={{ width: 0 }}
                       animate={{ width: `${100 - p.percentile}%` }}
                       transition={{ delay: 0.6 + i * 0.1, duration: 0.8 }}
-                      className="h-full rounded-full bg-gradient-to-r from-blue-500 to-teal-500"
+                      className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-600"
                     />
                   </div>
                 </motion.div>

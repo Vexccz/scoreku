@@ -106,7 +106,7 @@ export default function HistoryPage() {
               </div>
               <Link
                 to="/score"
-                className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-teal-600 rounded-xl text-sm font-medium text-white hover:opacity-90 transition-opacity"
+                className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-xl text-sm font-medium text-white hover:opacity-90 transition-opacity"
               >
                 <RefreshCw size={14} />
                 Recalculate
@@ -122,8 +122,8 @@ export default function HistoryPage() {
                 value: latest?.score ?? '—',
                 sub: latest?.category,
                 icon: BarChart3,
-                color: 'text-blue-400',
-                bg: 'bg-blue-500/10',
+                color: 'text-emerald-400',
+                bg: 'bg-emerald-500/10',
               },
               {
                 label: 'Total Gain',
@@ -172,8 +172,8 @@ export default function HistoryPage() {
           <motion.div variants={item} className={`border rounded-2xl p-6 mb-6 ${cardBg}`}>
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
-                  <TrendingUp size={16} className="text-blue-400" />
+                <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                  <TrendingUp size={16} className="text-emerald-400" />
                 </div>
                 <div>
                   <h3 className={`font-semibold text-sm ${textPrimary}`}>Score Trend</h3>
@@ -315,10 +315,10 @@ export default function HistoryPage() {
           </motion.div>
 
           {/* CTA */}
-          <motion.div variants={item} className={`border rounded-2xl p-6 bg-gradient-to-br from-blue-500/5 to-teal-500/5 ${theme === 'dark' ? 'border-blue-500/20' : 'border-blue-200'}`}>
+          <motion.div variants={item} className={`border rounded-2xl p-6 bg-gradient-to-br from-emerald-500/5 to-teal-500/5 ${theme === 'dark' ? 'border-emerald-500/20' : 'border-emerald-200'}`}>
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-9 h-9 rounded-lg bg-blue-500/15 flex items-center justify-center">
-                <Target size={18} className="text-blue-400" />
+              <div className="w-9 h-9 rounded-lg bg-emerald-500/15 flex items-center justify-center">
+                <Target size={18} className="text-emerald-400" />
               </div>
               <div>
                 <h3 className={`font-semibold text-sm ${textPrimary}`}>Want to improve faster?</h3>
@@ -328,13 +328,13 @@ export default function HistoryPage() {
             <div className="flex gap-3">
               <Link
                 to="/dashboard"
-                className="px-4 py-2 bg-gradient-to-r from-blue-600 to-teal-600 rounded-xl text-sm font-medium text-white hover:opacity-90 transition-opacity"
+                className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-xl text-sm font-medium text-white hover:opacity-90 transition-opacity"
               >
                 View Dashboard
               </Link>
               <Link
                 to="/learn"
-                className={`px-4 py-2 rounded-xl text-sm font-medium border ${theme === 'dark' ? 'border-[#2a2a2a] text-gray-300 hover:border-blue-500/30' : 'border-gray-200 text-gray-700 hover:border-blue-300'} transition-colors`}
+                className={`px-4 py-2 rounded-xl text-sm font-medium border ${theme === 'dark' ? 'border-[#2a2a2a] text-gray-300 hover:border-emerald-500/30' : 'border-gray-200 text-gray-700 hover:border-emerald-300'} transition-colors`}
               >
                 Learn More
               </Link>

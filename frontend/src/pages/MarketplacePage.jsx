@@ -97,7 +97,7 @@ function ProductCard({ product, theme }) {
               <button
                 className={`mt-4 w-full py-2.5 rounded-xl text-sm font-medium transition-all ${
                   eligible
-                    ? 'bg-gradient-to-r from-blue-600 to-teal-600 text-white hover:opacity-90'
+                    ? 'bg-gradient-to-r from-emerald-500 to-emerald-600 text-white hover:opacity-90'
                     : 'bg-gray-500/10 text-gray-500 cursor-not-allowed'
                 }`}
                 disabled={!eligible}
@@ -186,7 +186,7 @@ export default function MarketplacePage() {
                     onClick={() => setSelectedType(type)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                       selectedType === type
-                        ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
+                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
                         : `${theme === 'dark' ? 'bg-[#1a1a1a] text-gray-400 hover:text-white' : 'bg-gray-100 text-gray-500 hover:text-gray-900'}`
                     }`}
                   >
@@ -204,7 +204,7 @@ export default function MarketplacePage() {
                   step="10000"
                   value={maxAmount}
                   onChange={(e) => setMaxAmount(Number(e.target.value))}
-                  className="w-32 accent-blue-500"
+                  className="w-32 accent-emerald-500"
                 />
               </div>
             </div>
@@ -213,7 +213,7 @@ export default function MarketplacePage() {
           {/* Results count */}
           <motion.div variants={item} className="flex items-center justify-between mb-4">
             <p className={`text-xs ${textSecondary}`}>{filteredProducts.length} {t('productsFound')}</p>
-            <p className={`text-xs ${textSecondary}`}>Your score: <span className="text-blue-400 font-bold">{userScore}</span></p>
+            <p className={`text-xs ${textSecondary}`}>Your score: <span className="text-emerald-400 font-bold">{userScore}</span></p>
           </motion.div>
 
           {/* Product Grid */}
@@ -229,7 +229,7 @@ export default function MarketplacePage() {
               <p className={`text-sm ${textSecondary}`}>{t('noProductsMatch')}</p>
               <button
                 onClick={() => { setSelectedType('All'); setMaxAmount(500000) }}
-                className="mt-3 text-xs text-blue-400 hover:underline"
+                className="mt-3 text-xs text-emerald-400 hover:underline"
               >
                 {t('resetFilters')}
               </button>

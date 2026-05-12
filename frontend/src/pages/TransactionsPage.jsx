@@ -107,7 +107,7 @@ export default function TransactionsPage() {
             {[
               { label: t('totalIncome'), value: `RM ${monthlySummary.income.toLocaleString()}`, color: 'text-emerald-400' },
               { label: t('totalExpenses'), value: `RM ${monthlySummary.expenses.toLocaleString()}`, color: 'text-red-400' },
-              { label: t('net'), value: `RM ${monthlySummary.net.toLocaleString()}`, color: 'text-blue-400' },
+              { label: t('net'), value: `RM ${monthlySummary.net.toLocaleString()}`, color: 'text-emerald-400' },
               { label: t('billsPaidSummary'), value: `${monthlySummary.billsPaid} ${t('onTime')}`, color: 'text-amber-400' },
             ].map((s, i) => (
               <div key={i} className={`border rounded-xl p-4 ${cardBg}`}>
@@ -126,7 +126,7 @@ export default function TransactionsPage() {
                 placeholder={t('searchTransactions')}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2.5 rounded-xl border text-sm ${inputBg} focus:outline-none focus:border-blue-500`}
+                className={`w-full pl-10 pr-4 py-2.5 rounded-xl border text-sm ${inputBg} focus:outline-none focus:border-emerald-500`}
               />
             </div>
             <div className="flex gap-2 flex-wrap">
@@ -136,8 +136,8 @@ export default function TransactionsPage() {
                   onClick={() => setFilter(cat)}
                   className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                     filter === cat
-                      ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
-                      : `${theme === 'dark' ? 'bg-[#1a1a1a] text-gray-400 border border-[#2a2a2a]' : 'bg-gray-100 text-gray-500 border border-gray-200'} hover:border-blue-500/30`
+                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                      : `${theme === 'dark' ? 'bg-[#1a1a1a] text-gray-400 border border-[#2a2a2a]' : 'bg-gray-100 text-gray-500 border border-gray-200'} hover:border-emerald-500/30`
                   }`}
                 >
                   {cat}

@@ -26,7 +26,7 @@ import ScoreGauge from '../components/ScoreGauge'
 const riskCategories = [
   { min: 300, max: 529, label: 'High Risk', color: '#ef4444', bg: 'bg-red-500/10', border: 'border-red-500/30' },
   { min: 530, max: 649, label: 'Moderate Risk', color: '#f59e0b', bg: 'bg-amber-500/10', border: 'border-amber-500/30' },
-  { min: 650, max: 719, label: 'Good', color: '#3b82f6', bg: 'bg-blue-500/10', border: 'border-blue-500/30' },
+  { min: 650, max: 719, label: 'Good', color: '#10b981', bg: 'bg-emerald-500/10', border: 'border-emerald-500/30' },
   { min: 720, max: 850, label: 'Excellent', color: '#10b981', bg: 'bg-emerald-500/10', border: 'border-emerald-500/30' },
 ]
 
@@ -66,7 +66,7 @@ const demoData = {
 
 const eligibleProducts = [
   { name: 'BSN Micro Loan', provider: 'BSN', maxAmount: 'RM50,000', icon: Banknote, color: 'from-emerald-500/20 to-emerald-600/5' },
-  { name: 'TEKUN Financing', provider: 'TEKUN Nasional', maxAmount: 'RM100,000', icon: CreditCard, color: 'from-blue-500/20 to-blue-600/5' },
+  { name: 'TEKUN Financing', provider: 'TEKUN Nasional', maxAmount: 'RM100,000', icon: CreditCard, color: 'from-emerald-500/20 to-emerald-600/5' },
   { name: 'Amanah Ikhtiar', provider: 'AIM', maxAmount: 'RM20,000', icon: Wallet, color: 'from-teal-500/20 to-teal-600/5' },
 ]
 
@@ -351,7 +351,7 @@ export default function DashboardPage() {
 
       {/* Background effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className={`absolute top-1/4 left-1/3 w-[500px] h-[500px] rounded-full blur-[120px] ${theme === 'dark' ? 'bg-blue-600/5' : 'bg-blue-200/20'}`} />
+        <div className={`absolute top-1/4 left-1/3 w-[500px] h-[500px] rounded-full blur-[120px] ${theme === 'dark' ? 'bg-emerald-600/5' : 'bg-emerald-200/20'}`} />
         <div className={`absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full blur-[100px] ${theme === 'dark' ? 'bg-teal-600/5' : 'bg-teal-200/20'}`} />
       </div>
 
@@ -408,8 +408,8 @@ export default function DashboardPage() {
                 onClick={() => setShareModalOpen(true)}
                 className={`flex items-center justify-center gap-2 px-4 py-3 border rounded-xl text-sm transition-all w-full sm:w-auto ${
                   theme === 'dark'
-                    ? 'bg-[#111] border-[#1f1f1f] text-gray-300 hover:border-blue-500/50 hover:text-white'
-                    : 'bg-white border-gray-200 text-gray-600 hover:border-blue-300 hover:text-gray-900'
+                    ? 'bg-[#111] border-[#1f1f1f] text-gray-300 hover:border-emerald-500/50 hover:text-white'
+                    : 'bg-white border-gray-200 text-gray-600 hover:border-emerald-300 hover:text-gray-900'
                 }`}
               >
                 <Share2 size={16} />
@@ -501,7 +501,7 @@ export default function DashboardPage() {
                     initial={{ width: 0 }}
                     animate={{ width: `${100 - percentile}%` }}
                     transition={{ delay: 0.8, duration: 1 }}
-                    className="h-full rounded-full bg-gradient-to-r from-teal-500 to-blue-500"
+                    className="h-full rounded-full bg-gradient-to-r from-teal-500 to-emerald-500"
                   />
                   <div
                     className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-white border-2 border-teal-500 shadow-lg"
@@ -519,10 +519,10 @@ export default function DashboardPage() {
           {/* Bank Connection CTA */}
           {!localStorage.getItem('scoreku_bank_connected') && (
             <motion.div variants={item} className={`border rounded-2xl p-6 mb-6 ${cardBg} relative overflow-hidden`}>
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-teal-500/5" />
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-teal-500/5" />
               <div className="relative flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-teal-500/20 flex items-center justify-center flex-shrink-0">
-                  <Building2 size={24} className="text-blue-400" />
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center flex-shrink-0">
+                  <Building2 size={24} className="text-emerald-400" />
                 </div>
                 <div className="flex-1">
                   <h3 className={`font-semibold text-sm mb-1 ${textPrimary}`}>{t('connectBank')}</h3>
@@ -530,7 +530,7 @@ export default function DashboardPage() {
                 </div>
                 <Link
                   to="/connect-bank"
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-teal-600 hover:opacity-90 transition-all flex-shrink-0"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-white bg-gradient-to-r from-emerald-500 to-emerald-600 hover:opacity-90 transition-all flex-shrink-0"
                 >
                   {t('connectNow')}
                   <ChevronRight size={14} />
@@ -627,7 +627,7 @@ export default function DashboardPage() {
             <div className="space-y-4">
               {[
                 { category: t('foodDining'), pct: 35, amount: 'RM1,225', insight: `${t('aboveAverage')} (${t('avg')}: 28%)`, color: '#f97316', barColor: 'from-orange-500 to-orange-400' },
-                { category: t('transport'), pct: 20, amount: 'RM700', insight: t('normalRange'), color: '#3b82f6', barColor: 'from-blue-500 to-blue-400' },
+                { category: t('transport'), pct: 20, amount: 'RM700', insight: t('normalRange'), color: '#10b981', barColor: 'from-emerald-500 to-teal-400' },
                 { category: t('billsUtilities'), pct: 25, amount: 'RM875', insight: t('consistent'), color: '#10b981', barColor: 'from-emerald-500 to-emerald-400' },
                 { category: t('shopping'), pct: 12, amount: 'RM420', insight: t('belowAverage'), color: '#ec4899', barColor: 'from-pink-500 to-pink-400' },
                 { category: t('others'), pct: 8, amount: 'RM280', insight: '', color: '#6b7280', barColor: 'from-gray-500 to-gray-400' },
@@ -715,8 +715,8 @@ export default function DashboardPage() {
                 )
               })}
             </div>
-            <div className={`mt-4 p-3 rounded-xl border ${theme === 'dark' ? 'bg-blue-500/5 border-blue-500/20' : 'bg-blue-50 border-blue-200'}`}>
-              <p className={`text-xs ${theme === 'dark' ? 'text-blue-300' : 'text-blue-700'}`}>
+            <div className={`mt-4 p-3 rounded-xl border ${theme === 'dark' ? 'bg-emerald-500/5 border-emerald-500/20' : 'bg-emerald-50 border-emerald-200'}`}>
+              <p className={`text-xs ${theme === 'dark' ? 'text-emerald-300' : 'text-emerald-700'}`}>
                 🔔 {t('payOnTimeTip')}
               </p>
             </div>
@@ -762,7 +762,7 @@ export default function DashboardPage() {
             </div>
             <div className="flex items-center gap-4 mt-3">
               <div className="flex items-center gap-2">
-                <div className="w-4 h-0.5 bg-blue-500 rounded" />
+                <div className="w-4 h-0.5 bg-emerald-500 rounded" />
                 <span className={`text-[11px] ${textSecondary}`}>{t('current')}</span>
               </div>
               <div className="flex items-center gap-2">
@@ -780,8 +780,8 @@ export default function DashboardPage() {
           {/* Feature Breakdown */}
           <motion.div variants={item} className={`border rounded-2xl p-6 mb-6 ${cardBg}`}>
             <div className="flex items-center gap-2 mb-6">
-              <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
-                <BarChart3 size={16} className="text-blue-400" />
+              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                <BarChart3 size={16} className="text-emerald-400" />
               </div>
               <h3 className="font-semibold text-sm">{t('featureBreakdown')}</h3>
             </div>
@@ -867,7 +867,7 @@ export default function DashboardPage() {
                     <h4 className={`font-semibold text-sm mb-0.5 ${textPrimary}`}>{product.name}</h4>
                     <p className={`text-xs mb-2 ${textSecondary}`}>{product.provider}</p>
                     <p className="text-xs text-teal-400 font-medium mb-3">Up to {product.maxAmount}</p>
-                    <span className="text-xs text-blue-400 flex items-center gap-1 group-hover:gap-2 transition-all">
+                    <span className="text-xs text-emerald-400 flex items-center gap-1 group-hover:gap-2 transition-all">
                       Learn More <ChevronRight size={12} />
                     </span>
                   </motion.div>
@@ -879,8 +879,8 @@ export default function DashboardPage() {
           {/* Financial Goals */}
           <motion.div variants={item} className="mb-6">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
-                <Target size={16} className="text-blue-400" />
+              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                <Target size={16} className="text-emerald-400" />
               </div>
               <h3 className="font-semibold text-sm">{t('financialGoals')}</h3>
             </div>
@@ -892,7 +892,7 @@ export default function DashboardPage() {
                 </div>
                 <button
                   onClick={() => setGoalModalOpen(true)}
-                  className="px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-all"
+                  className="px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all"
                 >
                   {t('setNewGoal')}
                 </button>
@@ -907,7 +907,7 @@ export default function DashboardPage() {
                     initial={{ width: 0 }}
                     animate={{ width: `${Math.min(100, (score / currentGoal.score) * 100)}%` }}
                     transition={{ duration: 1, delay: 0.3 }}
-                    className="h-full rounded-full bg-gradient-to-r from-blue-500 to-teal-500"
+                    className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-600"
                   />
                 </div>
                 <p className={`text-xs mt-1 text-right ${textMuted}`}>{Math.round((score / currentGoal.score) * 100)}% {t('there')}</p>
@@ -941,8 +941,8 @@ export default function DashboardPage() {
                         onClick={() => handleSetGoal(goal)}
                         className={`w-full flex items-center justify-between p-4 rounded-xl border transition-all ${
                           currentGoal.score === goal.score
-                            ? 'border-blue-500/50 bg-blue-500/10'
-                            : `${theme === 'dark' ? 'border-[#1f1f1f] hover:border-blue-500/30' : 'border-gray-200 hover:border-blue-300'}`
+                            ? 'border-emerald-500/50 bg-emerald-500/10'
+                            : `${theme === 'dark' ? 'border-[#1f1f1f] hover:border-emerald-500/30' : 'border-gray-200 hover:border-emerald-300'}`
                         }`}
                       >
                         <div className="text-left">
@@ -969,7 +969,7 @@ export default function DashboardPage() {
                 </div>
                 <h3 className="font-semibold text-sm">{t('recentAlerts')}</h3>
               </div>
-              <button className={`text-xs ${textSecondary} hover:text-blue-400 transition-colors`}>{t('viewAll')}</button>
+              <button className={`text-xs ${textSecondary} hover:text-emerald-400 transition-colors`}>{t('viewAll')}</button>
             </div>
             <div className="space-y-3">
               {demoAlerts.map((alert, i) => (
@@ -1016,7 +1016,7 @@ export default function DashboardPage() {
                     transition={{ delay: 0.2 + i * 0.06 }}
                     className={`border rounded-xl p-4 text-center transition-all ${
                       isEarned
-                        ? `${cardBg} ${theme === 'dark' ? 'shadow-[0_0_15px_rgba(37,99,235,0.1)]' : 'shadow-md'}`
+                        ? `${cardBg} ${theme === 'dark' ? 'shadow-[0_0_15px_rgba(16,185,129,0.1)]' : 'shadow-md'}`
                         : `${theme === 'dark' ? 'bg-[#0d0d0d] border-[#1a1a1a]' : 'bg-gray-50 border-gray-200'} opacity-60`
                     }`}
                   >

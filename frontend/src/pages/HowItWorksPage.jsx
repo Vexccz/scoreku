@@ -60,7 +60,7 @@ function DataCollectionDemo() {
     <div ref={ref} className="bg-[#0a0a0a] border border-[#1f1f1f] rounded-2xl p-6">
       <div className="flex items-center justify-between mb-4">
         <span className="text-sm text-gray-400">{t('dataInputLabel')}</span>
-        <span className="text-xs text-blue-400 font-mono">{filledFields * 7} {t('dataPointsCollected')}</span>
+        <span className="text-xs text-emerald-400 font-mono">{filledFields * 7} {t('dataPointsCollected')}</span>
       </div>
       <div className="space-y-2">
         {fields.map((field, i) => (
@@ -134,7 +134,7 @@ function DataValidationDemo() {
     <div ref={ref} className="bg-[#0a0a0a] border border-[#1f1f1f] rounded-2xl p-6">
       <div className="flex items-center justify-between mb-4">
         <span className="text-sm text-gray-400">Validation Pipeline</span>
-        <span className="text-xs text-blue-400 font-mono">{checkedItems}/{validations.length} checks</span>
+        <span className="text-xs text-emerald-400 font-mono">{checkedItems}/{validations.length} checks</span>
       </div>
       <div className="space-y-2">
         {validations.map((item, i) => (
@@ -224,7 +224,7 @@ function FeatureEngineeringDemo() {
               initial={{ opacity: 0 }}
               animate={showFeatures ? { opacity: 1 } : {}}
               transition={{ delay: 0.3 + i * 0.15 }}
-              className="text-[10px] text-blue-400 font-mono flex-1"
+              className="text-[10px] text-emerald-400 font-mono flex-1"
             >
               {item.feature}
             </motion.span>
@@ -285,7 +285,7 @@ function AIModelDemo() {
           { label: 'Profiles', value: '10K' },
         ].map((spec, i) => (
           <div key={i} className="text-center p-2 rounded-lg bg-[#111] border border-[#1a1a1a]">
-            <p className="text-lg font-bold text-blue-400">{spec.value}</p>
+            <p className="text-lg font-bold text-emerald-400">{spec.value}</p>
             <p className="text-[10px] text-gray-500">{spec.label}</p>
           </div>
         ))}
@@ -392,10 +392,10 @@ function SHAPStepDemo() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={visibleBars >= shapValues.length ? { opacity: 1 } : {}}
-        className="mt-4 p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-center"
+        className="mt-4 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-center"
       >
         <span className="text-xs text-gray-400">Final Score: </span>
-        <span className="text-lg font-bold text-blue-400">697</span>
+        <span className="text-lg font-bold text-emerald-400">697</span>
       </motion.div>
     </div>
   )
@@ -441,14 +441,14 @@ function ScoreGenerationDemo() {
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-3xl font-bold text-blue-400">{score}</span>
+          <span className="text-3xl font-bold text-emerald-400">{score}</span>
           <span className="text-[10px] text-gray-500">/ 850</span>
         </div>
       </div>
 
       {showBadge && (
         <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="inline-block">
-          <span className="px-4 py-2 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 text-sm font-medium">
+          <span className="px-4 py-2 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-sm font-medium">
             {t('riskCategoryGood')}
           </span>
         </motion.div>
@@ -512,7 +512,7 @@ function RecommendationsDemo() {
               transition={{ delay: 1 + i * 0.2 }}
               className="flex items-center gap-3 p-3 rounded-xl bg-[#111] border border-[#1f1f1f]"
             >
-              <Building2 size={14} className="text-blue-400" />
+              <Building2 size={14} className="text-emerald-400" />
               <span className="text-xs text-gray-300 flex-1">{item.name}</span>
               <span className={`text-[10px] px-2 py-0.5 rounded-full ${item.eligible ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
                 {item.eligible ? `${t('eligible')} ✓` : t('notYet')}
@@ -548,7 +548,7 @@ function StepSection({ step, title, description, demo, icon: Icon, isLast }) {
             initial={{ scale: 0 }}
             animate={isInView ? { scale: 1 } : {}}
             transition={{ duration: 0.4, type: 'spring' }}
-            className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center text-white font-bold text-lg shrink-0"
+            className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-bold text-lg shrink-0"
           >
             {step}
           </motion.div>
@@ -557,7 +557,7 @@ function StepSection({ step, title, description, demo, icon: Icon, isLast }) {
               initial={{ height: 0 }}
               animate={isInView ? { height: '100%' } : {}}
               transition={{ duration: 1, delay: 0.3 }}
-              className="w-0.5 bg-gradient-to-b from-blue-500/50 to-transparent mt-2 min-h-[40px]"
+              className="w-0.5 bg-gradient-to-b from-emerald-500/50 to-transparent mt-2 min-h-[40px]"
             />
           )}
         </div>
@@ -565,7 +565,7 @@ function StepSection({ step, title, description, demo, icon: Icon, isLast }) {
         {/* Content */}
         <div className="flex-1 pb-12">
           <div className="flex items-center gap-3 mb-2">
-            <Icon size={20} className="text-blue-400" />
+            <Icon size={20} className="text-emerald-400" />
             <h3 className="text-xl md:text-2xl font-bold">{title}</h3>
           </div>
           <p className="text-gray-400 mb-6 leading-relaxed">{description}</p>
@@ -683,7 +683,7 @@ export default function HowItWorksPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent">
               {t('howItWorksPageTitle')}
             </h1>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
@@ -698,9 +698,9 @@ export default function HowItWorksPage() {
             transition={{ delay: 0.5 }}
             className="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#111] border border-[#1f1f1f]"
           >
-            <Clock size={14} className="text-blue-400" />
+            <Clock size={14} className="text-emerald-400" />
             <span className="text-sm text-gray-300">{t('timeElapsed')}: </span>
-            <span className="text-sm font-mono font-bold text-blue-400">{elapsed.toFixed(1)}s</span>
+            <span className="text-sm font-mono font-bold text-emerald-400">{elapsed.toFixed(1)}s</span>
           </motion.div>
         </section>
 
@@ -725,7 +725,7 @@ export default function HowItWorksPage() {
             <p className="text-gray-400 mb-8">{t('howItWorksCtaSubtitle')}</p>
             <Link
               to="/score"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-teal-600 rounded-xl text-white font-medium hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-xl text-white font-medium hover:opacity-90 transition-opacity"
             >
               {t('getYourScore')} <ArrowRight size={18} />
             </Link>

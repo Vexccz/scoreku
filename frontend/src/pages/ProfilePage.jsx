@@ -83,8 +83,8 @@ export default function ProfilePage() {
           {/* Personal Info */}
           <motion.div variants={item} className={`border rounded-2xl p-6 mb-4 ${cardBg}`}>
             <div className="flex items-center gap-2 mb-5">
-              <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
-                <User size={16} className="text-blue-400" />
+              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                <User size={16} className="text-emerald-400" />
               </div>
               <h3 className="font-semibold text-sm">{t('personalInfo')}</h3>
             </div>
@@ -101,14 +101,14 @@ export default function ProfilePage() {
                     type="text"
                     value={profile[field.key]}
                     onChange={(e) => setProfile({ ...profile, [field.key]: e.target.value })}
-                    className={`w-full px-4 py-2.5 rounded-xl border text-sm ${inputBg} focus:outline-none focus:border-blue-500`}
+                    className={`w-full px-4 py-2.5 rounded-xl border text-sm ${inputBg} focus:outline-none focus:border-emerald-500`}
                   />
                 </div>
               ))}
             </div>
             <button
               onClick={saveProfile}
-              className="mt-5 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-teal-600 rounded-xl text-sm font-medium text-white hover:opacity-90 transition-opacity"
+              className="mt-5 px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-xl text-sm font-medium text-white hover:opacity-90 transition-opacity"
             >
               {t('saveChanges')}
             </button>
@@ -143,7 +143,7 @@ export default function ProfilePage() {
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium ${
                   bankConnected
                     ? 'bg-red-500/10 text-red-400 border border-red-500/20'
-                    : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                    : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
                 }`}
               >
                 {bankConnected ? t('disconnect') : t('connect')}
@@ -166,17 +166,17 @@ export default function ProfilePage() {
                 { key: 'productAlerts', label: 'Product Alerts', desc: 'New financial products you qualify for' },
                 { key: 'emailAlerts', label: 'Score Update Alerts (Email)', desc: 'Receive email when your score changes significantly', isEmail: true },
               ].map(pref => (
-                <div key={pref.key} className={`flex items-center justify-between ${pref.isEmail ? `p-3 rounded-xl border ${theme === 'dark' ? 'border-blue-500/20 bg-blue-500/5' : 'border-blue-200 bg-blue-50'}` : ''}`}>
+                <div key={pref.key} className={`flex items-center justify-between ${pref.isEmail ? `p-3 rounded-xl border ${theme === 'dark' ? 'border-emerald-500/20 bg-emerald-500/5' : 'border-emerald-200 bg-emerald-500/5'}` : ''}`}>
                   <div>
                     <div className="flex items-center gap-2">
                       <p className={`text-sm font-medium ${textPrimary}`}>{pref.label}</p>
-                      {pref.isEmail && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-blue-500/15 text-blue-400 border border-blue-500/25">📧 Email</span>}
+                      {pref.isEmail && <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">📧 Email</span>}
                     </div>
                     <p className={`text-xs ${textSecondary}`}>{pref.desc}</p>
                   </div>
                   <button
                     onClick={() => togglePref(pref.key)}
-                    className={`w-11 h-6 rounded-full transition-colors relative ${prefs[pref.key] ? 'bg-blue-500' : (theme === 'dark' ? 'bg-[#2a2a2a]' : 'bg-gray-300')}`}
+                    className={`w-11 h-6 rounded-full transition-colors relative ${prefs[pref.key] ? 'bg-emerald-500' : (theme === 'dark' ? 'bg-[#2a2a2a]' : 'bg-gray-300')}`}
                   >
                     <div className={`w-4 h-4 rounded-full bg-white absolute top-1 transition-transform ${prefs[pref.key] ? 'translate-x-6' : 'translate-x-1'}`} />
                   </button>
@@ -196,7 +196,7 @@ export default function ProfilePage() {
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={() => toast.success('Data export started. Check your email.')}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm border ${theme === 'dark' ? 'border-[#2a2a2a] text-gray-300 hover:border-blue-500/30' : 'border-gray-200 text-gray-700 hover:border-blue-300'}`}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm border ${theme === 'dark' ? 'border-[#2a2a2a] text-gray-300 hover:border-emerald-500/30' : 'border-gray-200 text-gray-700 hover:border-emerald-300'}`}
               >
                 <Download size={14} />
                 {t('downloadMyData')}

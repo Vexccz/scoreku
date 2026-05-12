@@ -78,12 +78,12 @@ export default function ReferralPage() {
 
           {/* Referral Code Card */}
           <motion.div variants={item} className={`border rounded-2xl p-6 mb-6 ${cardBg} relative overflow-hidden`}>
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-teal-500/5" />
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-teal-500/5" />
             <div className="relative">
               <p className={`text-sm ${textSecondary} mb-2`}>{t('yourReferralCode')}</p>
               <div className="flex items-center gap-3 mb-5">
-                <div className={`flex-1 px-5 py-3 rounded-xl border-2 border-dashed text-center ${theme === 'dark' ? 'border-blue-500/30 bg-blue-500/5' : 'border-blue-300 bg-blue-50'}`}>
-                  <span className="text-xl font-bold tracking-wider bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
+                <div className={`flex-1 px-5 py-3 rounded-xl border-2 border-dashed text-center ${theme === 'dark' ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-emerald-300 bg-emerald-500/5'}`}>
+                  <span className="text-xl font-bold tracking-wider bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent">
                     {referralCode}
                   </span>
                 </div>
@@ -91,7 +91,7 @@ export default function ReferralPage() {
               <div className="flex flex-wrap gap-3">
                 <button
                   onClick={copyCode}
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium bg-gradient-to-r from-blue-600 to-teal-600 text-white hover:opacity-90"
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium bg-gradient-to-r from-emerald-500 to-emerald-600 text-white hover:opacity-90"
                 >
                   <Copy size={14} /> {t('copyCode')}
                 </button>
@@ -103,7 +103,7 @@ export default function ReferralPage() {
                 </button>
                 <button
                   onClick={shareTelegram}
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20"
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20"
                 >
                   <Share2 size={14} /> Telegram
                 </button>
@@ -114,7 +114,7 @@ export default function ReferralPage() {
           {/* Stats */}
           <motion.div variants={item} className="grid grid-cols-3 gap-3 mb-6">
             {[
-              { label: t('friendsInvited'), value: stats.invited, icon: Users, color: 'text-blue-400' },
+              { label: t('friendsInvited'), value: stats.invited, icon: Users, color: 'text-emerald-400' },
               { label: t('signedUp'), value: stats.signedUp, icon: Award, color: 'text-emerald-400' },
               { label: t('pointsEarned'), value: stats.pointsEarned, icon: Star, color: 'text-amber-400' },
             ].map((s, i) => (
@@ -183,7 +183,7 @@ export default function ReferralPage() {
                   transition={{ delay: 0.2 + i * 0.05 }}
                   className={`flex items-center gap-4 p-3 rounded-xl ${
                     entry.name === 'Zafran'
-                      ? (theme === 'dark' ? 'bg-blue-500/5 border border-blue-500/20' : 'bg-blue-50 border border-blue-200')
+                      ? (theme === 'dark' ? 'bg-emerald-500/5 border border-emerald-500/20' : 'bg-emerald-500/5 border border-emerald-200')
                       : ''
                   }`}
                 >

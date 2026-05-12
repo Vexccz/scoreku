@@ -170,7 +170,7 @@ function SHAPWaterfallDemo() {
     <div ref={ref} className="bg-[#0a0a0a] border border-[#1f1f1f] rounded-2xl p-6">
       <div className="flex items-center justify-between mb-6">
         <span className="text-sm text-gray-400">{t('baseScoreLabel')}: 550</span>
-        <span className="text-sm font-bold text-blue-400">{t('finalLabel')}: 697</span>
+        <span className="text-sm font-bold text-emerald-400">{t('finalLabel')}: 697</span>
       </div>
       <div className="space-y-3">
         {shapData.map((item, i) => (
@@ -244,7 +244,7 @@ function RealtimeScoringDemo() {
           key={score}
           initial={{ scale: 1.3 }}
           animate={{ scale: 1 }}
-          className="text-2xl font-bold text-blue-400"
+          className="text-2xl font-bold text-emerald-400"
         >
           {score}
         </motion.span>
@@ -317,7 +317,7 @@ function ProductMatchingDemo() {
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-2xl font-bold text-blue-400">697</span>
+            <span className="text-2xl font-bold text-emerald-400">697</span>
             <span className="text-[10px] text-gray-500">Good</span>
           </div>
         </div>
@@ -333,12 +333,12 @@ function ProductMatchingDemo() {
             transition={{ delay: i * 0.3 }}
             className="flex items-center gap-3 p-3 rounded-xl bg-[#111] border border-[#1f1f1f]"
           >
-            <Building2 size={16} className="text-blue-400" />
+            <Building2 size={16} className="text-emerald-400" />
             <div className="flex-1">
               <p className="text-sm text-gray-200">{product.name}</p>
               <p className="text-xs text-gray-500">{product.rate} · {t('upTo')} {product.amount}</p>
             </div>
-            <span className={`text-[10px] px-2 py-0.5 rounded-full ${i === 0 ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'}`}>
+            <span className={`text-[10px] px-2 py-0.5 rounded-full ${i === 0 ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'}`}>
               {product.badge} ✓
             </span>
           </motion.div>
@@ -387,7 +387,7 @@ function ImprovementTipsDemo() {
                   initial={{ width: '0%' }}
                   animate={isInView ? { width: `${(item.gain / 150) * 100}%` } : {}}
                   transition={{ duration: 1, delay: 0.5 + i * 0.3 }}
-                  className="h-full bg-gradient-to-r from-blue-500 to-emerald-500 rounded-full"
+                  className="h-full bg-gradient-to-r from-emerald-500 to-emerald-500 rounded-full"
                 />
               </div>
               <span className="text-xs text-emerald-400 font-bold">{item.to}</span>
@@ -437,11 +437,11 @@ function BankConnectionDemo() {
             <motion.div
               animate={i <= step ? { scale: [1, 1.2, 1], backgroundColor: '#3b82f620' } : {}}
               transition={{ duration: 0.4 }}
-              className={`w-10 h-10 rounded-full flex items-center justify-center border ${i <= step ? 'border-blue-500/50 bg-blue-500/10' : 'border-[#2a2a2a] bg-[#111]'}`}
+              className={`w-10 h-10 rounded-full flex items-center justify-center border ${i <= step ? 'border-emerald-500/50 bg-emerald-500/10' : 'border-[#2a2a2a] bg-[#111]'}`}
             >
-              <s.icon size={16} className={i <= step ? 'text-blue-400' : 'text-gray-600'} />
+              <s.icon size={16} className={i <= step ? 'text-emerald-400' : 'text-gray-600'} />
             </motion.div>
-            <span className={`text-[10px] ${i <= step ? 'text-blue-400' : 'text-gray-600'}`}>{s.label}</span>
+            <span className={`text-[10px] ${i <= step ? 'text-emerald-400' : 'text-gray-600'}`}>{s.label}</span>
           </div>
         ))}
       </div>
@@ -454,7 +454,7 @@ function BankConnectionDemo() {
             initial={{ scaleX: 0 }}
             animate={i < step ? { scaleX: 1 } : {}}
             transition={{ duration: 0.5 }}
-            className="flex-1 h-0.5 bg-blue-500/40 origin-left"
+            className="flex-1 h-0.5 bg-emerald-500/40 origin-left"
           />
         ))}
       </div>
@@ -533,7 +533,7 @@ export default function FeaturesPage() {
       title: t('featAltCreditTitle'),
       description: t('featAltCreditDesc'),
       demo: <AlternativeScoringDemo />,
-      color: 'from-blue-500 to-blue-600',
+      color: 'from-emerald-500 to-emerald-600',
     },
     {
       icon: Brain,
@@ -593,7 +593,7 @@ export default function FeaturesPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent">
               {t('featuresPageTitle')}
             </h1>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
@@ -622,7 +622,7 @@ export default function FeaturesPage() {
             <p className="text-gray-400 mb-8">{t('featuresCtaSubtitle')}</p>
             <Link
               to="/score"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-teal-600 rounded-xl text-white font-medium hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-xl text-white font-medium hover:opacity-90 transition-opacity"
             >
               {t('getYourScore')} <ArrowRight size={18} />
             </Link>

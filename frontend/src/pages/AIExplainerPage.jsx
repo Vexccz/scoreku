@@ -213,7 +213,7 @@ function InteractiveSHAPDemo() {
               <div key={feat.key}>
                 <div className="flex items-center justify-between mb-2">
                   <label className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>{feat.label}</label>
-                  <span className="text-sm font-mono font-medium text-blue-400">
+                  <span className="text-sm font-mono font-medium text-emerald-400">
                     {feat.key === 'income' ? `RM${values[feat.key].toLocaleString()}` : values[feat.key]}
                     {feat.key === 'bills' ? '%' : ''}
                   </span>
@@ -225,7 +225,7 @@ function InteractiveSHAPDemo() {
                   step={feat.step}
                   value={values[feat.key]}
                   onChange={(e) => setValues(prev => ({ ...prev, [feat.key]: Number(e.target.value) }))}
-                  className="w-full h-2 rounded-full appearance-none cursor-pointer accent-blue-500"
+                  className="w-full h-2 rounded-full appearance-none cursor-pointer accent-emerald-500"
                   style={{
                     background: `linear-gradient(to right, #2563eb 0%, #14b8a6 ${((values[feat.key] - feat.min) / (feat.max - feat.min)) * 100}%, ${theme === 'dark' ? '#1f1f1f' : '#e5e7eb'} ${((values[feat.key] - feat.min) / (feat.max - feat.min)) * 100}%, ${theme === 'dark' ? '#1f1f1f' : '#e5e7eb'} 100%)`,
                   }}
@@ -302,7 +302,7 @@ function InteractiveSHAPDemo() {
             }`}>
               <span className={`text-sm font-semibold ${textPrimary}`}>{t('predictedScore')}</span>
               <motion.span
-                className="ml-auto text-2xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent"
+                className="ml-auto text-2xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent"
                 key={finalScore}
                 initial={{ scale: 1.2 }}
                 animate={{ scale: 1 }}
@@ -462,7 +462,7 @@ export default function AIExplainerPage() {
             <Sparkles size={12} /> {t('transparentExplainableAI')}
           </motion.div>
           <h1 className="text-3xl md:text-5xl font-bold mb-4">
-            {t('howOurAIWorks').split('AI')[0]}<span className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">AI</span>{t('howOurAIWorks').split('AI')[1]}
+            {t('howOurAIWorks').split('AI')[0]}<span className="bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent">AI</span>{t('howOurAIWorks').split('AI')[1]}
           </h1>
           <p className={`text-lg max-w-2xl mx-auto ${textSecondary}`}>
             {t('aiHeroDesc')}
@@ -477,7 +477,7 @@ export default function AIExplainerPage() {
             transition={{ delay: 0.2 }}
             className="flex items-center gap-2 mb-6"
           >
-            <BarChart3 size={18} className="text-blue-400" />
+            <BarChart3 size={18} className="text-emerald-400" />
             <h2 className="text-xl font-bold">{t('mlPipeline')}</h2>
           </motion.div>
 
@@ -536,7 +536,7 @@ export default function AIExplainerPage() {
                 transition={{ delay: i * 0.1 }}
                 className={`border rounded-2xl p-6 text-center hover:border-teal-500/20 transition-all duration-300 ${cardBg}`}
               >
-                <p className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent mb-1">
+                <p className="text-3xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent mb-1">
                   {metric.value}
                 </p>
                 <p className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>{metric.label}</p>
@@ -603,8 +603,8 @@ export default function AIExplainerPage() {
 
           <div className={`border rounded-2xl p-6 md:p-8 ${cardBg}`}>
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                <Eye size={18} className="text-blue-400" />
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                <Eye size={18} className="text-emerald-400" />
               </div>
               <div>
                 <p className={`text-sm font-medium ${textPrimary}`}>Example: User Score 72</p>
@@ -717,7 +717,7 @@ export default function AIExplainerPage() {
             </p>
             <Link
               to="/score"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-500 hover:to-teal-500 rounded-xl text-base font-medium text-white transition-all duration-300 shadow-lg shadow-blue-600/20"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-500 hover:to-teal-500 rounded-xl text-base font-medium text-white transition-all duration-300 shadow-lg shadow-emerald-600/20"
             >
               {t('tryItYourself')} <ChevronRight size={16} />
             </Link>

@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Shield, CreditCard, HelpCircle, UserX, Briefcase, GraduationCap, Store, Tractor, ArrowRight, CheckCircle2, Sparkles, TrendingUp, Lock, Home, Clock, Users, Globe, Laptop, BookOpen, Search } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
+import { PageBackground } from '../components/ui'
 
 function getCreditOptions(t) {
   return [
-    { id: 'no', label: t('noCreditHistory'), desc: t('noCreditHistoryDesc'), icon: UserX, color: 'from-blue-500 to-blue-600' },
-    { id: 'yes', label: t('yesCreditHistory'), desc: t('yesCreditHistoryDesc'), icon: CreditCard, color: 'from-emerald-500 to-emerald-600' },
-    { id: 'unsure', label: t('notSure'), desc: t('notSureDesc'), icon: HelpCircle, color: 'from-amber-500 to-amber-600' },
+    { id: 'no', label: t('noCreditHistory'), desc: t('noCreditHistoryDesc'), icon: UserX, color: 'from-emerald-500 to-teal-600' },
+    { id: 'yes', label: t('yesCreditHistory'), desc: t('yesCreditHistoryDesc'), icon: CreditCard, color: 'from-emerald-400 to-emerald-600' },
+    { id: 'unsure', label: t('notSure'), desc: t('notSureDesc'), icon: HelpCircle, color: 'from-amber-400 to-amber-600' },
   ]
 }
 
@@ -29,23 +30,18 @@ function getProfileOptions(t) {
   ]
 }
 
-// Floating particles + stars
+// Floating particles + grid overlay
 const Particles = () => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none">
-    {Array.from({ length: 35 }, (_, i) => (
+    {Array.from({ length: 30 }, (_, i) => (
       <motion.div
         key={i}
-        className={`absolute rounded-full ${i % 3 === 0 ? 'w-1.5 h-1.5 bg-blue-400/30' : i % 3 === 1 ? 'w-1 h-1 bg-teal-400/25' : 'w-0.5 h-0.5 bg-purple-400/20'}`}
+        className={`absolute rounded-full ${i % 3 === 0 ? 'w-1.5 h-1.5 bg-emerald-400/30' : i % 3 === 1 ? 'w-1 h-1 bg-teal-400/25' : 'w-0.5 h-0.5 bg-emerald-300/20'}`}
         style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%` }}
         animate={{ y: [0, -40, 0], x: [0, Math.random() * 30 - 15, 0], opacity: [0.1, 0.7, 0.1], scale: [1, 1.5, 1] }}
         transition={{ duration: Math.random() * 6 + 3, repeat: Infinity, delay: Math.random() * 4 }}
       />
     ))}
-    {/* Animated grid */}
-    <div className="absolute inset-0" style={{
-      backgroundImage: 'linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px)',
-      backgroundSize: '60px 60px',
-    }} />
   </div>
 )
 
@@ -88,35 +84,8 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center px-4 relative overflow-hidden">
-      {/* Background - meriah */}
-      <div className="absolute inset-0 pointer-events-none">
-        <motion.div
-          className="absolute top-[10%] left-[10%] w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[150px]"
-          animate={{ scale: [1, 1.3, 1], x: [0, 50, 0], opacity: [0.3, 0.6, 0.3] }}
-          transition={{ duration: 8, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute bottom-[10%] right-[10%] w-[500px] h-[500px] bg-teal-500/10 rounded-full blur-[130px]"
-          animate={{ scale: [1.1, 1, 1.1], x: [0, -40, 0], opacity: [0.3, 0.5, 0.3] }}
-          transition={{ duration: 10, repeat: Infinity, delay: 2 }}
-        />
-        <motion.div
-          className="absolute top-[40%] left-[60%] w-[400px] h-[400px] bg-purple-500/8 rounded-full blur-[120px]"
-          animate={{ scale: [1, 1.4, 1], opacity: [0.2, 0.4, 0.2] }}
-          transition={{ duration: 12, repeat: Infinity, delay: 4 }}
-        />
-        <motion.div
-          className="absolute top-[60%] left-[20%] w-[300px] h-[300px] bg-pink-500/5 rounded-full blur-[100px]"
-          animate={{ scale: [1, 1.2, 1], y: [0, -30, 0], opacity: [0.1, 0.3, 0.1] }}
-          transition={{ duration: 9, repeat: Infinity, delay: 1 }}
-        />
-        <motion.div
-          className="absolute top-[20%] right-[30%] w-[250px] h-[250px] bg-amber-500/5 rounded-full blur-[90px]"
-          animate={{ scale: [1.1, 1, 1.1], opacity: [0.1, 0.25, 0.1] }}
-          transition={{ duration: 7, repeat: Infinity, delay: 3 }}
-        />
-      </div>
+    <div className="min-h-screen bg-black text-white flex items-center justify-center px-4 relative overflow-hidden antialiased">
+      <PageBackground />
       <Particles />
 
       <div className="relative w-full max-w-lg">
@@ -138,8 +107,8 @@ export default function OnboardingPage() {
                 transition={{ duration: 0.8, type: 'spring', stiffness: 200 }}
               >
                 <motion.div
-                  className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center shadow-[0_0_40px_rgba(37,99,235,0.3)]"
-                  animate={{ boxShadow: ['0 0 40px rgba(37,99,235,0.3)', '0 0 60px rgba(20,184,166,0.4)', '0 0 40px rgba(37,99,235,0.3)'] }}
+                  className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-[0_0_40px_rgba(16,185,129,0.3)]"
+                  animate={{ boxShadow: ['0 0 40px rgba(16,185,129,0.3)', '0 0 60px rgba(52,211,153,0.4)', '0 0 40px rgba(16,185,129,0.3)'] }}
                   transition={{ duration: 3, repeat: Infinity }}
                 >
                   <Shield size={32} className="text-white" />
@@ -154,7 +123,7 @@ export default function OnboardingPage() {
                 transition={{ delay: 0.4, duration: 0.7 }}
               >
                 {t('welcomeTo')}{' '}
-                <span className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent">
                   ScoreKu
                 </span>
               </motion.h1>
@@ -183,7 +152,7 @@ export default function OnboardingPage() {
                     transition={{ duration: 0.6 }}
                   >
                     {[
-                      { icon: Sparkles, label: t('aiPowered'), color: 'text-blue-400' },
+                      { icon: Sparkles, label: t('aiPowered'), color: 'text-emerald-400' },
                       { icon: TrendingUp, label: t('instantScore'), color: 'text-teal-400' },
                       { icon: Lock, label: t('securePrivate'), color: 'text-purple-400' },
                     ].map((f, i) => (
@@ -212,7 +181,7 @@ export default function OnboardingPage() {
                   >
                     <motion.button
                       onClick={() => setStep(0)}
-                      className="relative w-full py-4 bg-gradient-to-r from-blue-600 to-teal-600 rounded-2xl font-semibold text-lg overflow-hidden group"
+                      className="relative w-full py-4 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-2xl font-semibold text-lg overflow-hidden group"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
@@ -253,7 +222,7 @@ export default function OnboardingPage() {
               {/* Progress */}
               <div className="flex items-center justify-center gap-2 mb-6">
                 {[0, 1, 2].map((i) => (
-                  <div key={i} className={`h-2 rounded-full transition-all duration-300 ${i === 0 ? 'w-8 bg-blue-500' : 'w-2 bg-[#2a2a2a]'}`} />
+                  <div key={i} className={`h-2 rounded-full transition-all duration-300 ${i === 0 ? 'w-8 bg-emerald-500' : 'w-2 bg-[#2a2a2a]'}`} />
                 ))}
               </div>
 
@@ -280,7 +249,7 @@ export default function OnboardingPage() {
                       transition={{ delay: 0.1 + i * 0.1 }}
                       className={`w-full flex items-center gap-4 p-4 rounded-2xl border transition-all text-left ${
                         creditStatus === opt.id
-                          ? 'bg-blue-500/10 border-blue-500/50'
+                          ? 'bg-emerald-500/10 border-emerald-500/50'
                           : 'bg-[#111] border-[#1f1f1f] hover:border-[#333] hover:bg-[#151515]'
                       }`}
                       whileHover={{ scale: 1.02 }}
@@ -293,7 +262,7 @@ export default function OnboardingPage() {
                         <p className="font-medium text-white">{opt.label}</p>
                         <p className="text-xs text-gray-400 mt-0.5">{opt.desc}</p>
                       </div>
-                      {creditStatus === opt.id && <CheckCircle2 size={20} className="text-blue-400 shrink-0" />}
+                      {creditStatus === opt.id && <CheckCircle2 size={20} className="text-emerald-400 shrink-0" />}
                     </motion.button>
                   )
                 })}
@@ -312,7 +281,7 @@ export default function OnboardingPage() {
             >
               <div className="flex items-center justify-center gap-2 mb-6">
                 {[0, 1, 2].map((i) => (
-                  <div key={i} className={`h-2 rounded-full transition-all duration-300 ${i <= 1 ? (i === 1 ? 'w-8 bg-blue-500' : 'w-2 bg-teal-500') : 'w-2 bg-[#2a2a2a]'}`} />
+                  <div key={i} className={`h-2 rounded-full transition-all duration-300 ${i <= 1 ? (i === 1 ? 'w-8 bg-emerald-500' : 'w-2 bg-teal-500') : 'w-2 bg-[#2a2a2a]'}`} />
                 ))}
               </div>
 
@@ -339,7 +308,7 @@ export default function OnboardingPage() {
                       transition={{ delay: 0.05 + i * 0.04 }}
                       className={`flex flex-col items-center gap-2 p-3.5 rounded-xl border transition-all text-center ${
                         profile === opt.id
-                          ? 'bg-blue-500/10 border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.15)]'
+                          ? 'bg-emerald-500/10 border-emerald-500/50 shadow-[0_0_15px_rgba(59,130,246,0.15)]'
                           : 'bg-[#111] border-[#1f1f1f] hover:border-[#333] hover:bg-[#151515]'
                       }`}
                       whileHover={{ scale: 1.04 }}
@@ -347,10 +316,10 @@ export default function OnboardingPage() {
                     >
                       <motion.div
                         className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                          profile === opt.id ? 'bg-blue-500/20 border-blue-500/40' : 'bg-[#1a1a1a] border-[#2a2a2a]'
+                          profile === opt.id ? 'bg-emerald-500/20 border-emerald-500/40' : 'bg-[#1a1a1a] border-[#2a2a2a]'
                         } border`}
                       >
-                        <Icon size={18} className={profile === opt.id ? 'text-blue-400' : 'text-teal-400'} />
+                        <Icon size={18} className={profile === opt.id ? 'text-emerald-400' : 'text-teal-400'} />
                       </motion.div>
                       <div>
                         <p className="font-medium text-white text-xs">{opt.label}</p>
@@ -374,13 +343,13 @@ export default function OnboardingPage() {
             >
               <div className="flex items-center justify-center gap-2 mb-6">
                 {[0, 1, 2].map((i) => (
-                  <div key={i} className={`h-2 rounded-full transition-all duration-300 ${i <= 2 ? (i === 2 ? 'w-8 bg-blue-500' : 'w-2 bg-teal-500') : 'w-2 bg-[#2a2a2a]'}`} />
+                  <div key={i} className={`h-2 rounded-full transition-all duration-300 ${i <= 2 ? (i === 2 ? 'w-8 bg-emerald-500' : 'w-2 bg-teal-500') : 'w-2 bg-[#2a2a2a]'}`} />
                 ))}
               </div>
 
               <div className="text-center mb-4">
                 <motion.div
-                  className="w-20 h-20 mx-auto mb-5 rounded-full bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center shadow-[0_0_40px_rgba(20,184,166,0.3)]"
+                  className="w-20 h-20 mx-auto mb-5 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-[0_0_40px_rgba(52,211,153,0.3)]"
                   initial={{ scale: 0, rotate: -180 }}
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
@@ -433,18 +402,18 @@ export default function OnboardingPage() {
 
               {creditStatus === 'no' && (
                 <motion.p
-                  className="text-center text-sm text-gray-400 bg-blue-500/5 border border-blue-500/20 rounded-xl p-4"
+                  className="text-center text-sm text-gray-400 bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-4"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.8 }}
                 >
-                  💡 <strong className="text-blue-400">3.8 million Malaysians</strong> are in the same situation. ScoreKu uses your digital footprint to build a credit identity without traditional bank history.
+                  💡 <strong className="text-emerald-400">3.8 million Malaysians</strong> are in the same situation. ScoreKu uses your digital footprint to build a credit identity without traditional bank history.
                 </motion.p>
               )}
 
               <motion.button
                 onClick={handleFinish}
-                className="relative w-full py-4 bg-gradient-to-r from-blue-600 to-teal-600 rounded-2xl font-semibold text-lg overflow-hidden"
+                className="relative w-full py-4 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-2xl font-semibold text-lg overflow-hidden"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9 }}

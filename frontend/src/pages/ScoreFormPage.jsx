@@ -21,7 +21,7 @@ import AppSidebar from '../components/AppSidebar'
 // ─── Steps Config ────────────────────────────────────────────────────────────
 
 const steps = [
-  { titleKey: 'stepIncomeTitle', subtitleKey: 'stepIncomeSubtitle', fields: ['monthlyIncome', 'employmentType'], icon: Wallet, color: 'from-blue-500 to-blue-600', labelKey: 'stepIncomeLabel' },
+  { titleKey: 'stepIncomeTitle', subtitleKey: 'stepIncomeSubtitle', fields: ['monthlyIncome', 'employmentType'], icon: Wallet, color: 'from-emerald-500 to-emerald-600', labelKey: 'stepIncomeLabel' },
   { titleKey: 'stepPaymentsTitle', subtitleKey: 'stepPaymentsSubtitle', fields: ['ewalletUsage', 'duitnowTransactions'], icon: CreditCard, color: 'from-teal-500 to-teal-600', labelKey: 'stepPaymentsLabel' },
   { titleKey: 'stepBillsTitle', subtitleKey: 'stepBillsSubtitle', fields: ['billsPaid', 'billsTotal', 'rentOnTime'], icon: Receipt, color: 'from-purple-500 to-purple-600', labelKey: 'stepBillsLabel' },
   { titleKey: 'stepActivityTitle', subtitleKey: 'stepActivitySubtitle', fields: ['ecommerceOrders', 'mobileRecharges'], icon: ShoppingBag, color: 'from-amber-500 to-amber-600', labelKey: 'stepActivityLabel' },
@@ -181,7 +181,7 @@ export default function ScoreFormPage() {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center px-4">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px] animate-pulse" />
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-600/10 rounded-full blur-[100px] animate-pulse" />
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-teal-600/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-teal-600/5 rounded-full blur-[120px]" />
         </div>
@@ -193,14 +193,14 @@ export default function ScoreFormPage() {
         >
           {/* Logo */}
           <div className="flex items-center justify-center gap-2 mb-8">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center">
               <Shield size={20} className="text-white" />
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">ScoreKu</span>
+            <span className="text-xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent">ScoreKu</span>
           </div>
 
-          <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-blue-500/20 to-teal-500/20 flex items-center justify-center">
-            <Loader2 className="w-8 h-8 text-blue-400 animate-spin" />
+          <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center">
+            <Loader2 className="w-8 h-8 text-emerald-400 animate-spin" />
           </div>
           <h3 className="text-2xl font-bold mb-2 text-white">{t('analyzingProfile')}</h3>
           <p className="text-sm text-gray-400 mb-10">{t('analyzingDesc')}</p>
@@ -215,12 +215,12 @@ export default function ScoreFormPage() {
                 className="flex items-center gap-4"
               >
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-500 ${
-                  i < analysisStep ? 'bg-teal-500/20' : i === analysisStep ? 'bg-blue-500/20' : 'bg-[#1a1a1a]'
+                  i < analysisStep ? 'bg-teal-500/20' : i === analysisStep ? 'bg-emerald-500/20' : 'bg-[#1a1a1a]'
                 }`}>
                   {i < analysisStep ? (
                     <CheckCircle2 size={18} className="text-teal-400" />
                   ) : (
-                    <s.icon size={18} className={i === analysisStep ? 'text-blue-400 animate-pulse' : 'text-gray-600'} />
+                    <s.icon size={18} className={i === analysisStep ? 'text-emerald-400 animate-pulse' : 'text-gray-600'} />
                   )}
                 </div>
                 <div className="flex-1">
@@ -238,7 +238,7 @@ export default function ScoreFormPage() {
           {/* Progress bar */}
           <div className="mt-10 h-1.5 bg-[#1a1a1a] rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-gradient-to-r from-blue-500 to-teal-500 rounded-full"
+              className="h-full bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full"
               initial={{ width: '0%' }}
               animate={{ width: `${((analysisStep + 1) / analysisSteps.length) * 100}%` }}
               transition={{ duration: 0.5 }}
@@ -266,10 +266,10 @@ export default function ScoreFormPage() {
           <Menu size={20} className="text-gray-400" />
         </button>
         <div className="flex items-center gap-2 ml-3">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-500 to-teal-500 flex items-center justify-center">
+          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center">
             <Shield size={14} className="text-white" />
           </div>
-          <span className="text-sm font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">ScoreKu</span>
+          <span className="text-sm font-bold bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent">ScoreKu</span>
         </div>
         <div className="ml-auto text-xs text-gray-500">Step {step + 1}/{steps.length}</div>
       </div>
@@ -278,7 +278,7 @@ export default function ScoreFormPage() {
       <div className="lg:ml-[260px] min-h-screen pt-14 lg:pt-0">
         {/* Background effects */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none lg:ml-[260px]">
-          <div className="absolute top-1/4 right-1/4 w-80 h-80 bg-blue-600/5 rounded-full blur-[100px]" />
+          <div className="absolute top-1/4 right-1/4 w-80 h-80 bg-emerald-600/5 rounded-full blur-[100px]" />
           <div className="absolute bottom-1/3 left-1/4 w-80 h-80 bg-teal-600/5 rounded-full blur-[100px]" />
         </div>
 
@@ -320,7 +320,7 @@ export default function ScoreFormPage() {
                       )}
                     </motion.div>
                     <span className={`text-[10px] sm:text-xs font-medium mt-2 ${
-                      i < step ? 'text-teal-400' : i === step ? 'text-blue-400' : 'text-gray-600'
+                      i < step ? 'text-teal-400' : i === step ? 'text-emerald-400' : 'text-gray-600'
                     }`}>
                       {t(s.labelKey)}
                     </span>
@@ -392,7 +392,7 @@ export default function ScoreFormPage() {
                                 onClick={() => update('employmentType', t)}
                                 className={`px-4 py-3.5 rounded-xl text-sm font-medium transition-all min-h-[48px] ${
                                   form.employmentType === t
-                                    ? 'bg-blue-600/20 border-blue-500/50 text-blue-300 border'
+                                    ? 'bg-emerald-600/20 border-emerald-500/50 text-emerald-300 border'
                                     : 'bg-[#0a0a0a] border border-[#2a2a2a] text-gray-400 hover:border-gray-600'
                                 }`}
                               >
@@ -438,7 +438,7 @@ export default function ScoreFormPage() {
                     <button
                       onClick={next}
                       disabled={loading}
-                      className="relative flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-500 hover:to-teal-500 rounded-xl font-semibold transition disabled:opacity-50 shadow-lg shadow-blue-600/20 overflow-hidden min-h-[48px]"
+                      className="relative flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-500 hover:to-teal-500 rounded-xl font-semibold transition disabled:opacity-50 shadow-lg shadow-emerald-600/30 overflow-hidden min-h-[48px]"
                     >
                       <span className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
                       <Sparkles size={16} /> {t('getMyScore')}
@@ -447,7 +447,7 @@ export default function ScoreFormPage() {
                     <button
                       onClick={next}
                       disabled={loading}
-                      className="flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-xl font-semibold transition disabled:opacity-50 shadow-lg shadow-blue-600/20 min-h-[48px]"
+                      className="flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-500 hover:to-emerald-600 rounded-xl font-semibold transition disabled:opacity-50 shadow-lg shadow-emerald-600/30 min-h-[48px]"
                     >
                       {t('next')} <ChevronRight size={16} />
                     </button>
@@ -469,8 +469,8 @@ export default function ScoreFormPage() {
                   className="bg-[#111] border border-[#1f1f1f] rounded-2xl p-6"
                 >
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-9 h-9 rounded-lg bg-blue-500/10 flex items-center justify-center">
-                      <Info size={16} className="text-blue-400" />
+                    <div className="w-9 h-9 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                      <Info size={16} className="text-emerald-400" />
                     </div>
                     <h3 className="text-sm font-semibold text-gray-200">{t('whyWeNeedThis')}</h3>
                   </div>
@@ -498,7 +498,7 @@ export default function ScoreFormPage() {
                 <p className="text-sm text-gray-400 leading-relaxed">{t('dataSecurityDesc')}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   <span className="text-[10px] px-2.5 py-1 rounded-full bg-teal-500/10 text-teal-400 border border-teal-500/20">🔒 Encrypted</span>
-                  <span className="text-[10px] px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">🛡️ PDPA</span>
+                  <span className="text-[10px] px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">🛡️ PDPA</span>
                   <span className="text-[10px] px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">🚫 No Sharing</span>
                 </div>
               </motion.div>
@@ -518,14 +518,14 @@ export default function ScoreFormPage() {
                 </div>
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-[10px] text-blue-400 font-bold">1</span>
+                    <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-[10px] text-emerald-400 font-bold">1</span>
                     </div>
                     <p className="text-xs text-gray-400">Your data feeds into our XGBoost AI model</p>
                   </div>
                   <div className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-[10px] text-blue-400 font-bold">2</span>
+                    <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-[10px] text-emerald-400 font-bold">2</span>
                     </div>
                     <p className="text-xs text-gray-400">SHAP values explain which factors matter most</p>
                   </div>
@@ -543,10 +543,10 @@ export default function ScoreFormPage() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.35 }}
-                className="bg-gradient-to-br from-blue-500/5 to-teal-500/5 border border-[#1f1f1f] rounded-2xl p-5 text-center"
+                className="bg-gradient-to-br from-emerald-500/5 to-teal-500/5 border border-[#1f1f1f] rounded-2xl p-5 text-center"
               >
                 <HelpCircle size={20} className="text-gray-500 mx-auto mb-2" />
-                <p className="text-xs text-gray-500">Need help? Check our <Link to="/ai" className="text-blue-400 hover:underline">How AI Works</Link> page</p>
+                <p className="text-xs text-gray-500">Need help? Check our <Link to="/ai" className="text-emerald-400 hover:underline">How AI Works</Link> page</p>
               </motion.div>
             </div>
           </div>
@@ -564,7 +564,7 @@ export default function ScoreFormPage() {
             </div>
             <div className="w-px h-3 bg-[#2a2a2a] hidden sm:block" />
             <div className="flex items-center gap-2 text-xs text-gray-500">
-              <Shield size={12} className="text-blue-500" />
+              <Shield size={12} className="text-emerald-500" />
               <span>{t('pdpa')}</span>
             </div>
             <div className="w-px h-3 bg-[#2a2a2a] hidden sm:block" />
@@ -597,7 +597,7 @@ function InputField({ label, value, onChange, type = 'text', placeholder, helper
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className={`w-full ${prefix ? 'pl-[4.5rem]' : icon ? 'pl-11' : 'pl-4'} pr-4 py-4 bg-[#0a0a0a] border border-[#2a2a2a] rounded-xl focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition text-white placeholder-gray-600 text-base min-h-[52px]`}
+          className={`w-full ${prefix ? 'pl-[4.5rem]' : icon ? 'pl-11' : 'pl-4'} pr-4 py-4 bg-[#0a0a0a] border border-[#2a2a2a] rounded-xl focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition text-white placeholder-gray-600 text-base min-h-[52px]`}
         />
       </div>
       {helper && <p className="text-xs text-gray-500 mt-1.5 ml-1">{helper}</p>}

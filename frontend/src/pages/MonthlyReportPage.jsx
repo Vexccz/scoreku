@@ -74,7 +74,7 @@ export default function MonthlyReportPage() {
             </div>
             <button
               onClick={() => toast('PDF download coming soon!')}
-              className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-teal-600 rounded-xl text-sm font-medium text-white hover:opacity-90 transition-opacity"
+              className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-xl text-sm font-medium text-white hover:opacity-90 transition-opacity"
             >
               <Download size={14} />
               {t('downloadPdf')}
@@ -89,7 +89,7 @@ export default function MonthlyReportPage() {
                 <div className="flex items-baseline gap-3 mt-2">
                   <span className={`text-3xl font-bold ${textPrimary}`}>645</span>
                   <span className={textSecondary}>→</span>
-                  <span className="text-3xl font-bold text-blue-400">697</span>
+                  <span className="text-3xl font-bold text-emerald-400">697</span>
                 </div>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
@@ -135,8 +135,8 @@ export default function MonthlyReportPage() {
           {/* Category Breakdown */}
           <motion.div variants={item} className={`border rounded-2xl p-6 mb-6 ${cardBg}`}>
             <div className="flex items-center gap-2 mb-5">
-              <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
-                <FileBarChart size={16} className="text-blue-400" />
+              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                <FileBarChart size={16} className="text-emerald-400" />
               </div>
               <h3 className="font-semibold text-sm">{t('categoryBreakdown')}</h3>
             </div>
@@ -149,7 +149,7 @@ export default function MonthlyReportPage() {
                       initial={{ width: 0 }}
                       animate={{ width: `${cat.current}%` }}
                       transition={{ delay: 0.3 + i * 0.08, duration: 0.8 }}
-                      className={`h-full rounded-full ${cat.change >= 0 ? 'bg-gradient-to-r from-blue-500 to-teal-500' : 'bg-gradient-to-r from-red-500 to-red-400'}`}
+                      className={`h-full rounded-full ${cat.change >= 0 ? 'bg-gradient-to-r from-emerald-500 to-teal-600' : 'bg-gradient-to-r from-red-500 to-red-400'}`}
                     />
                   </div>
                   <div className="flex items-center gap-1 w-16 justify-end">
@@ -188,7 +188,7 @@ export default function MonthlyReportPage() {
             </div>
             <div className="flex items-center gap-6 mt-3 justify-center">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-0.5 bg-blue-500 rounded" />
+                <div className="w-3 h-0.5 bg-emerald-500 rounded" />
                 <span className={`text-xs ${textSecondary}`}>May 2026</span>
               </div>
               <div className="flex items-center gap-2">
