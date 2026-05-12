@@ -211,7 +211,7 @@ export default function OnboardingPage() {
                     transition={{ duration: 0.6 }}
                   >
                     <motion.button
-                      onClick={() => navigate('/score')}
+                      onClick={() => setStep(0)}
                       className="relative w-full py-4 bg-gradient-to-r from-blue-600 to-teal-600 rounded-2xl font-semibold text-lg overflow-hidden group"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
