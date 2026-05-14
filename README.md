@@ -63,19 +63,20 @@ ScoreKu evaluates creditworthiness using alternative signals people already gene
 
 ```
 scoreku/
-├── frontend/          React SPA (Vite + Tailwind)
-│   ├── src/pages/     Landing, Dashboard, Score, Learn, Profile
-│   ├── src/context/   Auth, Theme, Language, Offline
-│   └── src/services/  API client
-├── backend/           Express API server
-│   ├── controllers/   Auth, Score logic
-│   ├── models/        User, ScoreResult (Mongoose)
-│   └── routes/        API endpoints
-├── ml-model/          Python ML pipeline
-│   ├── train_model.py Training script
-│   ├── predict.py     Inference API
-│   └── model.joblib   Trained XGBoost model
-└── data/              Raw synthetic dataset
+├── frontend/               React SPA (Vite + Tailwind)
+│   ├── src/pages/          Landing, Dashboard, Score, Learn, Profile
+│   ├── src/components/     UI components and widgets
+│   ├── src/context/        Auth, Theme, Language, Offline
+│   ├── src/layouts/        Page layout wrappers
+│   ├── src/i18n/           Internationalization configs
+│   └── src/services/       API client
+├── backend/                Express API server
+│   ├── controllers/        Auth, Score logic
+│   ├── models/             User, ScoreResult (Mongoose)
+│   └── routes/             API endpoints
+├── ml-model/               Python ML pipeline
+├── data/                   Raw synthetic dataset
+└── screenshots/            App screenshots
 ```
 
 ## Getting Started
